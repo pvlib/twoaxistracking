@@ -231,14 +231,16 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
         * np.cos(np.deg2rad(azimuth_difference[mask]))\
         * np.sin(np.deg2rad(solar_elevation))
 
+    # Initialize the unshaded area as the collector area
+    unshaded_area = collector_geometry
     shade_patches = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
         if np.sqrt(x**2+y**2) < L_min:
             # Project the geometry of the shading collector onto the plane
             # of the investigated collector
             shade_geometry = shapely.affinity.translate(collector_geometry, x, y)  # noqa: E501
-            # Determine the unshaded area
-            unshaded_area = collector_geometry.difference(shade_geometry)
+            # Update the unshaded area based on overlapping shade
+            unshaded_area = unshaded_area.difference(shade_geometry)
             if plot:
                 shade_patches.append(Polygon(shade_geometry.exterior))
 
