@@ -21,7 +21,7 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def plot_field_layout(X, Y, L_min):
+def _plot_field_layout(X, Y, L_min):
     """Plot field layout."""
     fig, ax = plt.subplots(figsize=(6, 6))
     # Plot a circle with a diameter equal to L_min
@@ -51,13 +51,20 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
                           aspect_ratio=None, offset=None, rotation=None,
                           layout_type=None, plot=True):
     """
-    Generate a regular-spaced collector field layout.
+    Generate a regularly-spaced collector field layout.
 
+    See [1]_ for examples on how to use the function. Field layout parameters
+    and limits are described in [2]_.
 
+    Notes
+    -----
     The field layout can be specified either using selecting a standard layout
     using the layout_type argument or by specifying the individual layout
     parameters aspect_ratio, offset, and rotation. For both cases also the
     ground cover ratio needs to be specified.
+
+    Any length unit can be used as long as the usage is consistent with the
+    collector geometry.
 
     Parameters
     ----------
@@ -94,15 +101,12 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     relative_azimuth: array of floats
         Relative azimuth between neigboring trackers and reference tracker.
 
-    Notes
-    -----
-    Any length unit can be used as long as the usage is consistent with the
-    collector geometry.
-
     References
     ----------
     .. [1] `GitHub repository for this code
        <https://github.com/AdamRJensen/two_axis_tracker_shading/>`_
+    .. [2] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
+       <https://doi.org/10.1016/j.solener.2014.06.012>`_
     """  # noqa: E501
     # Consider special layouts which can be defined only by GCR
     if layout_type == 'square':
@@ -173,7 +177,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
 
     # Visualize layout
     if plot:
-        plot_field_layout(X, Y, L_min)
+        _plot_field_layout(X, Y, L_min)
 
     return X, Y, tracker_distance, relative_azimuth
 
@@ -182,6 +186,8 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
                               collector_geometry, L_min, tracker_distance,
                               relative_azimuth, plot=False):
     """Calculate the shading fraction for any layout of two-axis tracking collectors.
+
+    See [1]_ for examples on how to use the function.
 
     Parameters
     ----------
@@ -205,6 +211,11 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
     -------
     shading_fraction: float
         Shading fraction for the specific solar position and field layout.
+
+    References
+    ----------
+    .. [1] `GitHub repository for this code
+       <https://github.com/AdamRJensen/two_axis_tracker_shading/>`_
     """  # noqa: E501
     # If the sun is below the horizon, set the shading fraction to nan
     if solar_elevation < 0:
