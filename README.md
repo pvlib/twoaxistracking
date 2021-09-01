@@ -7,7 +7,7 @@ The function `two_axis_shading_fraction` is used to calculate the shading fracti
 
 
 ## Dependencies
-The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended install `shapely` with anaconda, which can be done by executing the following command in an AnacondaPrompt:
+The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended to install `shapely` using conda, which can be done by executing the following command in an Anaconda Prompt:
 
     conda install shapely
 
