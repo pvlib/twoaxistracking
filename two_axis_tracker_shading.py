@@ -141,7 +141,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
         raise ValueError('Apsect ratio is too high and not feasible')
     if (offset < -0.5) | (offset >= 0.5):
         raise ValueError('The specified offset is outside the valid range.')
-    if (rotation < 0) | (rotation >= np.pi):
+    if (rotation < 0) | (rotation >= 180):
         raise ValueError('The specified rotation is outside the valid range.')
     # Check if mimimum and maximum ground cover ratios are exceded
     gcr_max = collector_area / (L_min**2 * np.sqrt(1-offset**2))
