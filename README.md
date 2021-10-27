@@ -1,4 +1,4 @@
-# Self-shading of two-axis tracking solar collectors
+# Open source code for determining self-shading of two-axis tracking solar collectorsctors
 This repository contains functions for simulation shading in fields of two-axis solar trackers.
 
 The two main functions are `generate_field_layout` and `two_axis_shading_fraction`. The function `generate_field_layout` calculates the collector locations for a user-defined regular field layout. For an introduction to regular field layouts and the defining parameters, please see the paper by [Cumpston and Pye (2014)](https://doi.org/10.1016/j.solener.2014.06.012).
