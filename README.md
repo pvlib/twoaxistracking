@@ -13,7 +13,7 @@ The main non-standard dependency is `shapely`, which handles the geometric opera
 
 The solar modeling library `pvlib` is recommended for calculating the solar position and can similarly be installed by the command:
 
-    conda install pvlib
+    conda install -c conda-forge pvlib-python
 
 ## Contributing
 Contributions to the repository, e.g., bug fixes and improvements to speed up the code are more than welcome.
