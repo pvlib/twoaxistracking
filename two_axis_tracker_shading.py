@@ -1,5 +1,5 @@
-"""Functions to calculate shading on two-axis tracking solar collectors for
-   different collector field layouts.
+"""Functions for calculating Shading of two-axis tracking solar collectors.
+
 .. codeauthor:: Adam R. Jensen<adam-r-j@hotmail.com>
 """
 
@@ -8,12 +8,13 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import EllipseCollection
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
+import matplotlib.colors as mcolors
+from matplotlib import cm
 import shapely
 
 
 def _rotate_origin(x, y, rotation_deg):
-    """Rotate a set of 2D points counterclockwise around the origin (0, 0).
-    """
+    """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
     rotation_rad = np.deg2rad(rotation_deg)
     # Rotation is set negative to make counterclockwise rotation
     xx = x * np.cos(-rotation_rad) + y * np.sin(-rotation_rad)
@@ -21,13 +22,16 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def _plot_field_layout(X, Y, L_min):
+def _plot_field_layout(X, Y, Z, L_min):
     """Plot field layout."""
-    fig, ax = plt.subplots(figsize=(6, 6))
+    norm = mcolors.Normalize(vmin=min(Z), vmax=max(Z))
+    cmap = cm.viridis_r
+    colors = cmap(norm(Z))
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'aspect': 'equal'})
     # Plot a circle with a diameter equal to L_min
     ax.add_collection(EllipseCollection(widths=L_min, heights=L_min,
                                         angles=0, units='xy',
-                                        facecolors='white',
+                                        facecolors=colors,
                                         edgecolors=("black",),
                                         linewidths=(1,),
                                         offsets=list(zip(X, Y)),
@@ -39,12 +43,11 @@ def _plot_field_layout(X, Y, L_min):
                                         edgecolors=("black",),
                                         linewidths=(1,), offsets=[0, 0],
                                         transOffset=ax.transData))
-    plt.axis('equal')
+    fig.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax, shrink=0.8,
+                 label='Relative tracker height (vertical)')
     ax.grid()
     ax.set_ylim(min(Y)-L_min, max(Y)+L_min)
     ax.set_xlim(min(X)-L_min, max(X)+L_min)
-    # ax.scatter(X_cord, Y_cord)
-    # ax.scatter(0, 0, c='r')
 
 
 def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
@@ -110,6 +113,9 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     relative_azimuth: array of floats
         Relative azimuth of neighboring trackers - measured clockwise from
         north [degrees].
+    relative_slope: array of floats
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
 
     References
     ----------
@@ -160,6 +166,13 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     # Check if Lmin is physically possible given the collector area.
     if (L_min < np.sqrt(4*collector_area/np.pi)):
         raise ValueError('Lmin is not physically possible.')
+    if (slope_azimuth >= 360) | (slope_azimuth < 0):
+        raise ValueError('slope_azimuth is out of range (0-360)')
+    if slope_tilt < 0:
+        raise ValueError('slope_tilt has to be positive')
+    elif slope_tilt > 20:
+        raise Warning('A slope_tilt greater than 20 degrees is probably not'
+                      'realistic')
 
     N = 1 + 2 * neighbor_order  # Number of collectors along each side
 
@@ -190,12 +203,11 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     relative_azimuth = np.mod(450-np.rad2deg(np.arctan2(Y, X)), 360)
     # Relative slope of collectors
     # positive means collector is higher than reference collector
-    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) \
-                            * slope_tilt
+    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
 
     # Visualize layout
     if plot:
-        _plot_field_layout(X, Y, L_min)
+        _plot_field_layout(X, Y, Z, L_min)
 
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
@@ -204,7 +216,7 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
                               collector_geometry, L_min, tracker_distance,
                               relative_azimuth, relative_slope,
                               slope_azimuth=0, slope_tilt=0, plot=False):
-    """Calculate the shading fraction for any layout of two-axis tracking collectors.
+    """Calculate shading fraction for any layout of two-axis trackers.
 
     See [1]_ for examples on how to use the function.
 
@@ -223,15 +235,21 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
         Distances between neighboring trackers and reference tracker.
     relative_azimuth: array of floats
         Relative azimuth between neigboring trackers and reference tracker.
-    Z: array of floats
-        Relative heights of neighboring trackers.
+    relative_slope: array of floats
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
+    slope_azimuth : float
+        Direction of normal to slope on horizontal [degrees].
+    slope_tilt : float
+        Tilt of slope relative to horizontal [degrees].
     plot: bool, default: True
         Whether to plot the projected shadows.
 
     Returns
     -------
     shading_fraction: float
-        Shading fraction for the specific solar position and field layout.
+        Shading fraction for the specific solar position, collector geometry,
+        and field layout.
 
     References
     ----------
@@ -241,9 +259,10 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
     # If the sun is below the horizon, set the shading fraction to nan
     if solar_elevation < 0:
         return np.nan
-    # Set shading fraction to one (fully shaded) if solar elevation is below horizon line
-    elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) \
-        *slope_tilt:
+    # Set shading fraction to 1 (fully shaded) if the solar elevation is below
+    # the horizon line caused by the tilted ground
+    elif solar_elevation < \
+            - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
         return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth
@@ -254,8 +273,8 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
     xoff = tracker_distance[mask]*np.sin(np.deg2rad(azimuth_difference[mask]))
     yoff = - tracker_distance[mask] *\
         np.cos(np.deg2rad(azimuth_difference[mask])) * \
-            np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
-            np.cos(np.deg2rad(relative_slope[mask]))
+        np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
+        np.cos(np.deg2rad(relative_slope[mask]))
 
     # Initialize the unshaded area as the collector area
     unshaded_area = collector_geometry
