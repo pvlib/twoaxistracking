@@ -184,22 +184,26 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
         np.tan(np.deg2rad(slope_tilt)) \
         - Y * np.cos(np.deg2rad(slope_azimuth)) * \
         np.tan(np.deg2rad(slope_tilt))
-
     # Calculate distance and angle of shading trackers relative to the center
     tracker_distance = np.sqrt(X**2 + Y**2)
     # The relative azimuth is defined clockwise eastwards from north
     relative_azimuth = np.mod(450-np.rad2deg(np.arctan2(Y, X)), 360)
+    # Relative slope of collectors
+    # positive means collector is higher than reference collector
+    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) \
+                            * slope_tilt
 
     # Visualize layout
     if plot:
         _plot_field_layout(X, Y, L_min)
 
-    return X, Y, Z, tracker_distance, relative_azimuth
+    return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 
 def two_axis_shading_fraction(solar_azimuth, solar_elevation,
                               collector_geometry, L_min, tracker_distance,
-                              relative_azimuth, Z, plot=False):
+                              relative_azimuth, relative_slope,
+                              slope_azimuth=0, slope_tilt=0, plot=False):
     """Calculate the shading fraction for any layout of two-axis tracking collectors.
 
     See [1]_ for examples on how to use the function.
@@ -237,6 +241,10 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
     # If the sun is below the horizon, set the shading fraction to nan
     if solar_elevation < 0:
         return np.nan
+    # Set shading fraction to one (fully shaded) if solar elevation is below horizon line
+    elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) \
+        *slope_tilt:
+        return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth
 
@@ -244,9 +252,10 @@ def two_axis_shading_fraction(solar_azimuth, solar_elevation,
     mask = np.where(np.cos(np.deg2rad(azimuth_difference)) > 0)
 
     xoff = tracker_distance[mask]*np.sin(np.deg2rad(azimuth_difference[mask]))
-    yoff = (Z[mask] - tracker_distance[mask]\
-        * np.cos(np.deg2rad(azimuth_difference[mask])))\
-        * np.sin(np.deg2rad(solar_elevation))
+    yoff = - tracker_distance[mask] *\
+        np.cos(np.deg2rad(azimuth_difference[mask])) * \
+            np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
+            np.cos(np.deg2rad(relative_slope[mask]))
 
     # Initialize the unshaded area as the collector area
     unshaded_area = collector_geometry
