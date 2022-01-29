@@ -1,5 +1,5 @@
+*/build/
 .ipynb_checkpoints
 .vscode
 */.ipynb_checkpoints/*
 __pycache__/*
-test_file.csv
