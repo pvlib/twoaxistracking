@@ -182,9 +182,9 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     return X, Y, tracker_distance, relative_azimuth
 
 
-def two_axis_shading_fraction(solar_azimuth, solar_elevation,
-                              collector_geometry, L_min, tracker_distance,
-                              relative_azimuth, plot=False):
+def shading_fraction(solar_azimuth, solar_elevation,
+                     collector_geometry, L_min, tracker_distance,
+                     relative_azimuth, plot=False):
     """Calculate the shading fraction for any layout of two-axis tracking collectors.
 
     See [1]_ for examples on how to use the function.
