@@ -10,14 +10,14 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
 # sys.path.insert(0, os.path.abspath('.'))
-
+sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'twoaxistrackershading'
+project = 'Two-axis tracker shading'
 copyright = '2022, Adam R. Jensen'
 author = 'Adam R. Jensen'
 
@@ -31,6 +31,7 @@ extensions = [
     'myst_nb',  # markdown and jupyter-notebook parsing
     'sphinx.ext.autodoc',  # generate documentation from docstrings
     'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon',  # parsing of Numpy docstrings
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -46,7 +47,6 @@ exclude_patterns = []
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = 'sphinx_book_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -57,13 +57,14 @@ html_static_path = ['_static']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-import twoaxistracking
+# If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
+html_show_copyright = False
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
-    'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
     'matplotlib': ('https://matplotlib.org/stable', None),
+    'shapely': ('https://shapely.readthedocs.io/en/stable', None),
 }
