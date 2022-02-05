@@ -9,7 +9,7 @@ from matplotlib.collections import EllipseCollection
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
 import shapely
-
+#from plotting import xxxx
 
 def _rotate_origin(x, y, rotation_deg):
     """Rotate a set of 2D points counterclockwise around the origin (0, 0).
@@ -49,7 +49,7 @@ def _plot_field_layout(X, Y, L_min):
 
 def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
                           aspect_ratio=None, offset=None, rotation=None,
-                          layout_type=None, plot=True):
+                          layout_type=None, plot=False):
     """
     Generate a regularly-spaced collector field layout.
 
