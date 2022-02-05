@@ -12,7 +12,6 @@
 #
 import os
 import sys
-# sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
@@ -48,6 +47,9 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = 'sphinx_book_theme'
+html_title = 'Two-axis tracker shading'
+html_logo = "_static/two_axis_tracker_shading_logo.svg"
+html_favicon = "_static/two_axis_tracker_shading_logo.svg"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
