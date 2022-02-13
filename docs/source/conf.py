@@ -70,3 +70,6 @@ intersphinx_mapping = {
     'matplotlib': ('https://matplotlib.org/stable', None),
     'shapely': ('https://shapely.readthedocs.io/en/stable', None),
 }
+
+# Number of seconds for a cell to execute before timeout (default=30)
+nbsphinx_timeout = 60

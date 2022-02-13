@@ -53,8 +53,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     """
     Generate a regularly-spaced collector field layout.
 
-    See [1]_ for examples on how to use the function. Field layout parameters
-    and limits are described in [2]_.
+    Field layout parameters and limits are described in [1]_.
 
     Notes
     -----
@@ -103,9 +102,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
 
     References
     ----------
-    .. [1] `GitHub repository for this code
-       <https://github.com/AdamRJensen/two_axis_tracker_shading/>`_
-    .. [2] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
+    .. [1] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
        <https://doi.org/10.1016/j.solener.2014.06.012>`_
     """  # noqa: E501
     # Consider special layouts which can be defined only by GCR
@@ -187,8 +184,6 @@ def shading_fraction(solar_azimuth, solar_elevation,
                      relative_azimuth, plot=False):
     """Calculate the shading fraction for any layout of two-axis tracking collectors.
 
-    See [1]_ for examples on how to use the function.
-
     Parameters
     ----------
     solar_azimuth: float
@@ -211,11 +206,6 @@ def shading_fraction(solar_azimuth, solar_elevation,
     -------
     shading_fraction: float
         Shading fraction for the specific solar position and field layout.
-
-    References
-    ----------
-    .. [1] `GitHub repository for this code
-       <https://github.com/AdamRJensen/two_axis_tracker_shading/>`_
     """  # noqa: E501
     # If the sun is below the horizon, set the shading fraction to nan
     if solar_elevation < 0:
