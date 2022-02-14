@@ -1,4 +1,4 @@
-from .shading import generate_field_layout
+from .layout import generate_field_layout
 from .shading import shading_fraction
 
 
