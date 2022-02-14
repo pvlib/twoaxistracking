@@ -1,19 +1,10 @@
 # Shading of two-axis tracking collectors
 
-`twoaxistracking` is a python package for two-axis tracking solar collectors, particularly self-shading.
+`twoaxistracking` is a python package for two-axis tracking solar collectors, particularly for calculating self-shading.
 
-If you want to get a quick-start on how to use the functions, check out the [intro tutorial](../notebooks/intro_tutorial) which demonstrates how to use the package. Otherwise feel free to peruse the [documentation](../documentation).
+For a quick introduction to the package, check out the [intro tutorial](../notebooks/intro_tutorial) which demonstrates the main functionality. For more indepth details, check out the [documentation](../documentation).
 
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
-
-## Installation
-The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended to install `shapely` using conda, which can be done by executing the following command in an Anaconda Prompt:
-
-    conda install shapely
-
-The solar modeling library `pvlib` is recommended for calculating the solar position and can be installed by the command:
-
-    pip install pvlib
 
 ## Contributing
 Contributions to the repository, e.g., bug fixes and improvements to speed up the code are more than welcome!
@@ -34,6 +25,7 @@ If you use the package in published work, please cite:
 :hidden:
 
 notebooks/intro_tutorial
+installation
 documentation
 whatsnew
 notebooks/reference_dataset
