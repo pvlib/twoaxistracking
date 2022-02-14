@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Divide code into modules: shading, plotting, and layout
 - Changed file structure
+- Changed names of notebooks
 
 ## [0.1.0] - 2022-01-25
 This was the first release, containing the main functions and notebooks.
