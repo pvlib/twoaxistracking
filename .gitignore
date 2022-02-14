@@ -3,6 +3,7 @@
 .vscode
 */.ipynb_checkpoints/*
 __pycache__/
+*.egg-info/
 
 # generated documentation
 docs/source/generated
