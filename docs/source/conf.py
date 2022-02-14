@@ -9,14 +9,13 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Two-axis tracker shading'
+project = 'Two-axis tracking'
 copyright = '2022, Adam R. Jensen'
 author = 'Adam R. Jensen'
 
@@ -48,8 +47,8 @@ exclude_patterns = []
 # a list of builtin themes.
 html_theme = 'sphinx_book_theme'
 html_title = 'Two-axis tracker shading'
-html_logo = "_static/two_axis_tracker_shading_logo.svg"
-html_favicon = "_static/two_axis_tracker_shading_logo.svg"
+html_logo = "_static/twoaxistracking_logo.svg"
+html_favicon = "_static/twoaxistracking_logo.svg"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

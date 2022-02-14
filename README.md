@@ -1,5 +1,5 @@
 # Open source code for calculating self-shading of two-axis tracking solar collectors
-"Two-axis tracker shading" is a python package for simulating self-shading in fields of two-axis trackers.
+"twoaxistracking" is a python package for simulating self-shading in fields of two-axis trackers.
 
 ## Documentation
 The documentation can be found at [readthedocs]().
@@ -7,7 +7,7 @@ The documentation can be found at [readthedocs]().
 ## Installation and dependencies
 The package can be installed using pip:
 
-    pip install two-axis-tracker-shading
+    pip install twoaxistracking
 
 The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended to install `shapely` using conda, which can be done by executing the following command in an Anaconda Prompt:
 

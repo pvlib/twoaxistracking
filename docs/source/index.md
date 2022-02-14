@@ -1,8 +1,8 @@
 # Shading of two-axis tracking collectors
 
-"Two-axis tracker shading" is a python package for simulating self-shading in fields of two-axis trackers.
+`twoaxistracking` is a python package for two-axis tracking solar collectors, particularly self-shading.
 
-If you want to get a quick-start on how to use the function, check out the [intro tutorial](../notebooks/intro_tutorial) which demosntrated how to use the package using examples. Otherwise feel free to peruse the [documentation](../documentation).
+If you want to get a quick-start on how to use the functions, check out the [intro tutorial](../notebooks/intro_tutorial) which demonstrates how to use the package. Otherwise feel free to peruse the [documentation](../documentation).
 
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
 

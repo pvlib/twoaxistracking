@@ -1,4 +1,4 @@
-.. currentmodule:: two_axis_tracker_shading
+.. currentmodule:: twoaxistracking
 
 
 Documentation
