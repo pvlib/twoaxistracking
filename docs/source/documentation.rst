@@ -7,5 +7,5 @@ Documentation
 .. autosummary::
    :toctree: generated/
 
-   shading_fraction
+   shaded_fraction
    generate_field_layout

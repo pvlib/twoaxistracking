@@ -1,5 +1,5 @@
 from .layout import generate_field_layout
-from .shading import shading_fraction
+from .shading import shaded_fraction
 
 
 try:

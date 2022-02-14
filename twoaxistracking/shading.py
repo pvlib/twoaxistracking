@@ -13,9 +13,9 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def shading_fraction(solar_azimuth, solar_elevation,
-                     collector_geometry, L_min, tracker_distance,
-                     relative_azimuth, plot=False):
+def shaded_fraction(solar_azimuth, solar_elevation,
+                    collector_geometry, L_min, tracker_distance,
+                    relative_azimuth, plot=False):
     """Calculate the shading fraction for any layout of two-axis tracking collectors.
 
     Parameters
