@@ -2,19 +2,11 @@
 
 "Two-axis tracker shading" is a python package for simulating self-shading in fields of two-axis trackers.
 
-Calculating self-shading consists of three main steps:
-* Defining collector geometry (using Shapely)
-* Determining the field layout
-* Calculating the shaded area and fraction for each time step
-
-The individual functions are documented in the [Documentation section](../documentation). However, if you just want to get started, check out the [User guide](Example time series generation) which demosntrated how to use the package using examples.
+If you want to get a quick-start on how to use the function, check out the [intro tutorial](../notebooks/intro_tutorial) which demosntrated how to use the package using examples. Otherwise feel free to peruse the [documentation](../documentation).
 
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
 
 ## Installation
-
-
-
 The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended to install `shapely` using conda, which can be done by executing the following command in an Anaconda Prompt:
 
     conda install shapely
@@ -28,7 +20,7 @@ Contributions to the repository, e.g., bug fixes and improvements to speed up th
 
 
 ## License
-BSD 3-clause.
+[BSD 3-clause](https://github.com/AdamRJensen/two_axis_tracker_shading/blob/main/LICENSE).
 
 ## Citing
 If you use the package in published work, please cite:
@@ -41,7 +33,7 @@ If you use the package in published work, please cite:
 :maxdepth: 1
 :hidden:
 
-notebooks/user_guide
+notebooks/intro_tutorial
 documentation
 whatsnew
 notebooks/reference_dataset
