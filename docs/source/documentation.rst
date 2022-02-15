@@ -1,8 +1,8 @@
 .. currentmodule:: twoaxistracking
 
 
-Documentation
-=============
+Code documentation
+==================
 
 .. autosummary::
    :toctree: generated/

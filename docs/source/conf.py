@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 project = 'Two-axis tracking'
 copyright = '2022, Adam R. Jensen'
-author = 'Adam R. Jensen'
+author = 'twoaxistracking Development Team'
 
 
 # -- General configuration ---------------------------------------------------
@@ -29,6 +29,7 @@ extensions = [
     'myst_nb',  # markdown and jupyter-notebook parsing
     'sphinx.ext.autodoc',  # generate documentation from docstrings
     'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',  # parsing of Numpy docstrings
 ]
 
