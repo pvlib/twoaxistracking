@@ -1,5 +1,11 @@
 .ipynb_checkpoints
 .vscode
 */.ipynb_checkpoints/*
-__pycache__/*
-test_file.csv
+__pycache__/
+
+# Distribution / packaging
+*/build/
+*.egg-info/
+
+# generated documentation
+docs/source/generated

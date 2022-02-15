@@ -1,0 +1,20 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+  'pvlib',
+  'numpy',
+  'pandas',
+  'matplotlib',
+  'shapely',
+]
+
+[project.optional-dependencies]
+tests = [
+  'pytest',
+]
