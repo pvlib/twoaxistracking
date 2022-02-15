@@ -52,11 +52,11 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
     layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
         Specification of the special layout type (only depend on gcr).
-    slope_azimuth : float
+    slope_azimuth : float, optional
         Direction of normal to slope on horizontal [degrees]
-    slope_tilt : float
+    slope_tilt : float, optional
         Tilt of slope relative to horizontal [degrees]
-    plot: bool, default: True
+    plot: bool, default: False
         Whether to plot the field layout.
 
     Returns
