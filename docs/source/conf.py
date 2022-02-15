@@ -46,7 +46,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = 'sphinx_book_theme'
-html_title = 'Two-axis tracker shading'
+html_title = 'Two-axis tracking'
 html_logo = "_static/twoaxistracking_logo.svg"
 html_favicon = "_static/twoaxistracking_logo.svg"
 

@@ -2,7 +2,7 @@
 "twoaxistracking" is a python package for simulating self-shading in fields of two-axis trackers.
 
 ## Documentation
-The documentation can be found at [readthedocs]().
+The documentation can be found at [readthedocs](https://twoaxistracking.readthedocs.io/).
 
 ## Installation and dependencies
 The package can be installed using pip:

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added automatic documentation using Sphinx and autosummary
 - Added ``__init__.py`` file
+- Documentation is now hosted at [readthedocs](https://twoaxistracking.readthedocs.io/)
 
 ### Changed
 - Divide code into modules: shading, plotting, and layout

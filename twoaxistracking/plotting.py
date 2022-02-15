@@ -15,7 +15,7 @@ def _plot_field_layout(X, Y, L_min):
                                         linewidths=(1,),
                                         offsets=list(zip(X, Y)),
                                         transOffset=ax.transData))
-    # Similarly, add a circle for the origin
+    # Add a circle for the origin
     ax.add_collection(EllipseCollection(widths=L_min, heights=L_min,
                                         angles=0, units='xy',
                                         facecolors='red',
@@ -29,6 +29,7 @@ def _plot_field_layout(X, Y, L_min):
 
 
 def _plot_shading(collector_geometry, unshaded_geomtry, shade_geometries):
+    """Plot the shaded and unshaded area for a specific solar position."""
     shade_exterios = [Polygon(g.exterior) for g in shade_geometries]
     shade_patches = PatchCollection(shade_exterios, facecolor='blue',
                                     linewidth=0.5, alpha=0.5)
@@ -36,8 +37,8 @@ def _plot_shading(collector_geometry, unshaded_geomtry, shade_geometries):
         [Polygon(collector_geometry.exterior)],
         facecolor='red', linewidth=0.5, alpha=0.5)
     unshaded_patch = PatchCollection([Polygon(unshaded_geomtry.exterior)],
-                                      facecolor='green', linewidth=0.5,
-                                      alpha=0.5)
+                                     facecolor='green', linewidth=0.5,
+                                     alpha=0.5)
     fig, ax = plt.subplots(1, 2, subplot_kw=dict(aspect='equal'))
     ax[0].add_collection(collector_patch, autolim=True)
     ax[0].add_collection(shade_patches, autolim=True)

@@ -4,8 +4,7 @@ from twoaxistracking import plotting
 
 
 def _rotate_origin(x, y, rotation_deg):
-    """Rotate a set of 2D points counterclockwise around the origin (0, 0).
-    """
+    """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
     rotation_rad = np.deg2rad(rotation_deg)
     # Rotation is set negative to make counterclockwise rotation
     xx = x * np.cos(-rotation_rad) + y * np.sin(-rotation_rad)
@@ -16,7 +15,7 @@ def _rotate_origin(x, y, rotation_deg):
 def shaded_fraction(solar_azimuth, solar_elevation,
                     collector_geometry, L_min, tracker_distance,
                     relative_azimuth, plot=False):
-    """Calculate the shading fraction for any layout of two-axis tracking collectors.
+    """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
     ----------
@@ -38,10 +37,10 @@ def shaded_fraction(solar_azimuth, solar_elevation,
 
     Returns
     -------
-    shading_fraction: float
-        Shading fraction for the specific solar position and field layout.
+    shaded_fraction: float
+        Shaded fraction for the specific solar position and field layout.
     """  # noqa: E501
-    # If the sun is below the horizon, set the shading fraction to nan
+    # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
 
@@ -69,7 +68,8 @@ def shaded_fraction(solar_azimuth, solar_elevation,
                 shade_geometries.append(shade_geometry)
 
     if plot:
-        plotting._plot_shading(collector_geometry, unshaded_geomtry, shade_geometries)
+        plotting._plot_shading(
+            collector_geometry, unshaded_geomtry, shade_geometries)
 
-    shading_fraction = 1 - unshaded_geomtry.area / collector_geometry.area
-    return shading_fraction
+    shaded_fraction = 1 - unshaded_geomtry.area / collector_geometry.area
+    return shaded_fraction

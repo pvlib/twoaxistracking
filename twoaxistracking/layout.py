@@ -22,10 +22,10 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
 
     Notes
     -----
-    The field layout can be specified either using selecting a standard layout
+    The field layout can be specified either by selecting a standard layout
     using the layout_type argument or by specifying the individual layout
-    parameters aspect_ratio, offset, and rotation. For both cases also the
-    ground cover ratio needs to be specified.
+    parameters aspect_ratio, offset, and rotation. For both cases the ground
+    cover ratio (gcr) needs to be specified.
 
     Any length unit can be used as long as the usage is consistent with the
     collector geometry.
