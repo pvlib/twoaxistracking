@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Divide code into modules: shading, plotting, and layout
-- Changed file structure
+- Changed the overall file structure to become a Python package
 - Changed names of notebooks
 - Change repository name from "two_axis_tracker_shading" to
   "twoaxistracking"
