@@ -1,11 +1,15 @@
 name: readthedocs
+channels:
+    - defaults
+    - conda-forge
 dependencies:
   - python=3.7
   - pandas
   - matplotlib
   - numpy
-  - pvlib
   - shapely # Should be installed with conda
   - sphinx
-  - myst-nb
-  - sphinx-book-theme
+  - pip:
+        - pvlib
+        - myst-nb
+        - sphinx-book-theme
