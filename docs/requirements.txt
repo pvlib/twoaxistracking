@@ -1,0 +1,9 @@
+pandas
+matplotlib
+numpy
+pvlib
+shapely # Should be installed with conda
+# Documentation requirements
+sphinx
+myst-nb
+sphinx-book-theme
