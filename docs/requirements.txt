@@ -3,6 +3,7 @@ matplotlib
 numpy
 pvlib
 shapely # Should be installed with conda
+git+https://git@https://github.com/AdamRJensen/twoaxistracking@master#egg=twoaxistracking
 # Documentation requirements
 sphinx
 myst-nb
