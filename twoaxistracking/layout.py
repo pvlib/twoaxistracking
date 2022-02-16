@@ -69,7 +69,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     ----------
     .. [1] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
        <https://doi.org/10.1016/j.solener.2014.06.012>`_
-    """  # noqa: E501
+    """
     # Consider special layouts which can be defined only by GCR
     if layout_type == 'square':
         aspect_ratio = 1
