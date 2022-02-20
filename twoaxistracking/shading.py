@@ -12,19 +12,21 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def shaded_fraction(solar_azimuth, solar_elevation,
-                    collector_geometry, L_min, tracker_distance,
+def shaded_fraction(solar_elevation, solar_azimuth, gross_geometry,
+                    aperture_geometry, L_min, tracker_distance,
                     relative_azimuth, plot=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
     ----------
-    solar_azimuth: float
-        Solar azimuth angle in degrees.
     solar_elevation: float
         Solar elevation angle in degrees.
-    collector_geometry: Shapely geometry object
-        The collector aperture geometry.
+    solar_azimuth: float
+        Solar azimuth angle in degrees.
+    gross_geometry: Shapely Polygon
+        Polygon corresponding to the collector gross area.
+    aperture_geometry: Shapely Polygon or MultiPolygon
+        One or more polygons defining the collector aperture area.
     L_min: float
         Minimum distance between collectors. Used for selecting possible
         shading collectors.
@@ -54,22 +56,21 @@ def shaded_fraction(solar_azimuth, solar_elevation,
         * np.cos(np.deg2rad(azimuth_difference[mask]))\
         * np.sin(np.deg2rad(solar_elevation))
 
-    # Initialize the unshaded area as the collector area
-    unshaded_geomtry = collector_geometry
-    shade_geometries = []
+    # Initialize the unshaded area as the collector aperture area
+    unshaded_geometry = aperture_geometry
+    shading_geometries = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
         if np.sqrt(x**2+y**2) < L_min:
-            # Project the geometry of the shading collector onto the plane
-            # of the investigated collector
-            shade_geometry = shapely.affinity.translate(collector_geometry, x, y)  # noqa: E501
+            # Project the geometry of the shading collector (gross area) onto
+            # the plane of the investigated collector
+            shading_geometry = shapely.affinity.translate(gross_geometry, x, y)  # noqa: E501
             # Update the unshaded area based on overlapping shade
-            unshaded_geomtry = unshaded_geomtry.difference(shade_geometry)
+            unshaded_geometry = unshaded_geometry.difference(shading_geometry)
             if plot:
-                shade_geometries.append(shade_geometry)
+                shading_geometries.append(shading_geometry)
 
     if plot:
-        plotting._plot_shading(
-            collector_geometry, unshaded_geomtry, shade_geometries)
+        plotting._plot_shading(aperture_geometry, unshaded_geometry, shading_geometries, L_min)
 
-    shaded_fraction = 1 - unshaded_geomtry.area / collector_geometry.area
+    shaded_fraction = 1 - unshaded_geometry.area / aperture_geometry.area
     return shaded_fraction
