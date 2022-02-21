@@ -13,7 +13,8 @@ def _rotate_origin(x, y, rotation_deg):
 
 def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
                           aspect_ratio=None, offset=None, rotation=None,
-                          layout_type=None, plot=False):
+                          layout_type=None, slope_azimuth=0,
+                          slope_tilt=0, plot=False):
     """
     Generate a regularly-spaced collector field layout.
 
@@ -48,26 +49,38 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
     rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
     layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
-        Specification of the special layout type (only depends on gcr).
-    plot: bool, default: True
+        Specification of the special layout type (only depend on gcr).
+    slope_azimuth : float, optional
+        Direction of normal to slope on horizontal [degrees]
+    slope_tilt : float, optional
+        Tilt of slope relative to horizontal [degrees]
+    plot: bool, default: False
         Whether to plot the field layout.
 
     Returns
     -------
     X: array of floats
-        x coordinates of neighboring trackers.
+        Distance of neighboring trackers to the reference tracker in the east-
+        west direction. East is positive.
     Y: array of floats
-        y coordinates of neighboring trackers.
+        Distance of neighboring trackers to the reference tracker in the north-
+        south direction. North is positive.
+    Z: array of floats
+        Relative heights of neighboring trackers.
     tracker_distance: array of floats
-        Distances between neighboring trackers and reference tracker.
+        Distances between neighboring trackers and the reference tracker.
     relative_azimuth: array of floats
-        Relative azimuth between neigboring trackers and reference tracker.
+        Relative azimuth of neighboring trackers - measured clockwise from
+        north [degrees].
+    relative_slope: array of floats
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
 
     References
     ----------
     .. [1] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
        <https://doi.org/10.1016/j.solener.2014.06.012>`_
-    """  # noqa: E501
+    """
     # Consider special layouts which can be defined only by GCR
     if layout_type == 'square':
         aspect_ratio = 1
@@ -126,6 +139,11 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
     X = X * aspect_ratio
     # Apply field rotation
     X, Y = _rotate_origin(X, Y, rotation)
+    # Calculate relative tracker height based on surface slope
+    Z = - X * np.sin(np.deg2rad(slope_azimuth)) * \
+        np.tan(np.deg2rad(slope_tilt)) \
+        - Y * np.cos(np.deg2rad(slope_azimuth)) * \
+        np.tan(np.deg2rad(slope_tilt))
     # Calculate and apply the scaling factor based on GCR
     scaling = np.sqrt(total_collector_area / (gcr * aspect_ratio))
     X, Y = X*scaling, Y*scaling
@@ -134,9 +152,12 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
     tracker_distance = np.sqrt(X**2 + Y**2)
     # The relative azimuth is defined clockwise eastwards from north
     relative_azimuth = np.mod(450-np.rad2deg(np.arctan2(Y, X)), 360)
+    # Relative slope of collectors
+    # positive means collector is higher than reference collector
+    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
 
     # Visualize layout
     if plot:
-        plotting._plot_field_layout(X, Y, L_min)
+        plotting._plot_field_layout(X, Y, Z, L_min)
 
-    return X, Y, tracker_distance, relative_azimuth
+    return X, Y, Z, tracker_distance, relative_azimuth, relative_slope

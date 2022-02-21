@@ -1,9 +1,9 @@
-from .layout import generate_field_layout
-from .shading import shaded_fraction
+from .layout import generate_field_layout  # noqa: F401
+from .shading import shaded_fraction  # noqa: F401
 
 
 try:
-    from shapely.geos import lgeos
+    from shapely.geos import lgeos  # noqa: F401
 except OSError as err:
     msg = (
         "An error was encountered when importing the shapely package. "

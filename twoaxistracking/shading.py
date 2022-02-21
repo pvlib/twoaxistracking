@@ -12,9 +12,10 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def shaded_fraction(solar_elevation, solar_azimuth, total_collector_geometry,
-                    active_collector_geometry, L_min, tracker_distance,
-                    relative_azimuth, plot=False):
+def shaded_fraction(solar_elevation, solar_azimuth,
+                    total_collector_geometry, active_collector_geometry,
+                    L_min, tracker_distance, relative_azimuth, relative_slope,
+                    slope_azimuth=0, slope_tilt=0, plot=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
@@ -34,6 +35,13 @@ def shaded_fraction(solar_elevation, solar_azimuth, total_collector_geometry,
         Distances between neighboring trackers and reference tracker.
     relative_azimuth: array of floats
         Relative azimuth between neigboring trackers and reference tracker.
+    relative_slope: array of floats
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
+    slope_azimuth : float
+        Direction of normal to slope on horizontal [degrees].
+    slope_tilt : float
+        Tilt of slope relative to horizontal [degrees].
     plot: bool, default: True
         Whether to plot the projected shadows and unshaded area.
 
@@ -41,10 +49,14 @@ def shaded_fraction(solar_elevation, solar_azimuth, total_collector_geometry,
     -------
     shaded_fraction: float
         Shaded fraction for the specific solar position and field layout.
-    """  # noqa: E501
+    """
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
+    # Set shading fraction to 1 (fully shaded) if the solar elevation is below
+    # the horizon line caused by the tilted ground
+    elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
+        return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth
 
@@ -52,17 +64,18 @@ def shaded_fraction(solar_elevation, solar_azimuth, total_collector_geometry,
     mask = np.where(np.cos(np.deg2rad(azimuth_difference)) > 0)
 
     xoff = tracker_distance[mask]*np.sin(np.deg2rad(azimuth_difference[mask]))
-    yoff = -tracker_distance[mask]\
-        * np.cos(np.deg2rad(azimuth_difference[mask]))\
-        * np.sin(np.deg2rad(solar_elevation))
+    yoff = - tracker_distance[mask] *\
+        np.cos(np.deg2rad(azimuth_difference[mask])) * \
+        np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
+        np.cos(np.deg2rad(relative_slope[mask]))
 
     # Initialize the unshaded area as the collector aperture area
     unshaded_geometry = active_collector_geometry
     shading_geometries = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
         if np.sqrt(x**2+y**2) < L_min:
-            # Project the geometry of the shading collector (gross area) onto
-            # the plane of the investigated collector
+            # Project the geometry of the shading collector (total area) onto
+            # the plane of the reference collector
             shading_geometry = shapely.affinity.translate(total_collector_geometry, x, y)  # noqa: E501
             # Update the unshaded area based on overlapping shade
             unshaded_geometry = unshaded_geometry.difference(shading_geometry)
