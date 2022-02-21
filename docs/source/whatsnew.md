@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added automatic documentation using Sphinx and autosummary
 - Added ``__init__.py`` file
 - Documentation is now hosted at [readthedocs](https://twoaxistracking.readthedocs.io/)
+- Tilted fields can now be simulated by specifyig the keywords ``slope_azimuth`` and
+   ``slope_tilt`` (see PR#7).
+- The code now is able to differentiate between the active area and total area (see PR#11).
+
 
 ### Changed
 - Divide code into modules: shading, plotting, and layout
@@ -19,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "twoaxistracking"
 
 ### Testing
+- Linting using flake8 was added in PR#11
 
 ## [0.1.0] - 2022-01-25
 This was the first release, containing the main functions and notebooks.

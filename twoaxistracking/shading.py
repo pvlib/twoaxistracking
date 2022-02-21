@@ -13,8 +13,8 @@ def _rotate_origin(x, y, rotation_deg):
 
 
 def shaded_fraction(solar_elevation, solar_azimuth,
-                    collector_geometry, L_min, tracker_distance,
-                    relative_azimuth, relative_slope,
+                    total_collector_geometry, active_collector_geometry,
+                    L_min, tracker_distance, relative_azimuth, relative_slope,
                     slope_azimuth=0, slope_tilt=0, plot=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
@@ -24,8 +24,10 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Solar elevation angle in degrees.
     solar_azimuth: float
         Solar azimuth angle in degrees.
-    collector_geometry: Shapely geometry object
-        The collector aperture geometry.
+    total_collector_geometry: Shapely Polygon
+        Polygon corresponding to the total collector area.
+    active_collector_geometry: Shapely Polygon or MultiPolygon
+        One or more polygons defining the active collector area.
     L_min: float
         Minimum distance between collectors. Used for selecting possible
         shading collectors.
@@ -37,11 +39,13 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
     slope_azimuth : float
-        Direction of normal to slope on horizontal [degrees].
+        Direction of normal to slope on horizontal [degrees]. Used to determine
+        horizon shading.
     slope_tilt : float
-        Tilt of slope relative to horizontal [degrees].
+        Tilt of slope relative to horizontal [degrees]. Used to determine
+        horizon shading.
     plot: bool, default: True
-        Whether to plot the projected shadows.
+        Whether to plot the projected shadows and unshaded area.
 
     Returns
     -------
@@ -51,7 +55,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
-    # Set shading fraction to 1 (fully shaded) if the solar elevation is below
+    # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
     elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
         return 1
@@ -67,22 +71,22 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
         np.cos(np.deg2rad(relative_slope[mask]))
 
-    # Initialize the unshaded area as the collector area
-    unshaded_geomtry = collector_geometry
-    shade_geometries = []
+    # Initialize the unshaded area as the collector active collector area
+    unshaded_geometry = active_collector_geometry
+    shading_geometries = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
         if np.sqrt(x**2+y**2) < L_min:
-            # Project the geometry of the shading collector onto the plane
-            # of the investigated collector
-            shade_geometry = shapely.affinity.translate(collector_geometry, x, y)
+            # Project the geometry of the shading collector (total area) onto
+            # the plane of the reference collector
+            shading_geometry = shapely.affinity.translate(total_collector_geometry, x, y)  # noqa: E501
             # Update the unshaded area based on overlapping shade
-            unshaded_geomtry = unshaded_geomtry.difference(shade_geometry)
+            unshaded_geometry = unshaded_geometry.difference(shading_geometry)
             if plot:
-                shade_geometries.append(shade_geometry)
+                shading_geometries.append(shading_geometry)
 
     if plot:
-        plotting._plot_shading(
-            collector_geometry, unshaded_geomtry, shade_geometries)
+        plotting._plot_shading(active_collector_geometry, unshaded_geometry,
+                               shading_geometries, L_min)
 
-    shaded_fraction = 1 - unshaded_geomtry.area / collector_geometry.area
+    shaded_fraction = 1 - unshaded_geometry.area / active_collector_geometry.area
     return shaded_fraction
