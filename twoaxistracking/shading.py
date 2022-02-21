@@ -25,7 +25,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     solar_azimuth: float
         Solar azimuth angle in degrees.
     total_collector_geometry: Shapely Polygon
-        Polygon corresponding to the collector gross area.
+        Polygon corresponding to the total collector area.
     active_collector_geometry: Shapely Polygon or MultiPolygon
         One or more polygons defining the active collector area.
     L_min: float
@@ -39,9 +39,11 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
     slope_azimuth : float
-        Direction of normal to slope on horizontal [degrees].
+        Direction of normal to slope on horizontal [degrees]. Used to determine
+        horizon shading.
     slope_tilt : float
-        Tilt of slope relative to horizontal [degrees].
+        Tilt of slope relative to horizontal [degrees]. Used to determine
+        horizon shading.
     plot: bool, default: True
         Whether to plot the projected shadows and unshaded area.
 
@@ -53,7 +55,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
-    # Set shading fraction to 1 (fully shaded) if the solar elevation is below
+    # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
     elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
         return 1
@@ -69,7 +71,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         np.sin(np.deg2rad(solar_elevation-relative_slope[mask])) / \
         np.cos(np.deg2rad(relative_slope[mask]))
 
-    # Initialize the unshaded area as the collector aperture area
+    # Initialize the unshaded area as the collector active collector area
     unshaded_geometry = active_collector_geometry
     shading_geometries = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
