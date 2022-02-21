@@ -3,8 +3,7 @@ from twoaxistracking import plotting
 
 
 def _rotate_origin(x, y, rotation_deg):
-    """Rotate a set of 2D points counterclockwise around the origin (0, 0).
-    """
+    """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
     rotation_rad = np.deg2rad(rotation_deg)
     # Rotation is set negative to make counterclockwise rotation
     xx = x * np.cos(-rotation_rad) + y * np.sin(-rotation_rad)
@@ -12,7 +11,7 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
+def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
                           aspect_ratio=None, offset=None, rotation=None,
                           layout_type=None, plot=False):
     """
@@ -34,11 +33,10 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     ----------
     gcr: float
         Ground cover ratio. Ratio of collector area to ground area.
-    collector_area: float
+    total_collector_area: float
         Surface area of one collector.
     L_min: float
-        Minimum distance between collectors. Calculated as the maximum distance
-        between any two points on the collector surface area.
+        Minimum distance between collectors.
     neighbor_order: int
         Order of neighbors to include in layout. neighbor_order=1 includes only
         the 8 directly adjacent collectors.
@@ -46,11 +44,11 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
         Ratio of the spacing in the primary direction to the secondary.
     offset: float, optional
         Relative row offset in the secondary direction as fraction of the
-        spacing in the secondary direction. -0.5 <= offset < 0.5.
+        spacing in the primary direction. -0.5 <= offset < 0.5.
     rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
     layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
-        Specification of the special layout type (only depend on gcr).
+        Specification of the special layout type (only depends on gcr).
     plot: bool, default: True
         Whether to plot the field layout.
 
@@ -80,7 +78,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
         aspect_ratio = 1
         offset = 0
         rotation = 45
-    # Hexagonal layouts are defined by an aspect ratio=0.866 and offset=-0.5
+    # Hexagonal layouts are defined by aspect_ratio=0.866 and offset=-0.5
     elif layout_type == 'hexagonal_n_s':
         aspect_ratio = np.sqrt(3)/2
         offset = -0.5
@@ -99,18 +97,18 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     # Check parameters are within their ranges
     if aspect_ratio < np.sqrt(1-offset**2):
         raise ValueError('Aspect ratio is too low and not feasible')
-    if aspect_ratio > collector_area/(gcr*L_min**2):
+    if aspect_ratio > total_collector_area/(gcr*L_min**2):
         raise ValueError('Apsect ratio is too high and not feasible')
     if (offset < -0.5) | (offset >= 0.5):
         raise ValueError('The specified offset is outside the valid range.')
     if (rotation < 0) | (rotation >= 180):
         raise ValueError('The specified rotation is outside the valid range.')
     # Check if mimimum and maximum ground cover ratios are exceded
-    gcr_max = collector_area / (L_min**2 * np.sqrt(1-offset**2))
+    gcr_max = total_collector_area / (L_min**2 * np.sqrt(1-offset**2))
     if (gcr < 0) or (gcr > gcr_max):
         raise ValueError('Maximum ground cover ratio exceded.')
     # Check if Lmin is physically possible given the collector area.
-    if (L_min < np.sqrt(4*collector_area/np.pi)):
+    if (L_min < np.sqrt(4*total_collector_area/np.pi)):
         raise ValueError('Lmin is not physically possible.')
 
     N = 1 + 2 * neighbor_order  # Number of collectors along each side
@@ -129,7 +127,7 @@ def generate_field_layout(gcr, collector_area, L_min, neighbor_order,
     # Apply field rotation
     X, Y = _rotate_origin(X, Y, rotation)
     # Calculate and apply the scaling factor based on GCR
-    scaling = np.sqrt(collector_area / (gcr * aspect_ratio))
+    scaling = np.sqrt(total_collector_area / (gcr * aspect_ratio))
     X, Y = X*scaling, Y*scaling
 
     # Calculate distance and angle of shading trackers relative to the center

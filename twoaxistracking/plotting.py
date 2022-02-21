@@ -35,19 +35,19 @@ def _polygons_to_patch_collection(geometries, **kwargs):
     return path_collection
 
 
-def _plot_shading(aperture_geometries, unshaded_geometries, shading_geometries,
-                  L_min):
+def _plot_shading(active_collector_geometry, unshaded_geometry,
+                  shading_geometries, L_min):
     """Plot the shaded and unshaded area for a specific solar position."""
-    aperture_patches = _polygons_to_patch_collection(
-        aperture_geometries, facecolor='red', linewidth=0.5, alpha=0.5)
+    active_patches = _polygons_to_patch_collection(
+        active_collector_geometry, facecolor='red', linewidth=0.5, alpha=0.5)
     unshaded_patches = _polygons_to_patch_collection(
-        unshaded_geometries, facecolor='green', linewidth=0.5, alpha=0.5)
+        unshaded_geometry, facecolor='green', linewidth=0.5, alpha=0.5)
     shading_patches = _polygons_to_patch_collection(
         shading_geometries, facecolor='blue', linewidth=0.5, alpha=0.5)
 
     fig, axes = plt.subplots(1, 2, subplot_kw=dict(aspect='equal'))
     axes[0].set_title('Unshaded and shading areas')
-    axes[0].add_collection(aperture_patches, autolim=True)
+    axes[0].add_collection(active_patches, autolim=True)
     axes[0].add_collection(shading_patches, autolim=True)
     axes[1].set_title('Unshaded area')
     axes[1].add_collection(unshaded_patches, autolim=True)
