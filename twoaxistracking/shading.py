@@ -39,7 +39,7 @@ def shaded_fraction(solar_azimuth, solar_elevation,
     -------
     shaded_fraction: float
         Shaded fraction for the specific solar position and field layout.
-    """  # noqa: E501
+    """
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
@@ -61,7 +61,7 @@ def shaded_fraction(solar_azimuth, solar_elevation,
         if np.sqrt(x**2+y**2) < L_min:
             # Project the geometry of the shading collector onto the plane
             # of the investigated collector
-            shade_geometry = shapely.affinity.translate(collector_geometry, x, y)  # noqa: E501
+            shade_geometry = shapely.affinity.translate(collector_geometry, x, y)
             # Update the unshaded area based on overlapping shade
             unshaded_geomtry = unshaded_geomtry.difference(shade_geometry)
             if plot:
