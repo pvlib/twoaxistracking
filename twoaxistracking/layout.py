@@ -2,6 +2,7 @@ import numpy as np
 from twoaxistracking import plotting
 from shapely import geometry
 
+
 def _rotate_origin(x, y, rotation_deg):
     """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
     rotation_rad = np.deg2rad(rotation_deg)

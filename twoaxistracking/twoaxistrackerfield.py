@@ -66,8 +66,8 @@ class TwoAxisTrackerField:
         """Calculate the shaded fraction for the specified solar positions.
 
         Uses the :py:func:`twoaxistracking.shaded_fraction` function to
-        calculate the shaded fraction corresponding to the specified solar
-        elevation and azimuth angles.
+        calculate the shaded fraction for to the specified solar elevation and
+        azimuth angles.
 
         Parameters
         ----------
