@@ -1,6 +1,6 @@
 import numpy as np
 from twoaxistracking import plotting
-
+from shapely import geometry
 
 def _rotate_origin(x, y, rotation_deg):
     """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
@@ -9,6 +9,11 @@ def _rotate_origin(x, y, rotation_deg):
     xx = x * np.cos(-rotation_rad) + y * np.sin(-rotation_rad)
     yy = -x * np.sin(-rotation_rad) + y * np.cos(-rotation_rad)
     return xx, yy
+
+
+def _calculate_l_min(collector_geometry):
+    L_min = 2 * collector_geometry.hausdorff_distance(geometry.Point(0, 0))
+    return L_min
 
 
 def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
