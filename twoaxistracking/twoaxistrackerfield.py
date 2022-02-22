@@ -19,7 +19,9 @@ class TwoAxisTrackerField:
     Parameters
     ----------
     total_collector_geometry: Shapely Polygon
-        Collector geometry
+        Polygon corresponding to the total collector area.
+    active_collector_geometry: Shapely Polygon or MultiPolygon
+        One or more polygons defining the active collector area.
     neighbor_order: int
         Order of neighbors to include in layout. neighbor_order=1 includes only
         the 8 directly adjacent collectors.
@@ -32,34 +34,51 @@ class TwoAxisTrackerField:
         spacing in the secondary direction. -0.5 <= offset < 0.5.
     rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
+    layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
+        Specification of the special layout type (only depend on gcr).
+    slope_azimuth : float, optional
+        Direction of normal to slope on horizontal [degrees]
+    slope_tilt : float, optional
+        Tilt of slope relative to horizontal [degrees]
     """
 
-    def __init__(self, collector_geometry, neighbor_order, gcr,
-                 aspect_ratio=None, offset=None, rotation=None,
-                 layout_type=None):
+    def __init__(self, total_collector_geometry, active_collector_geometry,
+                 neighbor_order, gcr, aspect_ratio=None, offset=None,
+                 rotation=None, layout_type=None, slope_azimuth=0,
+                 slope_tilt=0):
 
         # Collector geometry
-        self.collector_geometry = collector_geometry
-        self.collector_area = self.collector_geometry.area
-        self.L_min = layout._calculate_l_min(self.collector_geometry)
+        self.total_collector_geometry = total_collector_geometry
+        self.active_collector_geometry = active_collector_geometry
+        # Derive properties from geometries
+        self.total_collector_area = self.total_collector_geometry.area
+        self.active_collector_area = self.active_collector_geometry.area
+        self.L_min = layout._calculate_l_min(self.total_collector_geometry)
+
         # Field layout
         self.neighbor_order = neighbor_order
         self.gcr = gcr
         self.aspect_ratio = aspect_ratio
         self.offset = offset
         self.rotation = rotation
+        self.layout_type = layout_type
+        self.slope_azimuth = slope_azimuth
+        self.slope_tilt = slope_tilt
+
         # Calculate position of neighboring collectors based on field layout
-        self.X, self.Y, self.tracker_distance, self.relative_azimuth = \
+        self.X, self.Y, self.Z, self.tracker_distance, self.relative_azimuth, self.relative_slope = \
             layout.generate_field_layout(
-                self.gcr, self.collector_area, self.L_min,
-                neighbor_order=self.neighbor_order,
+                gcr=self.gcr, total_collector_area=self.total_collector_area,
+                L_min=self.L_min, neighbor_order=self.neighbor_order,
                 aspect_ratio=self.aspect_ratio, offset=self.offset,
-                rotation=self.rotation)
-        plotting._plot_field_layout(X=self.X, Y=self.Y, L_min=self.L_min)
+                rotation=self.rotation, layout_type=self.layout_type,
+                slope_azimuth=self.slope_azimuth, slope_tilt=self.slope_tilt,
+                plot=False)
 
     def plot_field_layout(self):
         """Plot the field layout."""
-        plotting._plot_field_layout(X=self.X, Y=self.Y, L_min=self.L_min)
+        plotting._plot_field_layout(X=self.X, Y=self.Y, Z=self.Z,
+                                    L_min=self.L_min)
 
     def get_shaded_fraction(self, solar_elevation,  solar_azimuth,
                             plot=False):
@@ -90,15 +109,20 @@ class TwoAxisTrackerField:
             solar_elevation = np.array([solar_elevation])
             solar_azimuth = np.array([solar_azimuth])
 
+        # Calculate the shaded fraction for each solar position
         shaded_fractions = []
         for (elevation, azimuth) in zip(solar_elevation, solar_azimuth):
             shaded_fraction = shading.shaded_fraction(
                 solar_elevation=elevation,
                 solar_azimuth=azimuth,
-                collector_geometry=self.collector_geometry,
+                total_collector_geometry=self.total_collector_geometry,
+                active_collector_geometry=self.active_collector_geometry,
+                L_min=self.L_min,
                 tracker_distance=self.tracker_distance,
                 relative_azimuth=self.relative_azimuth,
-                L_min=self.L_min,
+                relative_slope=self.relative_slope,
+                slope_azimuth=self.slope_azimuth,
+                slope_tilt=self.slope_tilt,
                 plot=False)
             shaded_fractions.append(shaded_fraction)
 
