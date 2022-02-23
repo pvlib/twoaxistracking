@@ -114,21 +114,21 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
                          'specified when no layout type has not been selected')
 
     # Check parameters are within their ranges
-    if aspect_ratio < np.sqrt(1-offset**2):
-        raise ValueError('Aspect ratio is too low and not feasible')
-    if aspect_ratio > total_collector_area/(gcr*L_min**2):
-        raise ValueError('Apsect ratio is too high and not feasible')
     if (offset < -0.5) | (offset >= 0.5):
         raise ValueError('The specified offset is outside the valid range.')
     if (rotation < 0) | (rotation >= 180):
         raise ValueError('The specified rotation is outside the valid range.')
-    # Check if mimimum and maximum ground cover ratios are exceded
-    gcr_max = total_collector_area / (L_min**2 * np.sqrt(1-offset**2))
-    if (gcr < 0) or (gcr > gcr_max):
-        raise ValueError('Maximum ground cover ratio exceded.')
     # Check if Lmin is physically possible given the collector area.
     if (L_min < np.sqrt(4*total_collector_area/np.pi)):
         raise ValueError('Lmin is not physically possible.')
+    # Check if mimimum and maximum ground cover ratios are exceded
+    gcr_max = total_collector_area / (L_min**2 * np.sqrt(1-offset**2))
+    if (gcr < 0) or (gcr > gcr_max):
+        raise ValueError('Maximum ground cover ratio exceded or less than 0.')
+    if aspect_ratio < np.sqrt(1-offset**2):
+        raise ValueError('Aspect ratio is too low and not feasible')
+    if aspect_ratio > total_collector_area/(gcr*L_min**2):
+        raise ValueError('Aspect ratio is too high and not feasible')
 
     N = 1 + 2 * neighbor_order  # Number of collectors along each side
 
