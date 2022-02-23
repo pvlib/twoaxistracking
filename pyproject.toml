@@ -4,17 +4,3 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
-
-[project]
-dependencies = [
-  'pvlib',
-  'numpy',
-  'pandas',
-  'matplotlib',
-  'shapely',
-]
-
-[project.optional-dependencies]
-tests = [
-  'pytest',
-]
