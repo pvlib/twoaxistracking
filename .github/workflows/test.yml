@@ -26,4 +26,4 @@ jobs:
         pip install .[test]
     - name: Lint with flake8
       run: |
-        pytest --cov=twoaxistracking --cov-fail-under=100 --cov-report=term-missing
+        pytest
