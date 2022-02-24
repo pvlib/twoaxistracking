@@ -4,7 +4,7 @@ from .shading import shaded_fraction  # noqa: F401
 
 try:
     from shapely.geos import lgeos  # noqa: F401
-except OSError as err:
+except OSError as err:  # pragma: no cover
     msg = (
         "An error was encountered when importing the shapely package. "
         "This often happens when a binary dependency is missing because "
