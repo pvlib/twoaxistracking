@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed names of notebooks
 - Change repository name from "two_axis_tracker_shading" to
   "twoaxistracking"
+- Changed naming of ``L_min`` to ``min_tracker_distance``
 
 ### Testing
 - Linting using flake8 was added in PR#11
