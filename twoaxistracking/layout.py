@@ -1,5 +1,4 @@
 import numpy as np
-from twoaxistracking import plotting
 from shapely import geometry
 
 

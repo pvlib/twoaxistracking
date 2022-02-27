@@ -70,11 +70,12 @@ class TwoAxisTrackerField:
         # Derive properties from geometries
         self.total_collector_area = self.total_collector_geometry.area
         self.active_collector_area = self.active_collector_geometry.area
-        self.L_min = layout._calculate_l_min(self.total_collector_geometry)
+        self.min_tracker_spacing = \
+            layout._calculate_min_tracker_spacing(self.total_collector_geometry)
 
         # Standard layout parameters
         if layout_type is not None:
-            if layout_type not in ['mcclear', 'cams_radiation']:
+            if layout_type not in list(STANDARD_FIELD_LAYOUT_PARAMETERS):
                 raise ValueError('Layout type must be one of: '
                                  f'{list(STANDARD_FIELD_LAYOUT_PARAMETERS)}')
             layout_params = STANDARD_FIELD_LAYOUT_PARAMETERS[layout_type]
@@ -83,7 +84,7 @@ class TwoAxisTrackerField:
             rotation = layout_params['rotation']
         elif ((aspect_ratio is None) or (offset is None) or (rotation is None)):
             raise ValueError('Aspect ratio, offset, and rotation needs to be '
-                             'specified when no layout type has not been selected')
+                             'specified when no layout type has been selected')
 
         # Field layout
         self.neighbor_order = neighbor_order
@@ -96,10 +97,12 @@ class TwoAxisTrackerField:
         self.slope_tilt = slope_tilt
 
         # Calculate position of neighboring collectors based on field layout
-        self.X, self.Y, self.Z, self.tracker_distance, self.relative_azimuth, self.relative_slope = \
+        (self.X, self.Y, self.Z, self.tracker_distance, self.relative_azimuth,
+         self.relative_slope) = \
             layout.generate_field_layout(
                 gcr=self.gcr, total_collector_area=self.total_collector_area,
-                L_min=self.L_min, neighbor_order=self.neighbor_order,
+                min_tracker_spacing=self.min_tracker_spacing,
+                neighbor_order=self.neighbor_order,
                 aspect_ratio=self.aspect_ratio, offset=self.offset,
                 rotation=self.rotation, layout_type=self.layout_type,
                 slope_azimuth=self.slope_azimuth, slope_tilt=self.slope_tilt,
@@ -108,7 +111,7 @@ class TwoAxisTrackerField:
     def plot_field_layout(self):
         """Plot the field layout."""
         plotting._plot_field_layout(X=self.X, Y=self.Y, Z=self.Z,
-                                    L_min=self.L_min)
+                                    min_tracker_spacing=self.min_tracker_spacing)
 
     def get_shaded_fraction(self, solar_elevation,  solar_azimuth,
                             plot=False):
@@ -147,7 +150,7 @@ class TwoAxisTrackerField:
                 solar_azimuth=azimuth,
                 total_collector_geometry=self.total_collector_geometry,
                 active_collector_geometry=self.active_collector_geometry,
-                L_min=self.L_min,
+                min_tracker_spacing=self.min_tracker_spacing,
                 tracker_distance=self.tracker_distance,
                 relative_azimuth=self.relative_azimuth,
                 relative_slope=self.relative_slope,
