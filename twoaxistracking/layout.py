@@ -12,14 +12,14 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def _calculate_l_min(collector_geometry):
-    L_min = 2 * collector_geometry.hausdorff_distance(geometry.Point(0, 0))
-    return L_min
+def _calculate_min_tracker_spacing(collector_geometry):
+    min_tracker_spacing = 2 * collector_geometry.hausdorff_distance(geometry.Point(0, 0))
+    return min_tracker_spacing
 
 
-def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
-                          aspect_ratio, offset, rotation, slope_azimuth=0,
-                          slope_tilt=0, plot=False):
+def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
+                          neighbor_order, aspect_ratio, offset, rotation,
+                          slope_azimuth=0, slope_tilt=0):
     """
     Generate a regularly-spaced collector field layout.
 
@@ -34,7 +34,7 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
         Ground cover ratio. Ratio of collector area to ground area.
     total_collector_area: float
         Surface area of one collector.
-    L_min: float
+    min_tracker_spacing: float
         Minimum distance between collectors.
     neighbor_order: int
         Order of neighbors to include in layout. neighbor_order=1 includes only
@@ -50,8 +50,6 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
         Direction of normal to slope on horizontal [degrees]
     slope_tilt : float, optional
         Tilt of slope relative to horizontal [degrees]
-    plot: bool, default: False
-        Whether to plot the field layout.
 
     Returns
     -------
@@ -83,15 +81,15 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
     if (rotation < 0) | (rotation >= 180):
         raise ValueError('The specified rotation is outside the valid range.')
     # Check if Lmin is physically possible given the collector area.
-    if (L_min < np.sqrt(4*total_collector_area/np.pi)):
+    if (min_tracker_spacing < np.sqrt(4*total_collector_area/np.pi)):
         raise ValueError('Lmin is not physically possible.')
     # Check if mimimum and maximum ground cover ratios are exceded
-    gcr_max = total_collector_area / (L_min**2 * np.sqrt(1-offset**2))
+    gcr_max = total_collector_area / (min_tracker_spacing**2 * np.sqrt(1-offset**2))
     if (gcr < 0) or (gcr > gcr_max):
         raise ValueError('Maximum ground cover ratio exceded or less than 0.')
     if aspect_ratio < np.sqrt(1-offset**2):
         raise ValueError('Aspect ratio is too low and not feasible')
-    if aspect_ratio > total_collector_area/(gcr*L_min**2):
+    if aspect_ratio > total_collector_area/(gcr*min_tracker_spacing**2):
         raise ValueError('Aspect ratio is too high and not feasible')
 
     N = 1 + 2 * neighbor_order  # Number of collectors along each side
@@ -125,9 +123,5 @@ def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
     # Relative slope of collectors
     # positive means collector is higher than reference collector
     relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
-
-    # Visualize layout
-    if plot:
-        plotting._plot_field_layout(X, Y, Z, L_min)
 
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
