@@ -1,5 +1,5 @@
 # Open source code for calculating self-shading of two-axis tracking solar collectors
-"twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading.
+twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading.
 
 ## Documentation
 The documentation can be found at [readthedocs](https://twoaxistracking.readthedocs.io/).
