@@ -12,6 +12,18 @@ def rectangular_geometry():
     return collector_geometry, total_collector_area, l_min
 
 
+@pytest.fixture
+def square_field_layout():
+    # Corresponds to GCR 0.125 with the rectangular_geometry
+    X = np.array([-8.,  0.,  8., -8.,  8., -8.,  0.,  8.])
+    Y = np.array([-8., -8., -8.,  0.,  0.,  8.,  8.,  8.])
+    tracker_distance = (X**2 + Y**2)**0.5
+    relative_azimuth = np.array([225., 180., 135., 270.,  90., 315.,   0.,  45.])
+    Z = np.zeros(8)
+    relative_slope = np.zeros(8)
+    return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
+
+
 def test_l_min_rectangle(rectangular_geometry):
     # Test calculation of L_min for a rectangular collector
     l_min = layout._calculate_l_min(rectangular_geometry[0])
@@ -105,6 +117,21 @@ def test_layout_generation_value_error(rectangular_geometry):
         _ = layout.generate_field_layout(
             gcr=0.5, total_collector_area=total_collector_area, L_min=L_min,
             neighbor_order=1, rotation=0, offset=0, aspect_ratio=1)
+
+
+def test_square_field_layout(rectangular_geometry, square_field_layout):
+    # Test that a square field layout is returned correctly
+    collector_geometry, total_collector_area, L_min = rectangular_geometry
+    X_exp, Y_exp, Z_exp, tracker_distance_exp, relative_azimuth_exp, relative_slope_exp = \
+        square_field_layout
+
+    X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
+        layout.generate_field_layout(
+            gcr=0.125,
+            total_collector_area=total_collector_area,
+            L_min=L_min,
+            neighbor_order=1,
+            layout_type='square')
 
 # Test custom layout
 # Test slope
