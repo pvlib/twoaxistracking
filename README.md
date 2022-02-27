@@ -15,6 +15,8 @@ The main non-standard dependency is `shapely`, which handles the geometric opera
 
 The solar modeling library `pvlib` is recommended for calculating the solar position and can be installed by the command:
 
+    pip install pvlib
+
 ## Citing
 If you use the package in published work, please cite:
 > Adam R. Jensen et al. 2022.
