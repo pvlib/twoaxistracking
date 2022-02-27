@@ -11,6 +11,17 @@ import numpy as np
 import pandas as pd
 
 
+STANDARD_FIELD_LAYOUT_PARAMETERS = {
+    'square': {'aspect_ratio': 1, 'offset': 0, 'rotation': 0},
+    # Diagonal layout is the square layout rotated 45 degrees
+    'diagonal': {'aspect_ratio': 1, 'offset': 0, 'rotation': 45},
+    # Hexagonal layouts are defined by aspect_ratio=0.866 and offset=-0.5
+    'hexagonal_n_s': {'aspect_ratio': np.sqrt(3)/2, 'offset': -0.5, 'rotation': 0},
+    # The hexagonal E-W layout is the hexagonal N-S layout rotated 90 degrees
+    'hexagonal_e_w': {'aspect_ratio': np.sqrt(3)/2, 'offset': -0.5, 'rotation': 90},
+}
+
+
 class TwoAxisTrackerField:
     """
     TwoAxisTrackerField is a convient container for the collector geometry
@@ -27,6 +38,8 @@ class TwoAxisTrackerField:
         the 8 directly adjacent collectors.
     gcr: float
         Ground cover ratio. Ratio of collector area to ground area.
+    layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
+        Specification of the special layout type (only depend on gcr).
     aspect_ratio: float, optional
         Ratio of the spacing in the primary direction to the secondary.
     offset: float, optional
@@ -34,18 +47,22 @@ class TwoAxisTrackerField:
         spacing in the secondary direction. -0.5 <= offset < 0.5.
     rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
-    layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
-        Specification of the special layout type (only depend on gcr).
     slope_azimuth : float, optional
         Direction of normal to slope on horizontal [degrees]
     slope_tilt : float, optional
         Tilt of slope relative to horizontal [degrees]
+
+    Notes
+    -----
+    The field layout can be specified either by selecting a standard layout
+    using the layout_type argument or by specifying the individual layout
+    parameters aspect_ratio, offset, and rotation. For both cases the ground
+    cover ratio (gcr) needs to be specified.
     """
 
     def __init__(self, total_collector_geometry, active_collector_geometry,
-                 neighbor_order, gcr, aspect_ratio=None, offset=None,
-                 rotation=None, layout_type=None, slope_azimuth=0,
-                 slope_tilt=0):
+                 neighbor_order, gcr, layout_type=None, aspect_ratio=None,
+                 offset=None, rotation=None, slope_azimuth=0, slope_tilt=0):
 
         # Collector geometry
         self.total_collector_geometry = total_collector_geometry
@@ -54,6 +71,19 @@ class TwoAxisTrackerField:
         self.total_collector_area = self.total_collector_geometry.area
         self.active_collector_area = self.active_collector_geometry.area
         self.L_min = layout._calculate_l_min(self.total_collector_geometry)
+
+        # Standard layout parameters
+        if layout_type is not None:
+            if layout_type not in ['mcclear', 'cams_radiation']:
+                raise ValueError('Layout type must be one of: '
+                                 f'{list(STANDARD_FIELD_LAYOUT_PARAMETERS)}')
+            layout_params = STANDARD_FIELD_LAYOUT_PARAMETERS[layout_type]
+            aspect_ratio = layout_params['aspect_ratio']
+            offset = layout_params['offset']
+            rotation = layout_params['rotation']
+        elif ((aspect_ratio is None) or (offset is None) or (rotation is None)):
+            raise ValueError('Aspect ratio, offset, and rotation needs to be '
+                             'specified when no layout type has not been selected')
 
         # Field layout
         self.neighbor_order = neighbor_order
