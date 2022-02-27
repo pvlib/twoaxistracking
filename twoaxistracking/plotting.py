@@ -59,7 +59,7 @@ def _plot_shading(active_collector_geometry, unshaded_geometry,
         shading_geometries, facecolor='blue', linewidth=0.5, alpha=0.5)
 
     fig, axes = plt.subplots(1, 2, subplot_kw=dict(aspect='equal'))
-    axes[0].set_title('Unshaded and shading areas')
+    axes[0].set_title('Total area and shading areas')
     axes[0].add_collection(active_patches, autolim=True)
     axes[0].add_collection(shading_patches, autolim=True)
     axes[1].set_title('Unshaded area')
