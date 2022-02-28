@@ -42,7 +42,7 @@ def test_shading(rectangular_geometry, square_field_layout):
         slope_azimuth=0,
         slope_tilt=0,
         plot=True)
-    np.testing.assert_allclose(shaded_fraction, 0.191324)
+    np.testing.assert_allclose(shaded_fraction, 0.191324034)
 
 
 def test_shading_zero_solar_elevation(rectangular_geometry, square_field_layout):

@@ -31,8 +31,10 @@ def square_field_layout_sloped():
     Y = np.array([-8, -8, -8, 0, 0, 8, 8, 8])
     tracker_distance = (X**2 + Y**2)**0.5
     relative_azimuth = np.array([225, 180, 135, 270, 90, 315, 0, 45])
-    Z = 
-    relative_slope = 
+    Z = np.array([0.12372765, 0.06186383, 0, 0.06186383,
+                  -0.06186383, 0, -0.06186383, -0.12372765])
+    relative_slope = np.array([5, 3.53553391, 0, 3.53553391,
+                               -3.53553391, 0, -3.53553391, -5])
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 
@@ -87,6 +89,30 @@ def test_square_layout_generation(rectangular_geometry, square_field_layout):
     np.testing.assert_allclose(relative_slope, relative_slope_exp)
 
 
+def test_field_slope(rectangular_geometry, square_field_layout_sloped):
+    # Test that a square field layout on tilted surface is returned correctly
+    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    X_exp, Y_exp, Z_exp, tracker_distance_exp, relative_azimuth_exp, relative_slope_exp = \
+        square_field_layout_sloped
+    X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
+        layout.generate_field_layout(
+            gcr=0.125,
+            total_collector_area=total_collector_area,
+            min_tracker_spacing=min_tracker_spacing,
+            neighbor_order=1,
+            aspect_ratio=1,
+            offset=0,
+            rotation=0,
+            slope_azimuth=45,
+            slope_tilt=5)
+    np.testing.assert_allclose(X, X_exp)
+    np.testing.assert_allclose(Y, Y_exp)
+    np.testing.assert_allclose(Z, Z_exp)
+    np.testing.assert_allclose(tracker_distance_exp, tracker_distance_exp)
+    np.testing.assert_allclose(relative_azimuth, relative_azimuth_exp)
+    np.testing.assert_allclose(relative_slope, relative_slope_exp, atol=10**-9)
+
+
 def test_layout_generation_value_error(rectangular_geometry):
     # Test if value errors are correctly raised
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
@@ -139,10 +165,6 @@ def test_layout_generation_value_error(rectangular_geometry):
             gcr=0.5, total_collector_area=total_collector_area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=1, offset=0, rotation=0)
-
-
-def test_field_slope():
-    assert True
 
 
 def test_neighbor_order(rectangular_geometry):
