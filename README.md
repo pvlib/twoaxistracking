@@ -1,5 +1,5 @@
 # Open source code for calculating self-shading of two-axis tracking solar collectors
-"twoaxistracking" is a python package for simulating self-shading in fields of two-axis trackers.
+twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading.
 
 ## Documentation
 The documentation can be found at [readthedocs](https://twoaxistracking.readthedocs.io/).
@@ -14,6 +14,8 @@ The main non-standard dependency is `shapely`, which handles the geometric opera
     conda install shapely
 
 The solar modeling library `pvlib` is recommended for calculating the solar position and can be installed by the command:
+
+    pip install pvlib
 
 ## Citing
 If you use the package in published work, please cite:
