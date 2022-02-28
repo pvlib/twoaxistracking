@@ -197,4 +197,4 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry, solar_positi
     # Test that calculated shaded fraction are equal or both nan
     # using np.isclose(np.nan, np.nan) does not identify
     assert result == 0
-    assert isinstance(result, np.ndarray)
+    assert np.isscalar(result)
