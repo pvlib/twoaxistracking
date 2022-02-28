@@ -139,7 +139,7 @@ def test_calculation_of_shaded_fraction_list(rectangular_geometry, solar_positio
 
 
 def test_calculation_of_shaded_fraction_series(rectangular_geometry, solar_position,
-                                             expected_shaded_fraction):
+                                               expected_shaded_fraction):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are pandas Series
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry

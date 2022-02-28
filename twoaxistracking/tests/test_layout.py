@@ -1,4 +1,4 @@
-from twoaxistracking import layout, twoaxistrackerfield
+from twoaxistracking import layout
 from shapely import geometry
 import numpy as np
 import pytest
