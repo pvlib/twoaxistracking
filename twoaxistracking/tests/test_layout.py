@@ -24,10 +24,22 @@ def square_field_layout():
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 
+@pytest.fixture
+def square_field_layout_sloped():
+    # Corresponds to GCR 0.125 with the rectangular_geometry
+    X = np.array([-8, 0, 8, -8, 8, -8, 0, 8])
+    Y = np.array([-8, -8, -8, 0, 0, 8, 8, 8])
+    tracker_distance = (X**2 + Y**2)**0.5
+    relative_azimuth = np.array([225, 180, 135, 270, 90, 315, 0, 45])
+    Z = 
+    relative_slope = 
+    return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
+
+
 def test_min_tracker_spacing_rectangle(rectangular_geometry):
     # Test calculation of min_tracker_spacing for a rectangular collector
     min_tracker_spacing = layout._calculate_min_tracker_spacing(rectangular_geometry[0])
-    assert np.isclose(min_tracker_spacing, np.sqrt(4**2+2**2))
+    np.testing.assert_allclose(min_tracker_spacing, np.sqrt(4**2+2**2))
 
 
 def test_min_tracker_spacing_circle():
@@ -49,7 +61,7 @@ def test_min_tracker_spacingpolygon():
     # Test calculation of min_tracker_spacing for a polygon
     collector_geometry = geometry.Polygon([(-1, -1), (3, 2), (4, 4), (1, 2), (-1, -1)])
     min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
-    assert np.isclose(min_tracker_spacing, 2 * np.sqrt(4**2 + 4**2))
+    np.testing.assert_allclose(min_tracker_spacing, 2 * np.sqrt(4**2 + 4**2))
 
 
 def test_square_layout_generation(rectangular_geometry, square_field_layout):

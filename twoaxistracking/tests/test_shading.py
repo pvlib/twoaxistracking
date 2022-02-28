@@ -26,7 +26,7 @@ def square_field_layout():
 
 def test_shading(rectangular_geometry, square_field_layout):
     # Test shading calculation
-    # Also plots the geometry (ensures no errors occurs)
+    # Also plots the geometry (ensures no errors are raised)
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         square_field_layout
@@ -42,11 +42,11 @@ def test_shading(rectangular_geometry, square_field_layout):
         slope_azimuth=0,
         slope_tilt=0,
         plot=True)
-    assert np.isclose(shaded_fraction, 0.191324)
+    np.testing.assert_allclose(shaded_fraction, 0.191324)
 
 
 def test_shading_zero_solar_elevation(rectangular_geometry, square_field_layout):
-    # Test shading when geometries completly overlap
+    # Test shading when geometries completely overlap
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         square_field_layout
@@ -106,7 +106,7 @@ def test_shading_below_horizon(rectangular_geometry, square_field_layout):
 
 
 def test_shading_below_hill_horizon(rectangular_geometry, square_field_layout):
-    # Test shading calculation when there is no shading (high solar elevation)
+    # Test shading when sun is below horizon line caused by sloped surface
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         square_field_layout

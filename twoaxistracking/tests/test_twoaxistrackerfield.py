@@ -132,9 +132,9 @@ def test_calculation_of_shaded_fraction_list(rectangular_geometry, solar_positio
         rotation=170)
     solar_elevation, solar_azimuth = solar_position
     result = field.get_shaded_fraction(solar_elevation, solar_azimuth)
-    # Test that calculated shaded fraction are equal or both nan
-    # using np.isclose(np.nan, np.nan) does not identify
+    # Compare the calculated and expected shaded fraction
     np.testing.assert_allclose(result, expected_shaded_fraction)
+    # Check that the output is of the same type as the inputs
     assert isinstance(result, list)
 
 
@@ -151,6 +151,7 @@ def test_calculation_of_shaded_fraction_series(
         aspect_ratio=1,
         offset=0,
         rotation=170)
+    # Set solar elevation and azimuth as pandas Series with datetime index
     solar_elevation, solar_azimuth = solar_position
     solar_elevation = pd.Series(solar_elevation)
     solar_azimuth = pd.Series(solar_azimuth)
@@ -160,6 +161,7 @@ def test_calculation_of_shaded_fraction_series(
 
     np.testing.assert_allclose(result, expected_shaded_fraction)
     assert isinstance(result, pd.Series)
+    # Check that returned series of shaded fraction has correct index
     pd.testing.assert_index_equal(result.index, solar_elevation.index)
 
 
@@ -178,8 +180,7 @@ def test_calculation_of_shaded_fraction_array(rectangular_geometry, solar_positi
         rotation=170)
     solar_elevation, solar_azimuth = solar_position
     result = field.get_shaded_fraction(np.array(solar_elevation), np.array(solar_azimuth))
-    # Test that calculated shaded fraction are equal or both nan
-    # using np.isclose(np.nan, np.nan) does not identify
+
     np.testing.assert_allclose(result, expected_shaded_fraction)
     assert isinstance(result, np.ndarray)
 
@@ -196,6 +197,7 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry):
         aspect_ratio=1,
         offset=0,
         rotation=170)
+
     result = field.get_shaded_fraction(40, 180)
     np.testing.assert_allclose(result, 0)
     assert np.isscalar(result)
