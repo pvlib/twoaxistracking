@@ -129,7 +129,7 @@ class TwoAxisTrackerField:
         solar_elevation : array-like
             Solar elevation angles in degrees.
         solar_azimuth : array-like
-            Solar azimuth  angles in degrees.
+            Solar azimuth angles in degrees.
         plot : boolean, default: False
             Whether to plot the unshaded and shading geometries for each solar
             position.
