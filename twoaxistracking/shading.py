@@ -3,10 +3,19 @@ import numpy as np
 from twoaxistracking import plotting
 
 
+def _rotate_origin(x, y, rotation_deg):
+    """Rotate a set of 2D points counterclockwise around the origin (0, 0)."""
+    rotation_rad = np.deg2rad(rotation_deg)
+    # Rotation is set negative to make counterclockwise rotation
+    xx = x * np.cos(-rotation_rad) + y * np.sin(-rotation_rad)
+    yy = -x * np.sin(-rotation_rad) + y * np.cos(-rotation_rad)
+    return xx, yy
+
+
 def shaded_fraction(solar_elevation, solar_azimuth,
                     total_collector_geometry, active_collector_geometry,
-                    min_tracker_spacing, tracker_distance, relative_azimuth,
-                    relative_slope, slope_azimuth=0, slope_tilt=0, plot=False):
+                    L_min, tracker_distance, relative_azimuth, relative_slope,
+                    slope_azimuth=0, slope_tilt=0, plot=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
@@ -19,7 +28,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Polygon corresponding to the total collector area.
     active_collector_geometry: Shapely Polygon or MultiPolygon
         One or more polygons defining the active collector area.
-    min_tracker_spacing: float
+    L_min: float
         Minimum distance between collectors. Used for selecting possible
         shading collectors.
     tracker_distance: array of floats
@@ -48,9 +57,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         return np.nan
     # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
-    elif np.tan(np.deg2rad(solar_elevation)) <= (
-            - np.cos(np.deg2rad(slope_azimuth-solar_azimuth))
-            * np.tan(np.deg2rad(slope_tilt))):
+    elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
         return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth
@@ -68,7 +75,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     unshaded_geometry = active_collector_geometry
     shading_geometries = []
     for i, (x, y) in enumerate(zip(xoff, yoff)):
-        if np.sqrt(x**2+y**2) < min_tracker_spacing:
+        if np.sqrt(x**2+y**2) < L_min:
             # Project the geometry of the shading collector (total area) onto
             # the plane of the reference collector
             shading_geometry = shapely.affinity.translate(total_collector_geometry, x, y)  # noqa: E501
@@ -79,7 +86,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
 
     if plot:
         plotting._plot_shading(active_collector_geometry, unshaded_geometry,
-                               shading_geometries, min_tracker_spacing)
+                               shading_geometries, L_min)
 
     shaded_fraction = 1 - unshaded_geometry.area / active_collector_geometry.area
     return shaded_fraction

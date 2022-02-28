@@ -1,5 +1,5 @@
 import numpy as np
-from shapely import geometry
+from twoaxistracking import plotting
 
 
 def _rotate_origin(x, y, rotation_deg):
@@ -11,18 +11,21 @@ def _rotate_origin(x, y, rotation_deg):
     return xx, yy
 
 
-def _calculate_min_tracker_spacing(collector_geometry):
-    min_tracker_spacing = 2 * collector_geometry.hausdorff_distance(geometry.Point(0, 0))
-    return min_tracker_spacing
-
-
-def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
-                          neighbor_order, aspect_ratio, offset, rotation,
-                          slope_azimuth=0, slope_tilt=0):
+def generate_field_layout(gcr, total_collector_area, L_min, neighbor_order,
+                          aspect_ratio=None, offset=None, rotation=None,
+                          layout_type=None, slope_azimuth=0,
+                          slope_tilt=0, plot=False):
     """
     Generate a regularly-spaced collector field layout.
 
     Field layout parameters and limits are described in [1]_.
+
+    Notes
+    -----
+    The field layout can be specified either by selecting a standard layout
+    using the layout_type argument or by specifying the individual layout
+    parameters aspect_ratio, offset, and rotation. For both cases the ground
+    cover ratio (gcr) needs to be specified.
 
     Any length unit can be used as long as the usage is consistent with the
     collector geometry.
@@ -33,22 +36,26 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
         Ground cover ratio. Ratio of collector area to ground area.
     total_collector_area: float
         Surface area of one collector.
-    min_tracker_spacing: float
+    L_min: float
         Minimum distance between collectors.
     neighbor_order: int
         Order of neighbors to include in layout. neighbor_order=1 includes only
         the 8 directly adjacent collectors.
-    aspect_ratio: float
+    aspect_ratio: float, optional
         Ratio of the spacing in the primary direction to the secondary.
-    offset: float
+    offset: float, optional
         Relative row offset in the secondary direction as fraction of the
         spacing in the primary direction. -0.5 <= offset < 0.5.
-    rotation: float
+    rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
+    layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
+        Specification of the special layout type (only depend on gcr).
     slope_azimuth : float, optional
         Direction of normal to slope on horizontal [degrees]
     slope_tilt : float, optional
         Tilt of slope relative to horizontal [degrees]
+    plot: bool, default: False
+        Whether to plot the field layout.
 
     Returns
     -------
@@ -74,22 +81,48 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     .. [1] `Shading and land use in regularly-spaced sun-tracking collectors, Cumpston & Pye.
        <https://doi.org/10.1016/j.solener.2014.06.012>`_
     """
+    # Consider special layouts which can be defined only by GCR
+    if layout_type == 'square':
+        aspect_ratio = 1
+        offset = 0
+        rotation = 0
+    # Diagonal layout is the square layout rotated 45 degrees
+    elif layout_type == 'diagonal':
+        aspect_ratio = 1
+        offset = 0
+        rotation = 45
+    # Hexagonal layouts are defined by aspect_ratio=0.866 and offset=-0.5
+    elif layout_type == 'hexagonal_n_s':
+        aspect_ratio = np.sqrt(3)/2
+        offset = -0.5
+        rotation = 0
+    # The hexagonal E-W layout is the hexagonal N-S layout rotated 90 degrees
+    elif layout_type == 'hexagonal_e_w':
+        aspect_ratio = np.sqrt(3)/2
+        offset = -0.5
+        rotation = 90
+    elif layout_type is not None:
+        raise ValueError('The layout type specified was not recognized.')
+    elif ((aspect_ratio is None) or (offset is None) or (rotation is None)):
+        raise ValueError('Aspect ratio, offset, and rotation needs to be '
+                         'specified when no layout type has not been selected')
+
     # Check parameters are within their ranges
+    if aspect_ratio < np.sqrt(1-offset**2):
+        raise ValueError('Aspect ratio is too low and not feasible')
+    if aspect_ratio > total_collector_area/(gcr*L_min**2):
+        raise ValueError('Apsect ratio is too high and not feasible')
     if (offset < -0.5) | (offset >= 0.5):
         raise ValueError('The specified offset is outside the valid range.')
     if (rotation < 0) | (rotation >= 180):
         raise ValueError('The specified rotation is outside the valid range.')
-    # Check if Lmin is physically possible given the collector area.
-    if (min_tracker_spacing < np.sqrt(4*total_collector_area/np.pi)):
-        raise ValueError('Lmin is not physically possible.')
     # Check if mimimum and maximum ground cover ratios are exceded
-    gcr_max = total_collector_area / (min_tracker_spacing**2 * np.sqrt(1-offset**2))
+    gcr_max = total_collector_area / (L_min**2 * np.sqrt(1-offset**2))
     if (gcr < 0) or (gcr > gcr_max):
-        raise ValueError('Maximum ground cover ratio exceded or less than 0.')
-    if aspect_ratio < np.sqrt(1-offset**2):
-        raise ValueError('Aspect ratio is too low and not feasible')
-    if aspect_ratio > total_collector_area/(gcr*min_tracker_spacing**2):
-        raise ValueError('Aspect ratio is too high and not feasible')
+        raise ValueError('Maximum ground cover ratio exceded.')
+    # Check if Lmin is physically possible given the collector area.
+    if (L_min < np.sqrt(4*total_collector_area/np.pi)):
+        raise ValueError('Lmin is not physically possible.')
 
     N = 1 + 2 * neighbor_order  # Number of collectors along each side
 
@@ -122,5 +155,9 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     # Relative slope of collectors
     # positive means collector is higher than reference collector
     relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
+
+    # Visualize layout
+    if plot:
+        plotting._plot_field_layout(X, Y, Z, L_min)
 
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
