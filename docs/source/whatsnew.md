@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tilted fields can now be simulated by specifyig the keywords ``slope_azimuth`` and
    ``slope_tilt`` (see PR#7).
 - The code now is able to differentiate between the active area and total area (see PR#11).
-
+- The class TwoAxisTrackerField has been added, which is now the recommended way for using
+  the package and is sufficient for most use cases.
 
 ### Changed
 - Divide code into modules: shading, plotting, and layout
@@ -21,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed names of notebooks
 - Change repository name from "two_axis_tracker_shading" to
   "twoaxistracking"
-- Changed naming of ``L_min`` to ``min_tracker_distance``
+- Changed naming of ``L_min`` to ``min_tracker_spacing``
+- Changed naming of ``collector_area`` to ``total_collector_area``
 
 ### Testing
 - Linting using flake8 was added in PR#11
