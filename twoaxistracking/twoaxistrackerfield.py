@@ -140,10 +140,12 @@ class TwoAxisTrackerField:
             The shaded fractions for the specified collector geometry,
             field layout, and solar angles.
         """
-        # Wrap scalars in an array
-        if isinstance(solar_elevation, (int, float)):
-            solar_elevation = np.array([solar_elevation])
-            solar_azimuth = np.array([solar_azimuth])
+        is_scalar = False
+        # Wrap scalars in a list
+        if isinstance(solar_elevation, np.isscalar):
+            solar_elevation = [solar_elevation]
+            solar_azimuth = [solar_azimuth]
+            is_scalar = True
 
         # Calculate the shaded fraction for each solar position
         shaded_fractions = []
@@ -168,5 +170,7 @@ class TwoAxisTrackerField:
                                          index=solar_elevation.index)
         elif isinstance(solar_elevation, np.ndarray):
             shaded_fractions = np.array(shaded_fractions)
+        elif is_scalar:
+            shaded_fractions = shaded_fractions[0]
 
         return shaded_fractions
