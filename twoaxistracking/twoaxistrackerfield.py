@@ -112,7 +112,13 @@ class TwoAxisTrackerField:
                 slope_tilt=self.slope_tilt)
 
     def plot_field_layout(self):
-        """Plot the field layout."""
+        """Create a plot of the field layout.
+
+        Returns
+        -------
+        fig : matplotlib.figure.Figure
+            Figure with two axes
+        """
         return plotting._plot_field_layout(
             X=self.X, Y=self.Y, Z=self.Z, min_tracker_spacing=self.min_tracker_spacing)
 
