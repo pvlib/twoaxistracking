@@ -24,7 +24,7 @@ STANDARD_FIELD_LAYOUT_PARAMETERS = {
 
 class TwoAxisTrackerField:
     """
-    TwoAxisTrackerField is a convient container for the collector geometry
+    TwoAxisTrackerField is a convenient container for the collector geometry
     and field layout, and allows for calculating the shaded fraction.
 
     Parameters
