@@ -142,7 +142,7 @@ class TwoAxisTrackerField:
         """
         is_scalar = False
         # Wrap scalars in a list
-        if isinstance(solar_elevation, np.isscalar):
+        if np.isscalar(solar_elevation):
             solar_elevation = [solar_elevation]
             solar_azimuth = [solar_azimuth]
             is_scalar = True
