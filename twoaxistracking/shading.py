@@ -48,7 +48,9 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         return np.nan
     # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
-    elif solar_elevation < - np.cos(np.deg2rad(slope_azimuth-solar_azimuth)) * slope_tilt:
+    elif np.tan(np.deg2rad(solar_elevation)) <= (
+            - np.cos(np.deg2rad(slope_azimuth-solar_azimuth))
+            * np.tan(np.deg2rad(slope_tilt))):
         return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth
