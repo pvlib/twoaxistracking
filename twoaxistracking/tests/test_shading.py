@@ -2,7 +2,7 @@ from twoaxistracking import shading
 import numpy as np
 
 
-def test_shading(rectangular_geometry, square_field_layout):
+def test_shading(rectangular_geometry, active_geometry_split, square_field_layout):
     # Test shading calculation
     # Also plots the geometry (ensures no errors are raised)
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
@@ -12,7 +12,7 @@ def test_shading(rectangular_geometry, square_field_layout):
         solar_elevation=3,
         solar_azimuth=120,
         total_collector_geometry=collector_geometry,
-        active_collector_geometry=collector_geometry,
+        active_collector_geometry=active_geometry_split,
         min_tracker_spacing=min_tracker_spacing,
         tracker_distance=tracker_distance,
         relative_azimuth=relative_azimuth,
@@ -20,7 +20,7 @@ def test_shading(rectangular_geometry, square_field_layout):
         slope_azimuth=0,
         slope_tilt=0,
         plot=True)
-    np.testing.assert_allclose(shaded_fraction, 0.191324034)
+    np.testing.assert_allclose(shaded_fraction, 0.190320666774)
 
 
 def test_shading_zero_solar_elevation(rectangular_geometry, square_field_layout):

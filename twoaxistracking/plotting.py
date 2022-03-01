@@ -45,7 +45,7 @@ def _polygons_to_patch_collection(geometries, **kwargs):
     if isinstance(geometries, geometry.Polygon):
         geometries = [geometries]
     elif isinstance(geometries, geometry.MultiPolygon):
-        geometries = list(geometry.geoms)
+        geometries = list(geometries.geoms)
     exteriors = [patches.Polygon(np.array(g.exterior)) for g in geometries]
     path_collection = collections.PatchCollection(exteriors, **kwargs)
     return path_collection

@@ -13,6 +13,16 @@ def rectangular_geometry():
 
 
 @pytest.fixture
+def active_geometry_split():
+    active_collector_geometry = geometry.MultiPolygon([
+        geometry.box(-1.9, -0.9, -0.1, -0.1),
+        geometry.box(0.1, -0.9, 1.9, -0.1),
+        geometry.box(-1.9, 0.1, -0.1, 0.9),
+        geometry.box(0.1, 0.1, 1.9, 0.9)])
+    return active_collector_geometry
+
+
+@pytest.fixture
 def square_field_layout():
     # Corresponds to GCR 0.125 with the rectangular_geometry
     X = np.array([-8, 0, 8, -8, 8, -8, 0, 8])

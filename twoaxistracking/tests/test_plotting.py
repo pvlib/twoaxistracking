@@ -14,10 +14,13 @@ def test_field_layout_plot():
     plt.close('all')
 
 
-def test_shading_plot(rectangular_geometry):
+def test_shading_plot(rectangular_geometry, active_geometry_split):
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    result = plotting._plot_shading(collector_geometry, collector_geometry,
-                                    collector_geometry, min_tracker_spacing)
+    result = plotting._plot_shading(
+        active_geometry_split,
+        collector_geometry,
+        collector_geometry,
+        min_tracker_spacing)
     assert_isinstance(result, plt.Figure)
     plt.close('all')
 

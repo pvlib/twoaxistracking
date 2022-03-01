@@ -167,7 +167,7 @@ class TwoAxisTrackerField:
                 relative_slope=self.relative_slope,
                 slope_azimuth=self.slope_azimuth,
                 slope_tilt=self.slope_tilt,
-                plot=False)
+                plot=plot)
             shaded_fractions.append(shaded_fraction)
 
         # Return the shaded_fractions as the same type as the input
