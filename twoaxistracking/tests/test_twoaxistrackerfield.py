@@ -1,5 +1,4 @@
-from twoaxistracking import layout, twoaxistrackerfield
-from shapely import geometry
+from twoaxistracking import twoaxistrackerfield
 import numpy as np
 import pandas as pd
 import pytest
