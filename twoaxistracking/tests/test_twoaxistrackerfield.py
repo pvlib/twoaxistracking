@@ -5,14 +5,6 @@ import pandas as pd
 import pytest
 
 
-@pytest.fixture
-def rectangular_geometry():
-    collector_geometry = geometry.box(-2, -1, 2, 1)
-    total_collector_area = collector_geometry.area
-    min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
-    return collector_geometry, total_collector_area, min_tracker_spacing
-
-
 def test_invalid_layout_type(rectangular_geometry):
     # Test if ValueError is raised when an incorrect layout_type is specified
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry

@@ -2,7 +2,6 @@ from twoaxistracking import layout
 from shapely import geometry
 import numpy as np
 import pytest
-from conftest import rectangular_geometry, square_field_layout
 
 
 @pytest.fixture

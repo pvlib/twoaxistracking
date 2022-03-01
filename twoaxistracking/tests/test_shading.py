@@ -1,7 +1,5 @@
 from twoaxistracking import shading
-from shapely import geometry
 import numpy as np
-from conftest import rectangular_geometry, square_field_layout
 
 
 def test_shading(rectangular_geometry, square_field_layout):
