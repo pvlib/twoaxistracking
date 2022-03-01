@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from twoaxistracking import plotting, twoaxistrackerfield
-from conftest import assert_isinstance
+from .conftest import assert_isinstance
 import numpy as np
 
 
