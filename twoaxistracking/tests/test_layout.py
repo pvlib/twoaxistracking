@@ -87,7 +87,7 @@ def test_field_slope(rectangular_geometry, square_field_layout_sloped):
             slope_tilt=5)
     np.testing.assert_allclose(X, X_exp)
     np.testing.assert_allclose(Y, Y_exp)
-    np.testing.assert_allclose(Z, Z_exp)
+    np.testing.assert_allclose(Z, Z_exp, atol=10**-9)
     np.testing.assert_allclose(tracker_distance_exp, tracker_distance_exp)
     np.testing.assert_allclose(relative_azimuth, relative_azimuth_exp)
     np.testing.assert_allclose(relative_slope, relative_slope_exp, atol=10**-9)

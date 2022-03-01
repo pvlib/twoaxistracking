@@ -4,6 +4,7 @@ from matplotlib import patches
 from shapely import geometry
 import matplotlib.colors as mcolors
 from matplotlib import cm
+import numpy as np
 
 
 def _plot_field_layout(X, Y, Z, min_tracker_spacing):
@@ -40,10 +41,12 @@ def _polygons_to_patch_collection(geometries, **kwargs):
 
     kwargs are passed to PatchCollection
     """
-    # Convert geometries to a MultiPolygon if it is a Polygon
+    # Convert geometries to a list
     if isinstance(geometries, geometry.Polygon):
-        geometries = geometry.MultiPolygon([geometries])
-    exteriors = [patches.Polygon(g.exterior) for g in geometries]
+        geometries = [geometries]
+    elif isinstance(geometries, geometry.MultiPolygon):
+        geometries = list(geometry.geoms)
+    exteriors = [patches.Polygon(np.array(g.exterior)) for g in geometries]
     path_collection = collections.PatchCollection(exteriors, **kwargs)
     return path_collection
 
