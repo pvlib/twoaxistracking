@@ -9,3 +9,6 @@ Code documentation
 
    shaded_fraction
    generate_field_layout
+   TwoAxisTrackerField
+   TwoAxisTrackerField.get_shaded_fraction
+   TwoAxisTrackerField.plot_field_layout
