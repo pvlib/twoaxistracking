@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "twoaxistracking"
 - Changed naming of ``L_min`` to ``min_tracker_spacing``
 - Changed naming of ``collector_area`` to ``total_collector_area``
+- The field layout parameters are now required when using the
+  {py:func}`twoaxistracking.layout.generate_field_layout` function. The standard field layouts
+  are only available through the TwoAxisTrackerField class.
 
 ### Testing
 - Linting using flake8 was added in PR#11
