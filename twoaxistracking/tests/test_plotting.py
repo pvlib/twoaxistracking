@@ -1,12 +1,7 @@
 import matplotlib.pyplot as plt
-from twoaxistracking import plotting, layout, twoaxistrackerfield
-from shapely import geometry
+from twoaxistracking import plotting, twoaxistrackerfield
+from conftest import rectangular_geometry, assert_isinstance
 import numpy as np
-import pytest
-
-
-def assert_isinstance(obj, klass):
-    assert isinstance(obj, klass), f'got {type(obj)}, expected {klass}'
 
 
 def test_field_layout_plot():
@@ -17,14 +12,6 @@ def test_field_layout_plot():
     result = plotting._plot_field_layout(X, Y, Z, L_min)
     assert_isinstance(result, plt.Figure)
     plt.close('all')
-
-
-@pytest.fixture
-def rectangular_geometry():
-    collector_geometry = geometry.box(-2, -1, 2, 1)
-    total_collector_area = collector_geometry.area
-    min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
-    return collector_geometry, total_collector_area, min_tracker_spacing
 
 
 def test_shading_plot(rectangular_geometry):
