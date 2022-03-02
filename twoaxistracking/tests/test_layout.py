@@ -4,19 +4,6 @@ import numpy as np
 import pytest
 
 
-@pytest.fixture
-def square_field_layout_sloped():
-    # Corresponds to GCR 0.125 with the rectangular_geometry
-    X = np.array([-8, 0, 8, -8, 8, -8, 0, 8])
-    Y = np.array([-8, -8, -8, 0, 0, 8, 8, 8])
-    tracker_distance = (X**2 + Y**2)**0.5
-    relative_azimuth = np.array([225, 180, 135, 270, 90, 315, 0, 45])
-    Z = np.array([0.12372765, 0.06186383, 0, 0.06186383,
-                  -0.06186383, 0, -0.06186383, -0.12372765])
-    relative_slope = np.array([5, 3.53553391, 0, 3.53553391,
-                               -3.53553391, 0, -3.53553391, -5])
-    return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
-
 
 def test_min_tracker_spacing_rectangle(rectangular_geometry):
     # Test calculation of min_tracker_spacing for a rectangular collector
