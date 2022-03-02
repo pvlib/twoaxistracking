@@ -4,7 +4,6 @@ import numpy as np
 import pytest
 
 
-
 def test_min_tracker_spacing_rectangle(rectangular_geometry):
     # Test calculation of min_tracker_spacing for a rectangular collector
     min_tracker_spacing = layout._calculate_min_tracker_spacing(rectangular_geometry[0])
