@@ -1,16 +1,7 @@
-from twoaxistracking import layout, twoaxistrackerfield
-from shapely import geometry
+from twoaxistracking import twoaxistrackerfield
 import numpy as np
 import pandas as pd
 import pytest
-
-
-@pytest.fixture
-def rectangular_geometry():
-    collector_geometry = geometry.box(-2, -1, 2, 1)
-    total_collector_area = collector_geometry.area
-    min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
-    return collector_geometry, total_collector_area, min_tracker_spacing
 
 
 def test_invalid_layout_type(rectangular_geometry):
