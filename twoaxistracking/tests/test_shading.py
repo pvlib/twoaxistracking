@@ -101,3 +101,25 @@ def test_shading_below_hill_horizon(rectangular_geometry, square_field_layout):
         slope_tilt=10,
         plot=False)
     assert shaded_fraction == 1
+
+
+def test_shading_max_elevation_angle(rectangular_geometry, square_field_layout):
+    # Test that shaded_fraction is set to one when the solar elevation angle
+    # is greater than the max_elevation_angle (even though shading may occur)
+    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
+        square_field_layout
+    shaded_fraction = shading.shaded_fraction(
+        solar_elevation=3,  # low solar elevation angle with guaranteed shading
+        solar_azimuth=180,
+        total_collector_geometry=collector_geometry,
+        active_collector_geometry=collector_geometry,
+        min_tracker_spacing=min_tracker_spacing,
+        tracker_distance=tracker_distance,
+        relative_azimuth=relative_azimuth,
+        relative_slope=relative_slope,
+        slope_azimuth=0,
+        slope_tilt=10,
+        max_elevation_angle=2,  # lower than true max angle for testing purposes
+        plot=False)
+    assert shaded_fraction == 1
