@@ -109,6 +109,5 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         plotting._plot_shading(active_collector_geometry, unshaded_geometry,
                                shading_geometries, min_tracker_spacing)
 
-
     shaded_fraction = 1 - unshaded_geometry.area / active_collector_geometry.area
     return shaded_fraction
