@@ -121,6 +121,57 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     relative_azimuth = np.mod(450-np.rad2deg(np.arctan2(Y, X)), 360)
     # Relative slope of collectors
     # positive means collector is higher than reference collector
-    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
+    relative_slope = np.rad2deg(np.arctan(-np.cos(np.deg2rad(slope_azimuth - relative_azimuth))
+                                          * np.tan(np.deg2rad(slope_tilt))))
 
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
+
+
+def get_max_shading_elevation(total_collector_geometry, tracker_distance,
+                              relative_azimuth, relative_slope):
+    """Calculate the maximum elevation angle for which shading can occur.
+
+    Parameters
+    ----------
+    total_collector_geometry: Shapely Polygon
+        Polygon corresponding to the total collector area.
+    tracker_distance: array of floats
+        Distances between neighboring trackers and the reference tracker.
+    relative_azimuth: array of floats
+        Relative azimuth of neighboring trackers - measured clockwise from
+        north [degrees].
+    relative_slope: array of floats
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
+
+    Returns
+    -------
+    max_shading_elevation: float
+        The highest solar elevation angle for which shading can occur for a
+        given field layout and collector geometry [degrees]
+
+    Note
+    ----
+    The maximum shading elevation is calculated for all neighboring trackers
+    and the maximum of these is returned. The maximum shading elevation occurs
+    for a tracker when the corner of the projeted shading geometry and the
+    reference collector align.
+
+    For non-rectangular geometries the maximum shading elevation is a
+    conservative estimate.
+    """
+    # Calculate extent of box bounding the total collector geometry
+    # Should it be the active_colletor_geometry???
+    x_min, y_min, x_max, y_max = total_collector_geometry.bounds
+    # Collector dimensions
+    x_dim = x_max - x_min
+    y_dim = y_max - y_min
+    delta_gamma_rad = np.arcsin(x_dim / tracker_distance)
+    max_elevations = np.rad2deg(np.arcsin(
+        y_dim * np.cos(np.deg2rad(relative_slope)) /
+        (tracker_distance * np.cos(delta_gamma_rad)))) + relative_slope
+    # Set nan values to 90 degrees (no maximum shading elevation)
+    max_elevations = np.nan_to_num(max_elevations, nan=90)
+    # Max elevation angle cannot be less than 0
+    max_elevation = np.max(np.max(max_elevations), 0)
+    return max_elevation
