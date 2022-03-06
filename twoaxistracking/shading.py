@@ -63,8 +63,8 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Tilt of slope relative to horizontal [degrees]. Used to determine
         horizon shading.
     max_elevation_angle : float, optional
-        The maximum elevation angle for which shading may occur. If the solar
-        elevation angle is greater then the shaded fraction is set to zero.
+        The maximum elevation angle for which shading may occur. The shaded
+        fraction is set to zero if the solar elevation is above this.
     plot: bool, default: True
         Whether to plot the projected shadows and unshaded area.
 

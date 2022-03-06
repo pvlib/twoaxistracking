@@ -152,12 +152,13 @@ def get_max_shading_elevation(total_collector_geometry, tracker_distance,
 
     Note
     ----
-    The maximum shading elevation is calculated for all neighboring trackers
-    and the maximum of these is returned. The maximum shading elevation occurs
-    for a tracker when the corner of the projeted shading geometry and the
-    reference collector align.
+    The maximum shading elevation angle is calculated for all neighboring
+    trackers and overall maximum is returned. The maximum shading elevation
+    occurs when one of the upper corners of the projeted shading geometry and
+    the lower corner of the reference collector intersects.
 
-    For non-rectangular geometries the maximum shading elevation is a
+    The calculations are based on the bounding box of the collector geometry,
+    thus for non-rectangular geometries the maximum shading elevation is a
     conservative estimate.
     """
     # Calculate extent of box bounding the total collector geometry
