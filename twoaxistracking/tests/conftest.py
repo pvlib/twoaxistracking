@@ -41,8 +41,8 @@ def square_field_layout_sloped(square_field_layout):
     X, Y, _, tracker_distance, relative_azimuth, _ = square_field_layout
     Z = np.array([0.12372765, 0.06186383, 0, 0.06186383,
                   -0.06186383, 0, -0.06186383, -0.12372765])
-    relative_slope = np.array([5, 3.53553391, 0, 3.53553391,
-                               -3.53553391, 0, -3.53553391, -5])
+    relative_slope = np.array([5, 3.540025, 0, 3.540025,
+                               -3.540025, 0, -3.540025, -5])
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 
