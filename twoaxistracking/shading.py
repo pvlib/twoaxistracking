@@ -3,7 +3,7 @@ import numpy as np
 from twoaxistracking import plotting
 
 
-def get_horizon_elevation_angle(azimuth, slope_azimuth, slope_tilt):
+def horizon_elevation_angle(azimuth, slope_azimuth, slope_tilt):
     """Calculate horizon elevation angle caused by a sloped field.
 
     Parameters
@@ -33,7 +33,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
                     total_collector_geometry, active_collector_geometry,
                     min_tracker_spacing, tracker_distance, relative_azimuth,
                     relative_slope, slope_azimuth=0, slope_tilt=0,
-                    max_elevation_angle=90, plot=False):
+                    max_shading_elevation=90, plot=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
@@ -62,9 +62,12 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     slope_tilt : float
         Tilt of slope relative to horizontal [degrees]. Used to determine
         horizon shading.
-    max_elevation_angle : float, optional
-        The maximum elevation angle for which shading may occur. The shaded
-        fraction is set to zero if the solar elevation is above this.
+    max_shading_elevation : float, optional
+        The maximum elevation angle for which shading may occur. Specifying the
+        max_shading_elevation skips the calculations for which the solar
+        elevation angle is higher and sets the shaded fraction to zero.
+        This reduces the calculation time and results in the same output
+        assuming the correct value has been provided.
     plot: bool, default: True
         Whether to plot the projected shadows and unshaded area.
 
@@ -76,9 +79,13 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
         return np.nan
+    # Set shaded fraction to 0 (unshaded) if solar elevation is higher than
+    # max_shading_elevation
+    elif solar_elevation > max_shading_elevation:
+        return 0
     # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
-    elif solar_elevation <= get_horizon_elevation_angle(solar_azimuth, slope_azimuth, slope_tilt):
+    elif solar_elevation <= horizon_elevation_angle(solar_azimuth, slope_azimuth, slope_tilt):
         return 1
 
     azimuth_difference = solar_azimuth - relative_azimuth

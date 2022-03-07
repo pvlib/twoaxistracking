@@ -127,8 +127,8 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 
-def get_max_shading_elevation(total_collector_geometry, tracker_distance,
-                              relative_azimuth, relative_slope):
+def max_shading_elevation(total_collector_geometry, tracker_distance,
+                              relative_slope):
     """Calculate the maximum elevation angle for which shading can occur.
 
     Parameters
@@ -137,9 +137,6 @@ def get_max_shading_elevation(total_collector_geometry, tracker_distance,
         Polygon corresponding to the total collector area.
     tracker_distance: array of floats
         Distances between neighboring trackers and the reference tracker.
-    relative_azimuth: array of floats
-        Relative azimuth of neighboring trackers - measured clockwise from
-        north [degrees].
     relative_slope: array of floats
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
@@ -153,7 +150,7 @@ def get_max_shading_elevation(total_collector_geometry, tracker_distance,
     Note
     ----
     The maximum shading elevation angle is calculated for all neighboring
-    trackers and overall maximum is returned. The maximum shading elevation
+    trackers and the overall maximum is returned. The maximum shading elevation
     occurs when one of the upper corners of the projected shading geometry and
     the lower corner of the reference collector intersects.
 
@@ -162,7 +159,6 @@ def get_max_shading_elevation(total_collector_geometry, tracker_distance,
     conservative estimate.
     """
     # Calculate extent of box bounding the total collector geometry
-    # Should it be the active_colletor_geometry???
     x_min, y_min, x_max, y_max = total_collector_geometry.bounds
     # Collector dimensions
     x_dim = x_max - x_min

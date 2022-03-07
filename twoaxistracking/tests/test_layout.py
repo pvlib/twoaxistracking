@@ -147,12 +147,12 @@ def test_neighbor_order(rectangular_geometry):
     assert len(X) == (7*7-1)
 
 
-def test_calculation_of_max_elevation_angle(rectangular_geometry, square_field_layout):
+def test_calculation_of_max_shading_elevation(rectangular_geometry, square_field_layout):
     # Test that the maximum elevation angle for which shading can occur is
     # calculated correctly
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         square_field_layout
-    max_elevation_angle = layout.get_max_shading_elevation(
-        collector_geometry, tracker_distance, relative_azimuth, relative_slope)
-    np.testing.assert_allclose(max_elevation_angle, 16.778655)
+    max_shading_elevation = layout.max_shading_elevation(
+        collector_geometry, tracker_distance, relative_slope)
+    np.testing.assert_allclose(max_shading_elevation, 16.778655)

@@ -112,9 +112,8 @@ class TwoAxisTrackerField:
                 slope_tilt=self.slope_tilt)
 
         # Calculate the maximum elevation angle for which shading can occcur
-        self.max_elevation_angle = layout.get_max_shading_elevation(
-            self.total_collector_geometry, self.tracker_distance,
-            self.relative_azimuth, self.relative_slope)
+        self.max_shading_elevation = layout.max_shading_elevation(
+            self.total_collector_geometry, self.tracker_distance, self.relative_slope)
 
     def plot_field_layout(self):
         """Create a plot of the field layout.
@@ -172,7 +171,7 @@ class TwoAxisTrackerField:
                 relative_slope=self.relative_slope,
                 slope_azimuth=self.slope_azimuth,
                 slope_tilt=self.slope_tilt,
-                max_elevation_angle=self.max_elevation_angle,
+                max_shading_elevation=self.max_shading_elevation,
                 plot=plot)
             shaded_fractions.append(shaded_fraction)
 
