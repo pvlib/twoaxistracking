@@ -128,7 +128,7 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
 
 
 def max_shading_elevation(total_collector_geometry, tracker_distance,
-                              relative_slope):
+                          relative_slope):
     """Calculate the maximum elevation angle for which shading can occur.
 
     Parameters
