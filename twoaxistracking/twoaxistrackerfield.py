@@ -73,6 +73,11 @@ class TwoAxisTrackerField:
         self.min_tracker_spacing = \
             layout._calculate_min_tracker_spacing(self.total_collector_geometry)
 
+        # Ensure that the total collector area contains the active areas
+        if self.total_collector_geometry.contains(self.active_collector_geometry) is False:
+            raise ValueError('The total collector geometry does not completely'
+                             ' enclose the active collector geometry.')
+
         # Standard layout parameters
         if layout_type is not None:
             if layout_type not in list(STANDARD_FIELD_LAYOUT_PARAMETERS):
