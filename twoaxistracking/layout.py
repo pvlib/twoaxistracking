@@ -164,11 +164,15 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     x_dim = x_max - x_min
     y_dim = y_max - y_min
     delta_gamma_rad = np.arcsin(x_dim / tracker_distance)
-    max_elevations = np.rad2deg(np.arcsin(
+    # Calculate max elevation based on the bounding box (rectangular)
+    max_elevations_rectangular = np.rad2deg(np.arcsin(
         y_dim * np.cos(np.deg2rad(relative_slope)) /
         (tracker_distance * np.cos(delta_gamma_rad)))) + relative_slope
-    # Set nan values to 90 degrees (no maximum shading elevation)
-    max_elevations = np.nan_to_num(max_elevations, nan=90)
+    # Calculate max elevations using the minimum bounding diameter (circular)
+    D_min = _calculate_min_tracker_spacing(total_collector_geometry)
+    max_elevations_circular = np.rad2deg(np.arcsin(
+        (D_min * np.cos(np.deg2rad(relative_slope)))/tracker_distance)) \
+        + relative_slope
     # Max elevation angle cannot be less than 0
-    max_elevation = np.max(np.max(max_elevations), 0)
+    max_elevation = np.nanmin([np.nanmax(max_elevations_rectangular), np.nanmax(max_elevations_circular)])
     return max_elevation

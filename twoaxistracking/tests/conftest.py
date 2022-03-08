@@ -13,6 +13,15 @@ def rectangular_geometry():
 
 
 @pytest.fixture
+def circular_geometry():
+    # A circular collector centered at (0,0) and has a radius of 1
+    collector_geometry = geometry.Point(0, 0).buffer(1)
+    total_collector_area = collector_geometry.area
+    min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
+    return collector_geometry, total_collector_area, min_tracker_spacing
+
+
+@pytest.fixture
 def active_geometry_split():
     active_collector_geometry = geometry.MultiPolygon([
         geometry.box(-1.9, -0.9, -0.1, -0.1),
