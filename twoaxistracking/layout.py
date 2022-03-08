@@ -174,5 +174,6 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
         (D_min * np.cos(np.deg2rad(relative_slope)))/tracker_distance)) \
         + relative_slope
     # Max elevation angle cannot be less than 0
-    max_elevation = np.nanmin([np.nanmax(max_elevations_rectangular), np.nanmax(max_elevations_circular)])
+    max_elevation = np.nanmin([np.nanmax(max_elevations_rectangular),
+                               np.nanmax(max_elevations_circular)])
     return max_elevation
