@@ -56,10 +56,10 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     relative_slope: array of floats
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
-    slope_azimuth : float
+    slope_azimuth : float, optional
         Direction of normal to slope on horizontal [degrees]. Used to determine
         horizon shading.
-    slope_tilt : float
+    slope_tilt : float, optional
         Tilt of slope relative to horizontal [degrees]. Used to determine
         horizon shading.
     max_shading_elevation : float, optional

@@ -150,13 +150,19 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     Note
     ----
     The maximum shading elevation angle is calculated for all neighboring
-    trackers and the overall maximum is returned. The maximum shading elevation
-    occurs when one of the upper corners of the projected shading geometry and
-    the lower corner of the reference collector intersects.
+    trackers using the bounding box geometry and the bounding circle. For
+    rectangular collectors (as approximated when using the bounding box), the
+    maximum shading elevation occurs when one of the upper corners of the
+    projected shading geometry and the lower corner of the reference collector
+    intersects. For circular collectors (as approximated by the bounding
+    cirlce), the maximum elevation occurs when the projected shadow is directly
+    below the reference collector and the two circles tangent to each other.
 
-    The calculations are based on the bounding box of the collector geometry,
-    thus for non-rectangular geometries the maximum shading elevation is a
-    conservative estimate.
+    The maximum elevation is calculated using both the bounding box and the
+    bounding circle, and the minimum of these two elevations is returned. For
+    rectangular and circular collectors, the maximum elevation is exact,
+    whereas for other geometries, the returned elevation is a conservative
+    estimate.
     """
     # Calculate extent of box bounding the total collector geometry
     x_min, y_min, x_max, y_max = total_collector_geometry.bounds
@@ -173,7 +179,7 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     max_elevations_circular = np.rad2deg(np.arcsin(
         (D_min * np.cos(np.deg2rad(relative_slope)))/tracker_distance)) \
         + relative_slope
-    # Max elevation angle cannot be less than 0
+    # Compute max elevation
     max_elevation = np.nanmin([np.nanmax(max_elevations_rectangular),
                                np.nanmax(max_elevations_circular)])
     return max_elevation

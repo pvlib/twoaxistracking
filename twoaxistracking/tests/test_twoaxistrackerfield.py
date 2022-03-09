@@ -179,6 +179,8 @@ def test_calculation_of_shaded_fraction_array(rectangular_geometry, solar_positi
 def test_calculation_of_shaded_fraction_float(rectangular_geometry):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are scalar
+    # Also tests that no error is raised when total and active geometries are
+    # identical.
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     field = twoaxistrackerfield.TwoAxisTrackerField(
         total_collector_geometry=collector_geometry,
