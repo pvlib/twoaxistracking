@@ -17,9 +17,9 @@ Contributions to the repository, e.g., bug fixes, feature request are more than 
 
 ## Citing
 If you use the package in published work, please cite:
-> Adam R. Jensen et al. 2022.
-> "Self-shading of two-axis tracking solar collectors: Impact of field layout, latitude, and aperture shape."
-> Solar Energy (2022). [https://doi.org/10.1016/j.solener.2022.02.023](https://doi.org/10.1016/j.solener.2022.02.023)
+> Adam R. Jensen, Ioannis Sifnaios, Janne Dragsted, and Simon Furbo. "Self-shading of two-axis
+> tracking solar collectors: Impact of field layout, latitude, and aperture shape." Solar
+> Energy, 236, 215–224, (2022). [https://doi.org/10.1016/j.solener.2022.02.023](https://doi.org/10.1016/j.solener.2022.02.023)
 
 
 ```{toctree}
