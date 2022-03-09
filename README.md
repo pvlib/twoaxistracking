@@ -9,19 +9,11 @@ The package can be installed using pip:
 
     pip install twoaxistracking
 
-The main non-standard dependency is `shapely`, which handles the geometric operations. It is recommended to install `shapely` using conda, which can be done by executing the following command in an Anaconda Prompt:
-
-    conda install shapely
-
-The solar modeling library `pvlib` is recommended for calculating the solar position and can be installed by the command:
-
-    pip install pvlib
-
 ## Citing
 If you use the package in published work, please cite:
-> Adam R. Jensen et al. 2022.
-> "Self-shading of two-axis tracking solar collectors: Impact of field layout, latitude, and aperture shape."
-> Accepted in Solar Energy.
+> Adam R. Jensen, Ioannis Sifnaios, Simon Furbo, and Janne Dragsted. "Self-shading of two-axis
+> tracking solar collectors: Impact of field layout, latitude, and aperture shape." Solar
+> Energy, 236, 215–224, (2022). [https://doi.org/10.1016/j.solener.2022.02.023](https://doi.org/10.1016/j.solener.2022.02.023)
 
 ## Contributing
 Contributions to the repository, e.g., bug fixes and improvements to speed up the code are more than welcome.
