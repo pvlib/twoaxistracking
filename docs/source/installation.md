@@ -1,6 +1,6 @@
 # Installation
 
-The package can be installed from [PyPi](https://pypi.org/) with the following command:
+The package can be installed from [PyPI](https://pypi.org/) with the following command:
 
     pip install twoaxistracking
 

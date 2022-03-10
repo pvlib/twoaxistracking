@@ -1,7 +1,7 @@
 """
-The ``TwoAxisTrackerField`` module contains functions and classes that
+The `TrackerField` module contains functions and classes that
 combine the collector definition, field layout generation, and shading
-calculation steps. Using the `TwoAxisTrackerField` class make it easy to
+calculation steps. Using the `TrackerField` class make it easy to
 get started with the package and keeps track of the variables that are
 passed from one function to the next.
 """
@@ -22,9 +22,9 @@ STANDARD_FIELD_LAYOUT_PARAMETERS = {
 }
 
 
-class TwoAxisTrackerField:
+class TrackerField:
     """
-    TwoAxisTrackerField is a convenient container for the collector geometry
+    TrackerField is a convenient container for the collector geometry
     and field layout, and allows for calculating the shaded fraction.
 
     Parameters
@@ -135,7 +135,7 @@ class TwoAxisTrackerField:
                             plot=False):
         """Calculate the shaded fraction for the specified solar positions.
 
-        Uses the :py:func:`twoaxistracking.shaded_fraction` function to
+        Uses the :py:func:`tracking.shaded_fraction` function to
         calculate the shaded fraction for the specified solar elevation and
         azimuth angles.
 

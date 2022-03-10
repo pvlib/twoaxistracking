@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from twoaxistracking import plotting, twoaxistrackerfield
+from twoaxistracking import plotting, trackerfield
 from .conftest import assert_isinstance
 import numpy as np
 
@@ -28,7 +28,7 @@ def test_shading_plot(rectangular_geometry, active_geometry_split):
 def test_plotting_of_field_layout(rectangular_geometry):
     # Test if plot_field_layout returns a figure object
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=1,
