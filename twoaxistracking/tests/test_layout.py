@@ -145,3 +145,33 @@ def test_neighbor_order(rectangular_geometry):
             offset=0,
             rotation=0)
     assert len(X) == (7*7-1)
+
+
+def test_calculation_of_max_shading_elevation_rectangle(rectangular_geometry, square_field_layout):
+    # Test that the maximum elevation angle for which shading can occur is
+    # calculated correctly for rectangular collectors
+    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
+        square_field_layout
+    max_shading_elevation = layout.max_shading_elevation(
+        collector_geometry, tracker_distance, relative_slope)
+    np.testing.assert_allclose(max_shading_elevation, 16.77865488)
+
+
+def test_calculation_of_max_shading_elevation_circle(circular_geometry):
+    # Test that the maximum elevation angle for which shading can occur is
+    # calculated correctly for closely packed circular collectors
+    collector_geometry, total_collector_area, min_tracker_spacing = circular_geometry
+    X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
+        layout.generate_field_layout(
+            gcr=0.5,
+            total_collector_area=total_collector_area,
+            min_tracker_spacing=min_tracker_spacing,
+            neighbor_order=2,
+            aspect_ratio=1,
+            offset=0,
+            rotation=0)
+
+    max_shading_elevation = layout.max_shading_elevation(
+        collector_geometry, tracker_distance, relative_slope)
+    np.testing.assert_allclose(max_shading_elevation, 43.16784217)

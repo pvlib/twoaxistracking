@@ -13,6 +13,15 @@ def rectangular_geometry():
 
 
 @pytest.fixture
+def circular_geometry():
+    # A circular collector centered at (0,0) and has a radius of 2
+    collector_geometry = geometry.Point(0, 0).buffer(2)
+    total_collector_area = collector_geometry.area
+    min_tracker_spacing = layout._calculate_min_tracker_spacing(collector_geometry)
+    return collector_geometry, total_collector_area, min_tracker_spacing
+
+
+@pytest.fixture
 def active_geometry_split():
     active_collector_geometry = geometry.MultiPolygon([
         geometry.box(-1.9, -0.9, -0.1, -0.1),
@@ -41,8 +50,8 @@ def square_field_layout_sloped(square_field_layout):
     X, Y, _, tracker_distance, relative_azimuth, _ = square_field_layout
     Z = np.array([0.12372765, 0.06186383, 0, 0.06186383,
                   -0.06186383, 0, -0.06186383, -0.12372765])
-    relative_slope = np.array([5, 3.53553391, 0, 3.53553391,
-                               -3.53553391, 0, -3.53553391, -5])
+    relative_slope = np.array([5, 3.540025, 0, 3.540025,
+                               -3.540025, 0, -3.540025, -5])
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
 
 

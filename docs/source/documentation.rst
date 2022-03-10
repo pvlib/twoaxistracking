@@ -12,3 +12,5 @@ Code documentation
    TwoAxisTrackerField
    TwoAxisTrackerField.get_shaded_fraction
    TwoAxisTrackerField.plot_field_layout
+   layout.max_shading_elevation
+   shading.horizon_elevation_angle

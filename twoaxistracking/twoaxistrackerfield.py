@@ -73,6 +73,11 @@ class TwoAxisTrackerField:
         self.min_tracker_spacing = \
             layout._calculate_min_tracker_spacing(self.total_collector_geometry)
 
+        # Ensure that the total collector area contains the active areas
+        if self.total_collector_geometry.contains(self.active_collector_geometry) is False:
+            raise ValueError('The total collector geometry does not completely'
+                             ' enclose the active collector geometry.')
+
         # Standard layout parameters
         if layout_type is not None:
             if layout_type not in list(STANDARD_FIELD_LAYOUT_PARAMETERS):
@@ -110,6 +115,10 @@ class TwoAxisTrackerField:
                 rotation=self.rotation,
                 slope_azimuth=self.slope_azimuth,
                 slope_tilt=self.slope_tilt)
+
+        # Calculate the maximum elevation angle for which shading can occcur
+        self.max_shading_elevation = layout.max_shading_elevation(
+            self.total_collector_geometry, self.tracker_distance, self.relative_slope)
 
     def plot_field_layout(self):
         """Create a plot of the field layout.
@@ -167,6 +176,7 @@ class TwoAxisTrackerField:
                 relative_slope=self.relative_slope,
                 slope_azimuth=self.slope_azimuth,
                 slope_tilt=self.slope_tilt,
+                max_shading_elevation=self.max_shading_elevation,
                 plot=plot)
             shaded_fractions.append(shaded_fraction)
 

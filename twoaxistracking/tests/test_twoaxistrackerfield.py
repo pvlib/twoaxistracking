@@ -179,6 +179,8 @@ def test_calculation_of_shaded_fraction_array(rectangular_geometry, solar_positi
 def test_calculation_of_shaded_fraction_float(rectangular_geometry):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are scalar
+    # Also tests that no error is raised when total and active geometries are
+    # identical.
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     field = twoaxistrackerfield.TwoAxisTrackerField(
         total_collector_geometry=collector_geometry,
@@ -192,3 +194,19 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry):
     result = field.get_shaded_fraction(40, 180)
     np.testing.assert_allclose(result, 0)
     assert np.isscalar(result)
+
+
+def test_total_collector_geometry_encloses_active_areas(rectangular_geometry, circular_geometry):
+    # Test that ValueError is raised if the aperture collector geometry is not
+    # completely enclosed by the total collector geometry
+    rectangular_collector, total_collector_area, min_tracker_spacing = rectangular_geometry
+    circular_collector, total_collector_area, min_tracker_spacing = circular_geometry
+    with pytest.raises(ValueError, match="does not completely enclose"):
+        _ = twoaxistrackerfield.TwoAxisTrackerField(
+            total_collector_geometry=rectangular_collector,
+            active_collector_geometry=circular_collector,
+            neighbor_order=1,
+            gcr=0.1,
+            aspect_ratio=1,
+            offset=0,
+            rotation=0)
