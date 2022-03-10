@@ -1,5 +1,5 @@
 """
-The `TrackerField` module contains functions and classes that
+The `trackerfield` module contains functions and classes that
 combine the collector definition, field layout generation, and shading
 calculation steps. Using the `TrackerField` class make it easy to
 get started with the package and keeps track of the variables that are
@@ -135,7 +135,7 @@ class TrackerField:
                             plot=False):
         """Calculate the shaded fraction for the specified solar positions.
 
-        Uses the :py:func:`tracking.shaded_fraction` function to
+        Uses the :py:func:`twoaxistracking.shading.shaded_fraction` function to
         calculate the shaded fraction for the specified solar elevation and
         azimuth angles.
 
