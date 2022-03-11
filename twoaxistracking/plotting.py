@@ -4,7 +4,6 @@ from matplotlib import patches
 from shapely import geometry
 import matplotlib.colors as mcolors
 from matplotlib import cm
-import numpy as np
 
 
 def _plot_field_layout(X, Y, Z, min_tracker_spacing):
