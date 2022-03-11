@@ -36,8 +36,8 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     min_tracker_spacing: float
         Minimum distance between collectors.
     neighbor_order: int
-        Order of neighbors to include in layout. neighbor_order=1 includes only
-        the 8 directly adjacent collectors.
+        Order of neighbors to include in layout. It is recommended to use a
+        neighbor order of 2.
     aspect_ratio: float
         Ratio of the spacing in the primary direction to the secondary.
     offset: float
@@ -133,11 +133,11 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
 
     Parameters
     ----------
-    total_collector_geometry: Shapely Polygon
+    total_collector_geometry: :py:class:`Shapely Polygon <Polygon>`
         Polygon corresponding to the total collector area.
-    tracker_distance: array of floats
+    tracker_distance: array-like
         Distances between neighboring trackers and the reference tracker.
-    relative_slope: array of floats
+    relative_slope: array-like
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
 

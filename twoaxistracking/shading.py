@@ -42,33 +42,33 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Solar elevation angle in degrees.
     solar_azimuth: float
         Solar azimuth angle in degrees.
-    total_collector_geometry: Shapely Polygon
+    total_collector_geometry: :py:class:`Shapely Polygon <Polygon>`
         Polygon corresponding to the total collector area.
-    active_collector_geometry: Shapely Polygon or MultiPolygon
+    active_collector_geometry: :py:class:`Shapely Polygon <Polygon>` or :py:class:`MultiPolygon`
         One or more polygons defining the active collector area.
     min_tracker_spacing: float
         Minimum distance between collectors. Used for selecting possible
         shading collectors.
-    tracker_distance: array of floats
+    tracker_distance: array-like
         Distances between neighboring trackers and reference tracker.
-    relative_azimuth: array of floats
+    relative_azimuth: array-like
         Relative azimuth between neigboring trackers and reference tracker.
-    relative_slope: array of floats
+    relative_slope: array-like
         Slope between neighboring trackers and reference tracker. A positive
         slope means neighboring collector is higher than reference collector.
     slope_azimuth : float, optional
         Direction of normal to slope on horizontal [degrees]. Used to determine
         horizon shading.
-    slope_tilt : float, optional
+    slope_tilt : float, default : 0
         Tilt of slope relative to horizontal [degrees]. Used to determine
         horizon shading.
-    max_shading_elevation : float, optional
+    max_shading_elevation : float, default : 0
         The maximum elevation angle for which shading may occur. Specifying the
-        max_shading_elevation skips the calculations for which the solar
+        ``max_shading_elevation`` skips the calculations for which the solar
         elevation angle is higher and sets the shaded fraction to zero.
         This reduces the calculation time and results in the same output
         assuming the correct value has been provided.
-    plot: bool, default: True
+    plot: bool, default: False
         Whether to plot the projected shadows and unshaded area.
 
     Returns
