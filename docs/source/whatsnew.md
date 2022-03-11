@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Testing
 - Linting using flake8 was added in PR#11
+- Test coverage was added in PR#14 and PR#16
 
 ## [0.1.0] - 2022-01-25
 This was the first release, containing the main functions and notebooks.
