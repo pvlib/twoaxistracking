@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.2.0] - 2022-03-11
+The code in the second release is a complet restructure in order for the code to be 
+made into a package and available on PyPI.
 
 ### Added
 - Added automatic documentation using Sphinx and autosummary
@@ -14,8 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    ``slope_tilt`` (see PR#7).
 - The code now is able to differentiate between the active area and total area (see PR#11).
 - The class {:py:class:}`twoaxistracking.TrackerField` has been added, which is now the recommended way for using
-- The class `TrackerField` has been added, which is now the recommended way for using
   the package and is sufficient for most use cases.
+- Added {:py:func}`twoaxistracking.layout.max_shading_elevation` for calculating the
+  maximum elevation for which shading can occur for a specific field layout and collector geoemtry.
+- Added {:py:func}`twoaxistracking.shading.horizon_elevation_angle` for calculating the
+  horizon angle caused by having a sloped field.
+
 
 ### Changed
 - Divide code into modules: shading, plotting, and layout
