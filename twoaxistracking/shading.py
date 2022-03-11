@@ -8,7 +8,7 @@ def horizon_elevation_angle(azimuth, slope_azimuth, slope_tilt):
 
     Parameters
     ----------
-    azimuth : float
+    azimuth : array-like
         Azimuth angle for which the horizon elevation angle is to be calculated
         [degrees]
     slope_azimuth : float
