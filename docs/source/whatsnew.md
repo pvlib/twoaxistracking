@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2022-03-12
+Add pandas as required dependency and fix the workflow file responsible for uploading
+the pacakge to PyPI.
+
+### Added
+- Added pandas to the list of required dependencies
+
+
 ## [0.2.0] - 2022-03-11
 The code in the second release is a complete restructure in order for the code to be 
 made into a package and available on PyPI.
