@@ -1,4 +1,4 @@
-from twoaxistracking import twoaxistrackerfield
+from twoaxistracking import trackerfield
 import numpy as np
 import pandas as pd
 import pytest
@@ -8,7 +8,7 @@ def test_invalid_layout_type(rectangular_geometry):
     # Test if ValueError is raised when an incorrect layout_type is specified
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     with pytest.raises(ValueError, match="Layout type must be one of"):
-        _ = twoaxistrackerfield.TwoAxisTrackerField(
+        _ = trackerfield.TrackerField(
             total_collector_geometry=collector_geometry,
             active_collector_geometry=collector_geometry,
             neighbor_order=1,
@@ -19,7 +19,7 @@ def test_invalid_layout_type(rectangular_geometry):
 def test_square_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the square layout
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=2,
@@ -34,7 +34,7 @@ def test_square_layout_type(rectangular_geometry):
 def test_diagonal_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=2,
@@ -49,7 +49,7 @@ def test_diagonal_layout_type(rectangular_geometry):
 def test_hexagonal_n_s_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=4,
@@ -64,7 +64,7 @@ def test_hexagonal_n_s_layout_type(rectangular_geometry):
 def test_hexagonal_e_w_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=4,
@@ -80,7 +80,7 @@ def test_unspecifed_layout_type(rectangular_geometry):
     # Test if ValueError is raised when one or more layout parameters are unspecified
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
     with pytest.raises(ValueError, match="needs to be specified"):
-        _ = twoaxistrackerfield.TwoAxisTrackerField(
+        _ = trackerfield.TrackerField(
             total_collector_geometry=collector_geometry,
             active_collector_geometry=collector_geometry,
             neighbor_order=1,
@@ -113,7 +113,7 @@ def test_calculation_of_shaded_fraction_list(rectangular_geometry, solar_positio
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are lists
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=1,
@@ -134,7 +134,7 @@ def test_calculation_of_shaded_fraction_series(
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are pandas Series
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=1,
@@ -161,7 +161,7 @@ def test_calculation_of_shaded_fraction_array(rectangular_geometry, solar_positi
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are numpy arrays
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=1,
@@ -182,7 +182,7 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry):
     # Also tests that no error is raised when total and active geometries are
     # identical.
     collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
-    field = twoaxistrackerfield.TwoAxisTrackerField(
+    field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
         neighbor_order=1,
@@ -202,7 +202,7 @@ def test_total_collector_geometry_encloses_active_areas(rectangular_geometry, ci
     rectangular_collector, total_collector_area, min_tracker_spacing = rectangular_geometry
     circular_collector, total_collector_area, min_tracker_spacing = circular_geometry
     with pytest.raises(ValueError, match="does not completely enclose"):
-        _ = twoaxistrackerfield.TwoAxisTrackerField(
+        _ = trackerfield.TrackerField(
             total_collector_geometry=rectangular_collector,
             active_collector_geometry=circular_collector,
             neighbor_order=1,

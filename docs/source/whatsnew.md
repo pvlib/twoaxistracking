@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tilted fields can now be simulated by specifyig the keywords ``slope_azimuth`` and
    ``slope_tilt`` (see PR#7).
 - The code now is able to differentiate between the active area and total area (see PR#11).
-- The class TwoAxisTrackerField has been added, which is now the recommended way for using
+- The class `TrackerField` has been added, which is now the recommended way for using
   the package and is sufficient for most use cases.
 
 ### Changed
@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed naming of ``collector_area`` to ``total_collector_area``
 - The field layout parameters are now required when using the
   {py:func}`twoaxistracking.layout.generate_field_layout` function. The standard field layouts
-  are only available through the TwoAxisTrackerField class.
+  are only available through the `TrackerField` class.
 
 ### Testing
 - Linting using flake8 was added in PR#11
