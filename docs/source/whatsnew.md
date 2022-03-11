@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    ``slope_tilt`` (see PR#7).
 - The code now is able to differentiate between the active area and total area (see PR#11).
 - The class {:py:class:}`twoaxistracking.TrackerField` has been added, which is now the recommended way for using
+- The class `TrackerField` has been added, which is now the recommended way for using
   the package and is sufficient for most use cases.
 
 ### Changed

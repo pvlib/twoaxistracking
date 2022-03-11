@@ -1,7 +1,7 @@
 """
-The ``TwoAxisTrackerField`` module contains functions and classes that
+The `trackerfield` module contains functions and classes that
 combine the collector definition, field layout generation, and shading
-calculation steps. Using the `TwoAxisTrackerField` class make it easy to
+calculation steps. Using the `TrackerField` class make it easy to
 get started with the package and keeps track of the variables that are
 passed from one function to the next.
 """
@@ -22,24 +22,24 @@ STANDARD_FIELD_LAYOUT_PARAMETERS = {
 }
 
 
-class TwoAxisTrackerField:
+class TrackerField:
     """
-    TwoAxisTrackerField is a convenient container for the collector geometry
+    TrackerField is a convenient container for the collector geometry
     and field layout, and allows for calculating the shaded fraction.
 
     Parameters
     ----------
-    total_collector_geometry: Shapely Polygon
+    total_collector_geometry: :py:class:`Shapely Polygon <Polygon>`
         Polygon corresponding to the total collector area.
-    active_collector_geometry: Shapely Polygon or MultiPolygon
+    active_collector_geometry: :py:class:`Shapely Polygon <Polygon>` or :py:class:`MultiPolygon`
         One or more polygons defining the active collector area.
     neighbor_order: int
-        Order of neighbors to include in layout. neighbor_order=1 includes only
-        the 8 directly adjacent collectors.
+        Order of neighbors to include in layout. It is recommended to use a
+        neighbor order of two.
     gcr: float
         Ground cover ratio. Ratio of collector area to ground area.
     layout_type: {square, square_rotated, hexagon_e_w, hexagon_n_s}, optional
-        Specification of the special layout type (only depend on gcr).
+        Specification of the special layout type (only depends on gcr).
     aspect_ratio: float, optional
         Ratio of the spacing in the primary direction to the secondary.
     offset: float, optional
@@ -47,17 +47,17 @@ class TwoAxisTrackerField:
         spacing in the secondary direction. -0.5 <= offset < 0.5.
     rotation: float, optional
         Counterclockwise rotation of the field in degrees. 0 <= rotation < 180
-    slope_azimuth : float, optional
+    slope_azimuth : float, default : 0
         Direction of normal to slope on horizontal [degrees]
-    slope_tilt : float, optional
+    slope_tilt : float, default : 0
         Tilt of slope relative to horizontal [degrees]
 
     Notes
     -----
     The field layout can be specified either by selecting a standard layout
-    using the layout_type argument or by specifying the individual layout
-    parameters aspect_ratio, offset, and rotation. For both cases the ground
-    cover ratio (gcr) needs to be specified.
+    using the ``layout_type`` argument or by specifying the individual layout
+    parameters ``aspect_ratio``, ``offset``, and ``rotation``. For both cases
+    the ground cover ratio (``gcr``) needs to be specified.
     """
 
     def __init__(self, total_collector_geometry, active_collector_geometry,
