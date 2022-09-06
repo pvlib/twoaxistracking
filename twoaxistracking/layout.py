@@ -182,5 +182,6 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     # Compute max elevation (if both contain nan, then set max_elevation to 90)
     max_elevation = np.min(
         [np.nan_to_num(max_elevations_rectangular, nan=90).max(),
-          np.nan_to_num(max_elevations_circular, nan=90).max()])
+         np.nan_to_num(max_elevations_circular, nan=90).max()])
+
     return max_elevation
