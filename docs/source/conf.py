@@ -51,6 +51,12 @@ html_title = 'Two-axis tracking'
 html_logo = "_static/twoaxistracking_logo.svg"
 html_favicon = "_static/twoaxistracking_logo.svg"
 
+html_theme_options = {
+    "repository_url": "https://github.com/pvlib/twoaxistracking",
+    "use_issues_button": True,
+    "use_repository_button": True,
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
