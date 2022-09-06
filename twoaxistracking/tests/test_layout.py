@@ -174,4 +174,4 @@ def test_calculation_of_max_shading_elevation_circle(circular_geometry):
 
     max_shading_elevation = layout.max_shading_elevation(
         collector_geometry, tracker_distance, relative_slope)
-    np.testing.assert_allclose(max_shading_elevation, 43.16784217)
+    np.testing.assert_allclose(max_shading_elevation, 52.989564)
