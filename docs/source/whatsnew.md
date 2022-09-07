@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.2.2]
+An important bug fix and enhancement of the documentation.
+
+### Changed
+- Fix bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
+
+### Added
+- Button on the documentation website liking to GitHub (see PR#27).
+
+
 ## [0.2.1] - 2022-03-11
 Add pandas as a required dependency and fix the workflow file responsible for
 uploading the package to PyPI.
