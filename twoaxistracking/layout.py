@@ -166,7 +166,7 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     """
     # Calculate extent of box bounding the total collector geometry
     x_min, y_min, x_max, y_max = total_collector_geometry.bounds
-    # Collector dimensions
+    # Collector rectangular bounding box dimensions
     x_dim = x_max - x_min
     y_dim = y_max - y_min
     delta_gamma_rad = np.arcsin(x_dim / tracker_distance)
@@ -179,7 +179,9 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     max_elevations_circular = np.rad2deg(np.arcsin(
         (D_min * np.cos(np.deg2rad(relative_slope)))/tracker_distance)) \
         + relative_slope
-    # Compute max elevation
-    max_elevation = np.nanmin([np.nanmax(max_elevations_rectangular),
-                               np.nanmax(max_elevations_circular)])
+    # Compute max elevation (if both contain nan, then set max_elevation to 90)
+    max_elevation = np.min(
+        [np.nan_to_num(max_elevations_rectangular, nan=90).max(),
+         np.nan_to_num(max_elevations_circular, nan=90).max()])
+
     return max_elevation
