@@ -12,7 +12,7 @@ An important bug fix and enhancement of the documentation.
 - Fix bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
 
 ### Added
-- Button on the documentation website liking to GitHub (see PR#27).
+- Button on the documentation website linking to GitHub (see PR#27).
 
 
 ## [0.2.1] - 2022-03-11
