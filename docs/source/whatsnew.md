@@ -13,6 +13,7 @@ An important bug fix and enhancement of the documentation.
 
 ### Added
 - Button on the documentation website linking to GitHub (see PR#27).
+- Notebook on the validation of the annual shading fraction calculation (see PR#29).
 
 
 ## [0.2.1] - 2022-03-11
