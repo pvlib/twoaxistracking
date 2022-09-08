@@ -6,15 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [0.2.2]
-An important bug fix and enhancement of the documentation.
+This update includes a bug fix in the calculation of the maximum shading elevation
+and addition of a section on validation to the documentation.
 
 ### Changed
 - Fix bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
-- Increased version of myst-nb and sphinx-book-theme (see PR#29).
 
 ### Added
 - Button on the documentation website linking to GitHub (see PR#27).
 - Notebook on the validation of the annual shading fraction calculation (see PR#29).
+
+### Requirements
+- Increased version of myst-nb and sphinx-book-theme (see PR#29).
 
 
 ## [0.2.1] - 2022-03-11
