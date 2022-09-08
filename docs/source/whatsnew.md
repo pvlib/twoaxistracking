@@ -17,7 +17,8 @@ and addition of a section on validation to the documentation.
 - Notebook on the validation of the annual shading fraction calculation (see PR#29).
 
 ### Requirements
-- Increased version of myst-nb and sphinx-book-theme (see PR#29).
+- Increased version of myst-nb and sphinx-book-theme which are requirements for
+  building the documentation (see PR#29).
 
 
 ## [0.2.1] - 2022-03-11
