@@ -10,6 +10,7 @@ An important bug fix and enhancement of the documentation.
 
 ### Changed
 - Fix bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
+- Increased version of myst-nb and sphinx-book-theme (see PR#29).
 
 ### Added
 - Button on the documentation website linking to GitHub (see PR#27).
