@@ -79,4 +79,4 @@ intersphinx_mapping = {
 }
 
 # Number of seconds for a cell to execute before timeout (default=30)
-nbsphinx_timeout = 60
+nb_execution_timeout = 120
