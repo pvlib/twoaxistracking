@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [0.2.2]
+## [0.2.2] - 2022-09-14
 This update includes a bug fix in the calculation of the maximum shading elevation
 and addition of a section on validation to the documentation.
 
@@ -17,8 +17,8 @@ and addition of a section on validation to the documentation.
 - Notebook on the validation of the annual shading fraction calculation (see PR#29).
 
 ### Requirements
-- Increased version of myst-nb and sphinx-book-theme which are requirements for
-  building the documentation (see PR#29).
+- Increased version of myst-nb and sphinx-book-theme in the optional ``[doc]``
+  requirements (see PR#29).
 
 
 ## [0.2.1] - 2022-03-11
