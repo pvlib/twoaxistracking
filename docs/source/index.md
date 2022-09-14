@@ -31,6 +31,5 @@ installation
 documentation
 whatsnew
 notebooks/reference_dataset
-notebooks/validation
 notebooks/field_layout_discretization
 ```
