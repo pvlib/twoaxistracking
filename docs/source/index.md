@@ -4,6 +4,10 @@
 
 For a quick introduction to the package, check out the [intro tutorial](../notebooks/intro_tutorial) which demonstrates the main functionality. For further details, check out the [code documentation](../documentation).
 
+An example of how shading varies over the course of one day for a hexagonal layout is shown below:
+
+![gif demonstrating shading during one day](/shading_demonstration.gif)
+
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
 
 
