@@ -14,14 +14,14 @@ Contributions to the repository, e.g., bug fixes, feature request are more than 
 
 
 ## License
-[BSD 3-clause](https://github.com/AdamRJensen/twoaxistracking/blob/main/LICENSE).
+[BSD 3-clause](https://github.com/pvlib/twoaxistracking/blob/main/LICENSE).
 
 
 ## Citing
 If you use the package in published work, please cite:
-> Adam R. Jensen et al. 2022.
-> "Self-shading of two-axis tracking solar collectors: Impact of field layout, latitude, and aperture shape."
-> Solar Energy (2022). [https://doi.org/10.1016/j.solener.2022.02.023](https://doi.org/10.1016/j.solener.2022.02.023)
+> Adam R. Jensen, Ioannis Sifnaios, Simon Furbo, and Janne Dragsted. "Self-shading of two-axis
+> tracking solar collectors: Impact of field layout, latitude, and aperture shape." Solar
+> Energy, 236, 215–224, (2022). [https://doi.org/10.1016/j.solener.2022.02.023](https://doi.org/10.1016/j.solener.2022.02.023)
 
 
 ```{toctree}
@@ -33,5 +33,6 @@ installation
 documentation
 whatsnew
 notebooks/reference_dataset
+notebooks/validation
 notebooks/field_layout_discretization
 ```

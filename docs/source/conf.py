@@ -51,6 +51,12 @@ html_title = 'Two-axis tracking'
 html_logo = "_static/twoaxistracking_logo.svg"
 html_favicon = "_static/twoaxistracking_logo.svg"
 
+html_theme_options = {
+    "repository_url": "https://github.com/pvlib/twoaxistracking",
+    "use_issues_button": True,
+    "use_repository_button": True,
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -68,8 +74,9 @@ intersphinx_mapping = {
     'numpy': ('https://numpy.org/doc/stable/', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
     'matplotlib': ('https://matplotlib.org/stable', None),
-    'shapely': ('https://shapely.readthedocs.io/en/stable', None),
+    'shapely': ('https://shapely.readthedocs.io/en/stable/', None),
+    'pvlib': ('http://pvlib-python.readthedocs.io/en/stable/', None),
 }
 
 # Number of seconds for a cell to execute before timeout (default=30)
-nbsphinx_timeout = 60
+nb_execution_timeout = 120

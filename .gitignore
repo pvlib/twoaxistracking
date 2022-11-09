@@ -4,7 +4,8 @@
 __pycache__/
 
 # Distribution / packaging
-*/build/
+build/
+dist/
 *.egg-info/
 
 # generated documentation

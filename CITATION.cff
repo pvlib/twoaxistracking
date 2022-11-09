@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Jensen"
+  given-names: "Adam R."
+  orcid: "https://orcid.org/0000-0002-5554-9856"
+- family-names: "Anderson"
+  given-names: "Kevin"
+  orcid: "https://orcid.org/0000-0002-1166-7957"
+title: "twoaxistracking"
+url: "https://github.com/pvlib/twoaxistracking"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Jensen"
+    given-names: "Adam R."
+    orcid: "https://orcid.org/0000-0002-5554-9856"
+  - family-names: "Sifnaios"
+    given-names: "Ioannis"
+    orcid: "https://orcid.org/0000-0003-0933-2952"
+  - family-names: "Furbo"
+    given-names: "Simon"
+    orcid: "https://orcid.org/0000-0003-2578-4780"
+  - family-names: "Dragsted"
+    given-names: "Janne"
+    orcid: "https://orcid.org/0000-0002-6344-8326"
+  doi: "10.1016/j.solener.2022.02.023"
+  journal: "Solar Energy"
+  month: 9
+  start: 215 # First page number
+  end: 224 # Last page number
+  title: "Self-shading of two-axis tracking solar collectors: Impact of field layout, latitude, and aperture shape"
+  volume: 236
+  year: 2022

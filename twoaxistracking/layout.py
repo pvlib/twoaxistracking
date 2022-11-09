@@ -36,8 +36,8 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     min_tracker_spacing: float
         Minimum distance between collectors.
     neighbor_order: int
-        Order of neighbors to include in layout. neighbor_order=1 includes only
-        the 8 directly adjacent collectors.
+        Order of neighbors to include in layout. It is recommended to use a
+        neighbor order of 2.
     aspect_ratio: float
         Ratio of the spacing in the primary direction to the secondary.
     offset: float
@@ -121,6 +121,67 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     relative_azimuth = np.mod(450-np.rad2deg(np.arctan2(Y, X)), 360)
     # Relative slope of collectors
     # positive means collector is higher than reference collector
-    relative_slope = -np.cos(np.deg2rad(slope_azimuth - relative_azimuth)) * slope_tilt  # noqa: E501
+    relative_slope = np.rad2deg(np.arctan(-np.cos(np.deg2rad(slope_azimuth - relative_azimuth))
+                                          * np.tan(np.deg2rad(slope_tilt))))
 
     return X, Y, Z, tracker_distance, relative_azimuth, relative_slope
+
+
+def max_shading_elevation(total_collector_geometry, tracker_distance,
+                          relative_slope):
+    """Calculate the maximum elevation angle for which shading can occur.
+
+    Parameters
+    ----------
+    total_collector_geometry: :py:class:`Shapely Polygon <Polygon>`
+        Polygon corresponding to the total collector area.
+    tracker_distance: array-like
+        Distances between neighboring trackers and the reference tracker.
+    relative_slope: array-like
+        Slope between neighboring trackers and reference tracker. A positive
+        slope means neighboring collector is higher than reference collector.
+
+    Returns
+    -------
+    max_shading_elevation: float
+        The highest solar elevation angle for which shading can occur for a
+        given field layout and collector geometry [degrees]
+
+    Note
+    ----
+    The maximum shading elevation angle is calculated for all neighboring
+    trackers using the bounding box geometry and the bounding circle. For
+    rectangular collectors (as approximated when using the bounding box), the
+    maximum shading elevation occurs when one of the upper corners of the
+    projected shading geometry and the lower corner of the reference collector
+    intersects. For circular collectors (as approximated by the bounding
+    cirlce), the maximum elevation occurs when the projected shadow is directly
+    below the reference collector and the two circles tangent to each other.
+
+    The maximum elevation is calculated using both the bounding box and the
+    bounding circle, and the minimum of these two elevations is returned. For
+    rectangular and circular collectors, the maximum elevation is exact,
+    whereas for other geometries, the returned elevation is a conservative
+    estimate.
+    """
+    # Calculate extent of box bounding the total collector geometry
+    x_min, y_min, x_max, y_max = total_collector_geometry.bounds
+    # Collector rectangular bounding box dimensions
+    x_dim = x_max - x_min
+    y_dim = y_max - y_min
+    delta_gamma_rad = np.arcsin(x_dim / tracker_distance)
+    # Calculate max elevation based on the bounding box (rectangular)
+    max_elevations_rectangular = np.rad2deg(np.arcsin(
+        y_dim * np.cos(np.deg2rad(relative_slope)) /
+        (tracker_distance * np.cos(delta_gamma_rad)))) + relative_slope
+    # Calculate max elevations using the minimum bounding diameter (circular)
+    D_min = _calculate_min_tracker_spacing(total_collector_geometry)
+    max_elevations_circular = np.rad2deg(np.arcsin(
+        (D_min * np.cos(np.deg2rad(relative_slope)))/tracker_distance)) \
+        + relative_slope
+    # Compute max elevation (if both contain nan, then set max_elevation to 90)
+    max_elevation = np.min(
+        [np.nan_to_num(max_elevations_rectangular, nan=90).max(),
+         np.nan_to_num(max_elevations_circular, nan=90).max()])
+
+    return max_elevation

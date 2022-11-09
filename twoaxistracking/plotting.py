@@ -4,7 +4,6 @@ from matplotlib import patches
 from shapely import geometry
 import matplotlib.colors as mcolors
 from matplotlib import cm
-import numpy as np
 
 
 def _plot_field_layout(X, Y, Z, min_tracker_spacing):
@@ -15,7 +14,7 @@ def _plot_field_layout(X, Y, Z, min_tracker_spacing):
     # to correctly display the middle color when all tracker Z coords are zero
     cmap = cm.viridis_r
     colors = cmap(norm(Z))
-    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={'aspect': 'equal'})
+    fig, ax = plt.subplots(figsize=(4, 4), subplot_kw={'aspect': 'equal'})
     # Plot a circle for each neighboring collector (diameter equals min_tracker_spacing)
     ax.add_collection(collections.EllipseCollection(
         widths=min_tracker_spacing, heights=min_tracker_spacing, angles=0,
@@ -26,6 +25,8 @@ def _plot_field_layout(X, Y, Z, min_tracker_spacing):
         widths=min_tracker_spacing, heights=min_tracker_spacing, angles=0,
         units='xy', facecolors='red', edgecolors=("black",), linewidths=(1,),
         offsets=[0, 0], transOffset=ax.transData))
+    ax.set_xlabel('Tracker position (east-west direction)')
+    ax.set_ylabel('Tracker position (north-south direction)')
     fig.colorbar(cm.ScalarMappable(norm=norm, cmap=cmap), ax=ax, shrink=0.8,
                  label='Relative tracker height (vertical)')
     # Set limits
@@ -46,7 +47,7 @@ def _polygons_to_patch_collection(geometries, **kwargs):
         geometries = [geometries]
     elif isinstance(geometries, geometry.MultiPolygon):
         geometries = list(geometries.geoms)
-    exteriors = [patches.Polygon(np.array(g.exterior)) for g in geometries]
+    exteriors = [patches.Polygon(g.exterior.coords) for g in geometries]
     path_collection = collections.PatchCollection(exteriors, **kwargs)
     return path_collection
 
@@ -62,7 +63,7 @@ def _plot_shading(active_collector_geometry, unshaded_geometry,
         shading_geometries, facecolor='blue', linewidth=0.5, alpha=0.5)
 
     fig, axes = plt.subplots(1, 2, subplot_kw=dict(aspect='equal'))
-    axes[0].set_title('Total area and shading areas')
+    axes[0].set_title('Active area and shading areas')
     axes[0].add_collection(active_patches, autolim=True)
     axes[0].add_collection(shading_patches, autolim=True)
     axes[1].set_title('Unshaded area')
