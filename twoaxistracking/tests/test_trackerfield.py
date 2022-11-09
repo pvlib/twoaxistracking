@@ -6,7 +6,7 @@ import pytest
 
 def test_invalid_layout_type(rectangular_geometry):
     # Test if ValueError is raised when an incorrect layout_type is specified
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     with pytest.raises(ValueError, match="Layout type must be one of"):
         _ = trackerfield.TrackerField(
             total_collector_geometry=collector_geometry,
@@ -18,7 +18,7 @@ def test_invalid_layout_type(rectangular_geometry):
 
 def test_square_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the square layout
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -33,7 +33,7 @@ def test_square_layout_type(rectangular_geometry):
 
 def test_diagonal_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -48,7 +48,7 @@ def test_diagonal_layout_type(rectangular_geometry):
 
 def test_hexagonal_n_s_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -63,7 +63,7 @@ def test_hexagonal_n_s_layout_type(rectangular_geometry):
 
 def test_hexagonal_e_w_layout_type(rectangular_geometry):
     # Assert that layout field parameters are correctly set for the diagonal layout
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -78,7 +78,7 @@ def test_hexagonal_e_w_layout_type(rectangular_geometry):
 
 def test_unspecifed_layout_type(rectangular_geometry):
     # Test if ValueError is raised when one or more layout parameters are unspecified
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     with pytest.raises(ValueError, match="needs to be specified"):
         _ = trackerfield.TrackerField(
             total_collector_geometry=collector_geometry,
@@ -112,7 +112,7 @@ def test_calculation_of_shaded_fraction_list(rectangular_geometry, solar_positio
                                              expected_shaded_fraction):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are lists
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -133,7 +133,7 @@ def test_calculation_of_shaded_fraction_series(
         rectangular_geometry, solar_position, expected_shaded_fraction, expected_datetime_index):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are pandas Series
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -160,7 +160,7 @@ def test_calculation_of_shaded_fraction_array(rectangular_geometry, solar_positi
                                               expected_shaded_fraction):
     # Test if shaded fraction is calculated correct when solar elevation and
     # azimuth are numpy arrays
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -181,7 +181,7 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry):
     # azimuth are scalar
     # Also tests that no error is raised when total and active geometries are
     # identical.
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,
@@ -199,8 +199,8 @@ def test_calculation_of_shaded_fraction_float(rectangular_geometry):
 def test_total_collector_geometry_encloses_active_areas(rectangular_geometry, circular_geometry):
     # Test that ValueError is raised if the aperture collector geometry is not
     # completely enclosed by the total collector geometry
-    rectangular_collector, total_collector_area, min_tracker_spacing = rectangular_geometry
-    circular_collector, total_collector_area, min_tracker_spacing = circular_geometry
+    rectangular_collector, min_tracker_spacing = rectangular_geometry
+    circular_collector, min_tracker_spacing = circular_geometry
     with pytest.raises(ValueError, match="does not completely enclose"):
         _ = trackerfield.TrackerField(
             total_collector_geometry=rectangular_collector,

@@ -1,4 +1,5 @@
 import shapely
+from shapely import geometry
 import numpy as np
 from twoaxistracking import plotting
 
@@ -33,7 +34,8 @@ def shaded_fraction(solar_elevation, solar_azimuth,
                     total_collector_geometry, active_collector_geometry,
                     min_tracker_spacing, tracker_distance, relative_azimuth,
                     relative_slope, slope_azimuth=0, slope_tilt=0,
-                    max_shading_elevation=90, plot=False):
+                    max_shading_elevation=90, plot=False,
+                    return_geometries=False):
     """Calculate the shaded fraction for any layout of two-axis tracking collectors.
 
     Parameters
@@ -70,23 +72,50 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         assuming the correct value has been provided.
     plot: bool, default: False
         Whether to plot the projected shadows and unshaded area.
+    return_geometries: bool, default: False
+        Whether to return the geometries of the unshaded area and the shading
+        areas.
 
     Returns
     -------
     shaded_fraction: float
         Shaded fraction for the specific solar position and field layout.
+    geometries: dict
+        A dictionary with the keys {'unshaded_geometry', 'shading_geometries'}.
+        Only returned if ``return_geometries`` is True.
     """
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
-        return np.nan
+        shaded_fraction = np.nan
+        if return_geometries:
+            # Both geometries are set as empty
+            return shaded_fraction, {'unshaded_geometry': geometry.Polygon(),
+                                     'shading_geometries': geometry.Polygon()}
+        else:
+            return shaded_fraction
+
     # Set shaded fraction to 0 (unshaded) if solar elevation is higher than
     # max_shading_elevation
     elif solar_elevation > max_shading_elevation:
-        return 0
+        shaded_fraction = 0  # no shading
+        if return_geometries:
+            # Unshaded area is equal to the active area, shading geometries
+            # is set as empty as there is no intersection with the active area
+            return shaded_fraction, {'unshaded_geometry': active_collector_geometry,
+                                     'shading_geometries': geometry.Polygon()}
+        else:
+            return shaded_fraction
+
     # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
     elif solar_elevation <= horizon_elevation_angle(solar_azimuth, slope_azimuth, slope_tilt):
-        return 1
+        shaded_fraction = 1  # completly shaded
+        if return_geometries:
+            # Both geometries are set as empty
+            return shaded_fraction, {'unshaded_geometry': geometry.Polygon(),
+                                     'shading_geometries': geometry.Polygon()}
+        else:
+            return shaded_fraction
 
     azimuth_difference = solar_azimuth - relative_azimuth
 
@@ -109,7 +138,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
             shading_geometry = shapely.affinity.translate(total_collector_geometry, x, y)  # noqa: E501
             # Update the unshaded area based on overlapping shade
             unshaded_geometry = unshaded_geometry.difference(shading_geometry)
-            if plot:
+            if plot or return_geometries:
                 shading_geometries.append(shading_geometry)
 
     if plot:
@@ -117,4 +146,8 @@ def shaded_fraction(solar_elevation, solar_azimuth,
                                shading_geometries, min_tracker_spacing)
 
     shaded_fraction = 1 - unshaded_geometry.area / active_collector_geometry.area
-    return shaded_fraction
+    if return_geometries:
+        return shaded_fraction, {'unshaded_geometry': unshaded_geometry,
+                                 'shading_geometries': shading_geometries}
+    else:
+        return shaded_fraction
