@@ -7,6 +7,7 @@ For a quick introduction to the package, check out the [intro tutorial](../noteb
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
 
 Here's an example of how shading affects over the course of one day for a hexagonal layout:
+
 ![gif demonstrating shading during one day](/shading_demonstration.gif)
 
 ## Contributing
