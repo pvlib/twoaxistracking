@@ -11,6 +11,12 @@ An example of how shading varies over the course of one day for a hexagonal layo
 Note, in the photovoltaics community, two-axis trackers are also commonly referred to as dual-axis trackers (DAT).
 
 
+## Limitations
+The package has been designed primarily with concentrating technologies in mind. As these technologies rely on an optical concentrator, they require accurate tracking (e.g., backtracking is not an option).
+The underlying methodology, therefore, assumes that the reference collector and its neighbors are always oriented normal to the sun; hence, there is no way to provide an actual tracker position that differs from the solar position.
+Additionally, the calculation of the shaded fraction only considers direct normal irradiance (DNI), as diffuse irradiance cannot be concentrated.
+
+
 ## Contributing
 Contributions to the repository, e.g., bug fixes, feature request are more than welcome!
 
