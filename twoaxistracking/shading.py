@@ -90,7 +90,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         if return_geometries:
             # Both geometries are set as empty
             return shaded_fraction, {'unshaded_geometry': geometry.Polygon(),
-                                     'shading_geometries': geometry.Polygon()}
+                                     'shading_geometries': []}
         else:
             return shaded_fraction
 
@@ -102,7 +102,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
             # Unshaded area is equal to the active area, shading geometries
             # is set as empty as there is no intersection with the active area
             return shaded_fraction, {'unshaded_geometry': active_collector_geometry,
-                                     'shading_geometries': geometry.Polygon()}
+                                     'shading_geometries': []}
         else:
             return shaded_fraction
 
@@ -113,7 +113,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         if return_geometries:
             # Both geometries are set as empty
             return shaded_fraction, {'unshaded_geometry': geometry.Polygon(),
-                                     'shading_geometries': geometry.Polygon()}
+                                     'shading_geometries': []}
         else:
             return shaded_fraction
 

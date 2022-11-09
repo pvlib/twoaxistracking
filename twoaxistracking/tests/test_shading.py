@@ -149,7 +149,7 @@ def test_return_geometries_negative_solar_elevation(
         plot=True,
         return_geometries=True)
     assert geometries['unshaded_geometry'].equals(geometry.Polygon())
-    assert geometries['shading_geometries'].equals(geometry.Polygon())
+    assert geometries['shading_geometries'] == []
 
 
 def test_return_geometries_below_horizon(
@@ -173,7 +173,7 @@ def test_return_geometries_below_horizon(
         plot=False,
         return_geometries=True)
     assert geometries['unshaded_geometry'].equals(geometry.Polygon())
-    assert geometries['shading_geometries'].equals(geometry.Polygon())
+    assert geometries['shading_geometries'] == []
 
 
 def test_return_geometries_above_max_shading_elevation(
@@ -199,7 +199,7 @@ def test_return_geometries_above_max_shading_elevation(
         plot=False,
         return_geometries=True)
     assert geometries['unshaded_geometry'].equals(active_geometry_split)
-    assert geometries['shading_geometries'].equals(geometry.Polygon())
+    assert geometries['shading_geometries'] == []
 
 
 def test_return_geometries_normal_case(
