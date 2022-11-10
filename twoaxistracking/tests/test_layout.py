@@ -34,14 +34,14 @@ def test_min_tracker_spacingpolygon():
 
 def test_square_layout_generation(rectangular_geometry, square_field_layout):
     # Test that a square field layout is returned correctly
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     X_exp, Y_exp, Z_exp, tracker_distance_exp, relative_azimuth_exp, relative_slope_exp = \
         square_field_layout
 
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         layout.generate_field_layout(
             gcr=0.125,
-            total_collector_area=total_collector_area,
+            total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing,
             neighbor_order=1,
             aspect_ratio=1,
@@ -57,13 +57,13 @@ def test_square_layout_generation(rectangular_geometry, square_field_layout):
 
 def test_field_slope(rectangular_geometry, square_field_layout_sloped):
     # Test that a square field layout on tilted surface is returned correctly
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     X_exp, Y_exp, Z_exp, tracker_distance_exp, relative_azimuth_exp, relative_slope_exp = \
         square_field_layout_sloped
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         layout.generate_field_layout(
             gcr=0.125,
-            total_collector_area=total_collector_area,
+            total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing,
             neighbor_order=1,
             aspect_ratio=1,
@@ -81,64 +81,64 @@ def test_field_slope(rectangular_geometry, square_field_layout_sloped):
 
 def test_layout_generation_value_error(rectangular_geometry):
     # Test if value errors are correctly raised
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
 
     # Test if ValueError is raised if offset is out of range
     with pytest.raises(ValueError, match="offset is outside the valid range"):
         _ = layout.generate_field_layout(
-            gcr=0.25, total_collector_area=total_collector_area,
+            gcr=0.25, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=1, offset=1.1, rotation=0)
 
     # Test if ValueError is raised if aspect ratio is too low
     with pytest.raises(ValueError, match="Aspect ratio is too low"):
         _ = layout.generate_field_layout(
-            gcr=0.25, total_collector_area=total_collector_area,
+            gcr=0.25, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=0.6, offset=0, rotation=0)
 
     # Test if ValueError is raised if aspect ratio is too high
     with pytest.raises(ValueError, match="Aspect ratio is too high"):
         _ = layout.generate_field_layout(
-            gcr=0.25, total_collector_area=total_collector_area,
+            gcr=0.25, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=5, offset=0, rotation=0)
 
     # Test if ValueError is raised if rotation is greater than 180 degrees
     with pytest.raises(ValueError, match="rotation is outside the valid range"):
         _ = layout.generate_field_layout(
-            gcr=0.25, total_collector_area=total_collector_area,
+            gcr=0.25, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=1.2, offset=0, rotation=190)
 
     # Test if ValueError is raised if rotation is less than 0
     with pytest.raises(ValueError, match="rotation is outside the valid range"):
         _ = layout.generate_field_layout(
-            gcr=0.5, total_collector_area=total_collector_area,
+            gcr=0.5, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=1, offset=0, rotation=-1)
 
     # Test if ValueError is raised if min_tracker_spacing is outside valid range
     with pytest.raises(ValueError, match="Lmin is not physically possible"):
         _ = layout.generate_field_layout(
-            gcr=0.25, total_collector_area=total_collector_area,
+            gcr=0.25, total_collector_area=collector_geometry.area,
             min_tracker_spacing=1, neighbor_order=1, aspect_ratio=1.2,
             offset=0, rotation=90)
 
     # Test if ValueError is raised if maximum ground cover ratio is exceeded
     with pytest.raises(ValueError, match="Maximum ground cover ratio exceded"):
         _ = layout.generate_field_layout(
-            gcr=0.5, total_collector_area=total_collector_area,
+            gcr=0.5, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
             aspect_ratio=1, offset=0, rotation=0)
 
 
 def test_neighbor_order(rectangular_geometry):
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         layout.generate_field_layout(
             gcr=0.125,
-            total_collector_area=total_collector_area,
+            total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing,
             neighbor_order=3,
             aspect_ratio=1,
@@ -150,7 +150,7 @@ def test_neighbor_order(rectangular_geometry):
 def test_calculation_of_max_shading_elevation_rectangle(rectangular_geometry, square_field_layout):
     # Test that the maximum elevation angle for which shading can occur is
     # calculated correctly for rectangular collectors
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         square_field_layout
     max_shading_elevation = layout.max_shading_elevation(
@@ -161,11 +161,11 @@ def test_calculation_of_max_shading_elevation_rectangle(rectangular_geometry, sq
 def test_calculation_of_max_shading_elevation_circle(circular_geometry):
     # Test that the maximum elevation angle for which shading can occur is
     # calculated correctly for closely packed circular collectors
-    collector_geometry, total_collector_area, min_tracker_spacing = circular_geometry
+    collector_geometry, min_tracker_spacing = circular_geometry
     X, Y, Z, tracker_distance, relative_azimuth, relative_slope = \
         layout.generate_field_layout(
             gcr=0.5,
-            total_collector_area=total_collector_area,
+            total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing,
             neighbor_order=2,
             aspect_ratio=1,

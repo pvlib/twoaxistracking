@@ -44,6 +44,9 @@ def _polygons_to_patch_collection(geometries, **kwargs):
     """
     # Convert geometries to a list
     if isinstance(geometries, geometry.Polygon):
+        # If polygon has area of zero, make path collection empty
+        if geometries.area == 0:
+            return collections.PatchCollection([], **kwargs)
         geometries = [geometries]
     elif isinstance(geometries, geometry.MultiPolygon):
         geometries = list(geometries.geoms)
