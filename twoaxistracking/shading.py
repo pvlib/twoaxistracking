@@ -109,7 +109,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
     # Set shaded fraction to 1 (fully shaded) if the solar elevation is below
     # the horizon line caused by the tilted ground
     elif solar_elevation <= horizon_elevation_angle(solar_azimuth, slope_azimuth, slope_tilt):
-        shaded_fraction = 1  # completly shaded
+        shaded_fraction = 1  # completely shaded
         if return_geometries:
             # Both geometries are set as empty
             return shaded_fraction, {'unshaded_geometry': geometry.Polygon(),
