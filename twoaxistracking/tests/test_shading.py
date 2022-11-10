@@ -233,3 +233,4 @@ def test_return_geometries_normal_case(
         collector_geometry, 1.9646048635, -1.0098126057)
     assert geometries['unshaded_geometry'].equals(expected_active_geometry)
     assert geometries['shading_geometries'][0].almost_equals(expected_shading_geometries)
+    assert len(geometries['shading_geometries']) == 1

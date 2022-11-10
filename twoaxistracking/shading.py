@@ -82,7 +82,12 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         Shaded fraction for the specific solar position and field layout.
     geometries: dict
         A dictionary with the keys {'unshaded_geometry', 'shading_geometries'}.
-        Only returned if ``return_geometries`` is True.
+        ``unshaded_geometry`` is a shapely Polygon or MultiPolygon representing
+        the unshaded subset of ``active_collector_geometry``.
+        ``shading_geometries`` is a list of shapely Polygons representing the
+        ``total_collector_geometries`` of neighboring collectors within the
+        shaded collector's field of view. Only returned if
+        ``return_geometries`` is True.
     """
     # If the sun is below the horizon, set the shaded fraction to nan
     if solar_elevation < 0:
