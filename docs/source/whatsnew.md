@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### Changed
+- Added ``return_geometries`` argument to the {py:func}`twoaxistracking.shaded_fraction`.
+  When the argument is True, the function returns both the shaded fraction and a dictionary
+  with the geometries of the unshaded area and the shading areas (see PR#33).
+
 
 ## [0.2.2] - 2022-09-14
 This update includes a bug fix in the calculation of the maximum shading elevation
@@ -47,7 +52,6 @@ made into a package and available on PyPI.
 - Added {py:func}`twoaxistracking.shading.horizon_elevation_angle` for calculating the
   horizon angle caused by having a sloped field.
 
-
 ### Changed
 - Divide code into modules: shading, plotting, and layout
 - Changed the overall file structure to become a Python package
@@ -63,6 +67,7 @@ made into a package and available on PyPI.
 ### Testing
 - Linting using flake8 was added in PR#11
 - Test coverage was added in PR#14 and PR#16
+
 
 ## [0.1.0] - 2022-01-25
 This was the first release, containing the main functions and notebooks.
