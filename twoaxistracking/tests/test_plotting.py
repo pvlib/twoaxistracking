@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from twoaxistracking import plotting, trackerfield
 from .conftest import assert_isinstance
 import numpy as np
+from shapely import geometry
 
 
 def test_field_layout_plot():
@@ -15,7 +16,7 @@ def test_field_layout_plot():
 
 
 def test_shading_plot(rectangular_geometry, active_geometry_split):
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     result = plotting._plot_shading(
         active_geometry_split,
         collector_geometry,
@@ -25,9 +26,22 @@ def test_shading_plot(rectangular_geometry, active_geometry_split):
     plt.close('all')
 
 
+def test_shading_plot_empty_active_area(rectangular_geometry, active_geometry_split):
+    # This test serves to test the correct operation of the
+    # _polygons_to_patch_collection function when the area of the Polygon is 0
+    collector_geometry, min_tracker_spacing = rectangular_geometry
+    result = plotting._plot_shading(
+        geometry.Polygon(),
+        collector_geometry,
+        collector_geometry,
+        min_tracker_spacing)
+    assert_isinstance(result, plt.Figure)
+    plt.close('all')
+
+
 def test_plotting_of_field_layout(rectangular_geometry):
     # Test if plot_field_layout returns a figure object
-    collector_geometry, total_collector_area, min_tracker_spacing = rectangular_geometry
+    collector_geometry, min_tracker_spacing = rectangular_geometry
     field = trackerfield.TrackerField(
         total_collector_geometry=collector_geometry,
         active_collector_geometry=collector_geometry,

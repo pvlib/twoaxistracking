@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [] - 
 
+### Changed
+- Added ``return_geometries`` argument to the {py:func}`twoaxistracking.shaded_fraction`.
+  When the argument is True, the function returns both the shaded fraction and a dictionary
+  with the geometries of the unshaded area and the shading areas (see PR#33).
+
 ### Added
 - Reference to the published MethodsX article describing the package (PR#31).
 
@@ -52,7 +57,6 @@ made into a package and available on PyPI.
 - Added {py:func}`twoaxistracking.shading.horizon_elevation_angle` for calculating the
   horizon angle caused by having a sloped field.
 
-
 ### Changed
 - Divide code into modules: shading, plotting, and layout
 - Changed the overall file structure to become a Python package
@@ -68,6 +72,7 @@ made into a package and available on PyPI.
 ### Testing
 - Linting using flake8 was added in PR#11
 - Test coverage was added in PR#14 and PR#16
+
 
 ## [0.1.0] - 2022-01-25
 This was the first release, containing the main functions and notebooks.
