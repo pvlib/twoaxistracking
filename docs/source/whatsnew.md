@@ -4,15 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [] - 
+## [0.2.3] - 2022-11-11
+It is now possible to export the unshaded area for further analysis. A GIF was added to the
+main landing page, and a reference to the MethodsX article was added.
 
 ### Changed
-- Added ``return_geometries`` argument to the {py:func}`twoaxistracking.shaded_fraction`.
-  When the argument is True, the function returns both the shaded fraction and a dictionary
+- Added ``return_geometries`` parameter to the {py:func}`twoaxistracking.shaded_fraction`.
+  When ``return_geometries`` is True, the function returns both the shaded fraction and a dictionary
   with the geometries of the unshaded area and the shading areas (see PR#33).
 
 ### Added
-- Reference to the published MethodsX article describing the package (PR#31).
+- Reference to the published MethodsX article describing the package (see PR#31).
 
 
 ## [0.2.2] - 2022-09-14
