@@ -232,5 +232,6 @@ def test_return_geometries_normal_case(
     expected_shading_geometries = shapely.affinity.translate(
         collector_geometry, 1.9646048635, -1.0098126057)
     assert geometries['unshaded_geometry'].equals(expected_active_geometry)
-    assert geometries['shading_geometries'][0].almost_equals(expected_shading_geometries)
+    assert geometries['shading_geometries'][0].equals_exact(
+        expected_shading_geometries, tolerance=0.00001)
     assert len(geometries['shading_geometries']) == 1
