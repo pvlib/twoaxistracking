@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.4] - TBD
 
+### Changed
+- Removed Shapely instalation check and added specific import of the affinity module
+  to avoid import errors when using Shapely 2.0 (see PR#40).
+
 ### Testing
 - Add python 3.11 to test matrix (see PR#38).
 
