@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.2.4] - TBD
+
+### Changed
+- Removed Shapely instalation check and added specific import of the affinity module
+  to avoid import errors when using Shapely 2.0 (see PR#40).
+
+
 ## [0.2.3] - 2022-11-11
 It is now possible to export the unshaded area for further analysis. A GIF was added to the
 main landing page, and a reference to the MethodsX article was added.

@@ -1,4 +1,4 @@
-import shapely
+from shapely import affinity
 from shapely import geometry
 import numpy as np
 from twoaxistracking import plotting
@@ -140,7 +140,7 @@ def shaded_fraction(solar_elevation, solar_azimuth,
         if np.sqrt(x**2+y**2) < min_tracker_spacing:
             # Project the geometry of the shading collector (total area) onto
             # the plane of the reference collector
-            shading_geometry = shapely.affinity.translate(total_collector_geometry, x, y)  # noqa: E501
+            shading_geometry = affinity.translate(total_collector_geometry, x, y)  # noqa: E501
             # Update the unshaded area based on overlapping shade
             unshaded_geometry = unshaded_geometry.difference(shading_geometry)
             if plot or return_geometries:
