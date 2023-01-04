@@ -6,9 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.4] - TBD
 
-### Requirements
-- Require ``shapely<2.0`` (see PR#38).
-
 ### Testing
 - Add python 3.11 to test matrix (see PR#38).
 
