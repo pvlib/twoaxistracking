@@ -25,4 +25,4 @@ and
 Contributions to the repository, e.g., bug fixes and improvements to speed up the code are more than welcome.
 
 ## License
-BSD 3-clause.
+[BSD 3-clause](LICENSE).
