@@ -1,12 +1,12 @@
-try:
+try:  # pragma: no cover
     from importlib.metadata import PackageNotFoundError, version
-except ImportError:
+except ImportError:  # pragma: no cover
     # for python < 3.8 (remove when dropping 3.7 support)
     from importlib_metadata import PackageNotFoundError, version
 
-try:
+try:  # pragma: no cover
     __version__ = version(__package__)
-except PackageNotFoundError:
+except PackageNotFoundError:  # pragma: no cover
     __version__ = "0+unknown"
 
 
