@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - ``twoaxistracking.__version__`` now correctly reports the version string instead
-  of raising ``AttributeError``. (:pull:`45`)
+  of raising ``AttributeError`` (see PR#45).
 
 
 ## [0.2.4] - 2023-01-05
