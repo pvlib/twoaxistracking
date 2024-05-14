@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ``twoaxistracking.__version__`` now correctly reports the version string instead
   of raising ``AttributeError`` (see PR#45).
 
+### Testing
+- Remove python 3.7 and add python 3.12 to test matrix (see PR#48).
+
 
 ## [0.2.4] - 2023-01-05
 
