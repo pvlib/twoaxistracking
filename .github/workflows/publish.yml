@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # fetch all commits and tags so versioneer works
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: 3.8
+        python-version: "3.12"
 
     - name: Install build tools
       run: |
@@ -31,7 +31,7 @@ jobs:
       run: python -m build --sdist --wheel
 
     - name: Publish distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_PASSWORD }}
