@@ -171,9 +171,11 @@ def max_shading_elevation(total_collector_geometry, tracker_distance,
     y_dim = y_max - y_min
     delta_gamma_rad = np.arcsin(x_dim / tracker_distance)
     # Calculate max elevation based on the bounding box (rectangular)
-    max_elevations_rectangular = np.rad2deg(np.arcsin(
-        y_dim * np.cos(np.deg2rad(relative_slope)) /
-        (tracker_distance * np.cos(delta_gamma_rad)))) + relative_slope
+    # Avoid "RuntimeWarning: invalid value encountered in arcsin"
+    with np.errstate(invalid='ignore'):
+        max_elevations_rectangular = np.rad2deg(np.arcsin(
+            y_dim * np.cos(np.deg2rad(relative_slope)) /
+            (tracker_distance * np.cos(delta_gamma_rad)))) + relative_slope
     # Calculate max elevations using the minimum bounding diameter (circular)
     D_min = _calculate_min_tracker_spacing(total_collector_geometry)
     max_elevations_circular = np.rad2deg(np.arcsin(
