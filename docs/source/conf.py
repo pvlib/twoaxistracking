@@ -75,7 +75,7 @@ intersphinx_mapping = {
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable', None),
     'matplotlib': ('https://matplotlib.org/stable', None),
     'shapely': ('https://shapely.readthedocs.io/en/stable/', None),
-    'pvlib': ('http://pvlib-python.readthedocs.io/en/stable/', None),
+    'pvlib': ('https://pvlib-python.readthedocs.io/en/stable/', None),
 }
 
 # Number of seconds for a cell to execute before timeout (default=30)
