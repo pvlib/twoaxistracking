@@ -4,24 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.5]
+## [0.2.5] - 2024-10-13
+
+### Testing
+- Added Python 3.13 to the test matrix (see PR#54).
+- Removed Python 3.7 and 3.8 from the test matrix (see PR#52 and PR#48)
+
+### Requirements
+- Updated the documentation package requirements. Specifically, the Sphinx
+  version was increased to 8.1.1 from 4.4.0 (see PR#53).
 
 ### Changed
 - ``twoaxistracking.__version__`` now correctly reports the version string instead
   of raising ``AttributeError`` (see PR#45).
 
-### Testing
-- Remove python 3.7 and add python 3.12 to test matrix (see PR#48).
-
 
 ## [0.2.4] - 2023-01-05
 
 ### Changed
-- Removed Shapely instalation check and added specific import of the affinity module
+- Removed Shapely installation check and added specific import of the affinity module
   to avoid import errors when using Shapely 2.0 (see PR#40).
 
 ### Testing
-- Add python 3.11 to test matrix (see PR#38).
+- Added Python 3.11 to the test matrix (see PR#38).
 
 
 ## [0.2.3] - 2022-11-11
@@ -42,7 +47,7 @@ This update includes a bug fix in the calculation of the maximum shading elevati
 and addition of a section on validation to the documentation.
 
 ### Changed
-- Fix bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
+- Fixed bug in the calculation of the maximum shading elevation at high GCRs (see PR#28).
 
 ### Added
 - Button on the documentation website linking to GitHub (see PR#27).
@@ -54,7 +59,7 @@ and addition of a section on validation to the documentation.
 
 
 ## [0.2.1] - 2022-03-11
-Add pandas as a required dependency and fix the workflow file responsible for
+Added Pandas as a required dependency and fixed the workflow file responsible for
 uploading the package to PyPI.
 
 ### Requirements
@@ -69,18 +74,18 @@ made into a package and available on PyPI.
 - Added automatic documentation using Sphinx and autosummary
 - Added ``__init__.py`` file
 - Documentation is now hosted at [readthedocs](https://twoaxistracking.readthedocs.io/)
-- Tilted fields can now be simulated by specifyig the keywords ``slope_azimuth`` and
+- Tilted fields can now be simulated by specifying the keywords ``slope_azimuth`` and
    ``slope_tilt`` (see PR#7).
-- The code now is able to differentiate between the active area and total area (see PR#11).
+- The code now is able to differentiate between active and total area (see PR#11).
 - The class {py:class}`twoaxistracking.TrackerField` has been added, which is now the recommended way for using
   the package and is sufficient for most use cases.
 - Added {py:func}`twoaxistracking.layout.max_shading_elevation` for calculating the
-  maximum elevation for which shading can occur for a specific field layout and collector geoemtry.
+  maximum elevation for which shading can occur for a specific field layout and collector geometry.
 - Added {py:func}`twoaxistracking.shading.horizon_elevation_angle` for calculating the
   horizon angle caused by having a sloped field.
 
 ### Changed
-- Divide code into modules: shading, plotting, and layout
+- Divided code into modules: shading, plotting, and layout
 - Changed the overall file structure to become a Python package
 - Changed names of notebooks
 - Change repository name from "two_axis_tracker_shading" to
@@ -92,8 +97,8 @@ made into a package and available on PyPI.
   are only available through the {py:class}`twoaxistracking.TrackerField` class.
 
 ### Testing
-- Linting using flake8 was added in PR#11
-- Test coverage was added in PR#14 and PR#16
+- Added linting using flake8 in PR#11
+- Added test coverage in PR#14 and PR#16
 
 
 ## [0.1.0] - 2022-01-25
