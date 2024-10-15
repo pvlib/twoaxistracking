@@ -49,4 +49,4 @@ addopts = "--cov=twoaxistracking --cov-fail-under=100 --cov-report=term-missing"
 
 [tool.coverage.run]
 # Do not count the test files themselves toward coverage
-omit = "twoaxistracking/tests/*"
+omit = ["twoaxistracking/tests/*"]
