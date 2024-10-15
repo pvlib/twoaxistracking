@@ -1,6 +1,52 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "twoaxistracking"
+authors = [
+    {name = "Adam R. Jensen", email = "adam-r-j@hotmail.com"},
+    {name = "Kevin S. Anderson"},
+]
+description = "twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["solar energy", "photovoltaics", "solar collector", "shading"]
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Intended Audience :: Science/Research",
+]
+dependencies = [
+    'importlib-metadata; python_version<"3.10"',
+    "numpy",
+    "matplotlib",
+    "shapely",
+    "pandas",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov", "packaging"]
+doc = [
+    "sphinx==8.1.1",
+    "myst-nb==1.1.2",
+    "sphinx-book-theme==1.1.3",
+    "pvlib==0.11.1",
+    "pandas==2.2.3",
+]
+
+[project.urls]
+Documentation = "https://twoaxistracking.readthedocs.io"
+Issues = "https://github.com/pvlib/twoaxistracking/issues"
+Repository = "https://github.com/pvlib/twoaxistracking.git"
+
+[tool.pytest.ini_options]
+addopts = "--cov=twoaxistracking --cov-fail-under=100 --cov-report=term-missing"
+
+[tool.coverage.run]
+# Do not count the test files themselves toward coverage
+omit = "twoaxistracking/tests/*"
