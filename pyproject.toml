@@ -1,14 +1,24 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = [
+    "setuptools>61",  # start of support for pyproject.toml/PEP 621. https://setuptools.pypa.io/en/stable/history.html#v61-0-0
+    "setuptools-scm",
+]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
+[tool.setuptools_scm]  # set version dynamically
+
+[tool.setuptools.packages.find]
+exclude = [
+    "twoaxistracking.tests*",
+    "twoaxistracking.data*",
+]
 
 [project]
 name = "twoaxistracking"
 authors = [
-    {name = "Adam R. Jensen", email = "adam-r-j@hotmail.com"},
+    {name = "Adam R. Jensen"},
     {name = "Kevin S. Anderson"},
+    {email = "adam-r-j@hotmail.com"},
 ]
 description = "twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading."
 readme = "README.md"
@@ -23,7 +33,6 @@ classifiers = [
     "Intended Audience :: Science/Research",
 ]
 dependencies = [
-    'importlib-metadata; python_version<"3.10"',
     "numpy",
     "matplotlib",
     "shapely",
