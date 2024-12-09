@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.6] - 2024-12-09
 
 ### Packaging
-- Switched packaging from setup.cfg to pyproject.toml (PR #58)
+- Switched packaging from setup.cfg to pyproject.toml (see PR#58).
 
 
 ## [0.2.5] - 2024-10-13
