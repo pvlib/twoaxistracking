@@ -12,6 +12,9 @@ jobs:
     name: Build and publish distributions to PyPI
     if: github.repository == 'pvlib/twoaxistracking'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     steps:
     # fetch all commits and tags so versioneer works
     - uses: actions/checkout@v4
