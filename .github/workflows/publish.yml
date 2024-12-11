@@ -1,9 +1,5 @@
 name: Publish distributions to PyPI
 
-permissions:
-  id-token: write # This is required for requesting the JWT
-  contents: read  # This is required for actions/checkout
-
 # if this workflow is modified to be a generic CI workflow then
 # add an if statement to the publish step so it only runs on tags.
 on:
@@ -16,6 +12,9 @@ jobs:
     name: Build and publish distributions to PyPI
     if: github.repository == 'pvlib/twoaxistracking'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     steps:
     # fetch all commits and tags so versioneer works
     - uses: actions/checkout@v4
