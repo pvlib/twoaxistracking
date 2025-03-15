@@ -1,5 +1,6 @@
 version: 2
-
+sphinx:
+  configuration: docs/source/conf.py
 
 build:
    os: ubuntu-20.04
@@ -10,6 +11,6 @@ python:
 
    install:
       - method: pip
-        path: src/.
+        path: .
         extra_requirements:
           - doc
