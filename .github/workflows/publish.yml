@@ -7,6 +7,7 @@ name: Publish distributions to PyPI
 #    Description: Environment for publishing releases to PyPI
 # 2. Setup trusted publishing for the release environment:
 #    https://docs.pypi.org/trusted-publishers/
+# 3. Ensure your main development branch is named 'main'; if not, update the workflow or the branch name
 
 # This workflow is triggered on pull requests that target the main branch
 # on pushes to the main branch new tags that start with 'v' (for example, 'v1.0.0').
