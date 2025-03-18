@@ -12,10 +12,6 @@ include-package-data = false  # necessary for exclude to work
 
 [tool.setuptools.packages.find]
 where = ["src"]
-exclude = [
-    "tests*",
-    "docs*",
-]
 
 [project]
 name = "twoaxistracking"
