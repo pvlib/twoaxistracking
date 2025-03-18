@@ -1,37 +1,105 @@
 name: Publish distributions to PyPI
 
-# if this workflow is modified to be a generic CI workflow then
-# add an if statement to the publish step so it only runs on tags.
+# CI setup instructions:
+# 1. Create a new environment for additional protection and security in the GitHub UI:
+#    Settings > Environments
+#    Name: release
+#    Description: Environment for publishing releases to PyPI
+# 2. Setup trusted publishing for the release environment:
+#    https://docs.pypi.org/trusted-publishers/
+
+# This workflow is triggered on pull requests that target the main branch
+# on pushes to the main branch new tags that start with 'v' (for example, 'v1.0.0').
+# Only the main branch is used for publishing to PyPI, in the second job.
 on:
+  pull_request:
+    branches:
+      - main
   push:
+    branches:
+      - main
     tags:
       - "v*"
 
+env:
+  python-version: "3.12"
+  base-repo: "pvlib/twoaxistracking"
+
 jobs:
-  build-n-publish:
-    name: Build and publish distributions to PyPI
-    if: github.repository == 'pvlib/twoaxistracking'
+  build-distribution:
+    name: Build distribution
+    if: github.repository == env.base-repo
     runs-on: ubuntu-latest
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read  # This is required for actions/checkout
     steps:
-    # fetch all commits and tags so versioneer works
     - uses: actions/checkout@v4
+      # Shallow clone to fetch only the latest commit, which is faster
       with:
-        fetch-depth: 0
+        fetch-depth: 1
+
+    - name: Fetch latest tag
+      # Fetch the latest tag explicitly, so setuptools-scm can use it for the version
+      run: |
+        git fetch --tags
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.12"
+        python-version: ${{ env.python-version }}
 
     - name: Install build tools
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel build
-    - name: Build packages
-      run: python -m build --sdist --wheel
+        python -m pip install --upgrade setuptools wheel build twine
 
-    - name: Publish distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+    - name: Build packages
+      # creates the necessary distribution files to /dist
+      run: python -m build
+
+    - name: Check metadata verification
+      # this step ensures the metadata is correct and complete
+      # it is a good practice to run this before publishing to PyPI
+      run: python -m twine check --strict dist/*
+
+    - name: Distribution files & installation sizes
+      # this step is useful to get some useful metrics and ensure changes do not break the size of the distribution
+      run: |
+        echo "Distribution files sizes"
+        du -sh dist/*
+        python -m pip install dist/*.whl --target /tmp/${{ env.base-repo }} --quiet --quiet
+        echo "Installation size of wheel"
+        du -sh /tmp/${{ env.base-repo }}
+
+    - name: Upload artifact with distribution files
+      # this step uploads the distribution files to the GitHub artifact store if they are needed later to publish to PyPI
+      if: github.repository == env.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+      uses: actions/upload-artifact@v4
+      with:
+        name: distro-files
+        path: dist/
+        if-no-files-found: error  # files are required in the next job
+        retention-days: 1  # delete the artifact after 1 day, no need to keep it for too long
+        compression-level: 0  # no need to compress the files
+
+  publish-distribution:
+    name: Upload distribution to PyPI
+    runs-on: ubuntu-latest
+    needs: build-distribution  # first build, then publish
+    # only publish distribution to PyPI in tagged commits
+    if: github.repository == env.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    environment: release
+    permissions:
+      id-token: write  # this permission mandatory for trusted publishing
+    steps:
+      - name: Download artifact with distribution files
+        uses: actions/download-artifact@v4
+        with:
+          name: distro-files
+          path: dist/
+
+      - name: Publish distribution to PyPI
+        # this step publishes the distribution files to PyPI by using PyPI trusted publishers
+        # https://docs.pypi.org/trusted-publishers/
+        uses: pypa/gh-action-pypi-publish@release/v1
