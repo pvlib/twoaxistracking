@@ -1,7 +1,7 @@
 name: Build & Publish package to PyPI
 
 # CI setup instructions:
-# 1. Replace 'pvlib/twoaxistracking' with your GitHub repository name
+# 1. Replace 'pvlib/twoaxistracking' and 'twoaxistracking' with your GitHub organization and repository name
 # 2. Create a new environment for additional protection and security in the GitHub UI:
 #    Settings > Environments
 #    Name: release
@@ -24,7 +24,6 @@ on:
 
 env:
   python-version: "3.12"
-  base-repo: "pvlib/twoaxistracking"
 
 jobs:
   build-distribution:
@@ -60,9 +59,9 @@ jobs:
       run: |
         echo "Distribution files sizes"
         du -sh dist/*
-        python -m pip install dist/*.whl --target /tmp/${{ env.base-repo }} --quiet --quiet
+        python -m pip install dist/*.whl --target /tmp/pvlib --quiet --quiet
         echo "Installation size of wheel"
-        du -sh /tmp/${{ env.base-repo }}
+        du -sh /tmp/pvlib/twoaxistracking
 
     - name: Upload artifact with distribution files
       # this step uploads the distribution files to the GitHub artifact store if they are needed later to publish to PyPI
