@@ -11,7 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../'))
+sys.path.insert(0, os.path.abspath('../../src'))
 
 # -- Project information -----------------------------------------------------
 
@@ -44,8 +44,7 @@ exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
+# The theme to use for HTML and HTML Help pages.
 html_theme = 'sphinx_book_theme'
 html_title = 'Two-axis tracking'
 html_logo = "_static/twoaxistracking_logo.svg"
@@ -68,7 +67,6 @@ pygments_style = 'sphinx'
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 html_show_copyright = False
 
-# Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
