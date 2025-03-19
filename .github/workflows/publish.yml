@@ -32,14 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      # Shallow clone to fetch only the latest commit, which is faster
+      # Deep clone to fetch all commits and tags, by setting the fetch-depth to 0
       with:
-        fetch-depth: 1
-
-    - name: Fetch latest tag
-      # Fetch the latest tag explicitly, so setuptools-scm can use it for the version
-      run: |
-        git fetch --tags
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v5
