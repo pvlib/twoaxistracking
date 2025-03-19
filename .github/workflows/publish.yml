@@ -4,7 +4,6 @@ name: Publish distributions to PyPI
 # 1. Create a new environment for additional protection and security in the GitHub UI:
 #    Settings > Environments
 #    Name: release
-#    Description (e.g.): Environment for publishing releases to PyPI
 # 2. Setup trusted publishing for the release environment:
 #    https://docs.pypi.org/trusted-publishers/
 # 3. Ensure your main development branch is named 'main'; if not, update the workflow or rename the branch
