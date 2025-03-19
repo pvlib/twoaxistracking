@@ -11,10 +11,7 @@ build-backend = "setuptools.build_meta"
 include-package-data = false  # necessary for exclude to work
 
 [tool.setuptools.packages.find]
-exclude = [
-    "twoaxistracking.tests*",
-    "docs*",
-]
+where = ["src"]
 
 [project]
 name = "twoaxistracking"
@@ -30,6 +27,11 @@ keywords = ["solar energy", "photovoltaics", "solar collector", "shading"]
 license = {file = "LICENSE"}
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering",
@@ -44,7 +46,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = ["pytest", "pytest-cov", "packaging"]
+test = ["pytest>=7", "pytest-cov", "packaging"]
 doc = [
     "sphinx==8.1.1",
     "myst-nb==1.1.2",
@@ -60,7 +62,4 @@ Repository = "https://github.com/pvlib/twoaxistracking.git"
 
 [tool.pytest.ini_options]
 addopts = "--cov=twoaxistracking --cov-fail-under=100 --cov-report=term-missing"
-
-[tool.coverage.run]
-# Do not count the test files themselves toward coverage
-omit = ["twoaxistracking/tests/*"]
+pythonpath = ["src"]
