@@ -1,4 +1,4 @@
-name: Publish distributions to PyPI
+name: Build & Publish package to PyPI
 
 # CI setup instructions:
 # 1. Create a new environment for additional protection and security in the GitHub UI:
