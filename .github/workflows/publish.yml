@@ -23,12 +23,14 @@ on:
 
 env:
   python-version: "3.12"
+
+vars:
   base-repo: "pvlib/twoaxistracking"
 
 jobs:
   build-distribution:
     name: Build distribution
-    if: github.repository == env.base-repo
+    if: github.repository == vars.base-repo
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -65,13 +67,13 @@ jobs:
       run: |
         echo "Distribution files sizes"
         du -sh dist/*
-        python -m pip install dist/*.whl --target /tmp/${{ env.base-repo }} --quiet --quiet
+        python -m pip install dist/*.whl --target /tmp/${{ vars.base-repo }} --quiet --quiet
         echo "Installation size of wheel"
-        du -sh /tmp/${{ env.base-repo }}
+        du -sh /tmp/${{ vars.base-repo }}
 
     - name: Upload artifact with distribution files
       # this step uploads the distribution files to the GitHub artifact store if they are needed later to publish to PyPI
-      if: github.repository == env.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+      if: github.repository == vars.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
       uses: actions/upload-artifact@v4
       with:
         name: distro-files
@@ -85,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-distribution  # first build, then publish
     # only publish distribution to PyPI in tagged commits
-    if: github.repository == env.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    if: github.repository == vars.base-repo && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     environment: release
     permissions:
       id-token: write  # this permission mandatory for trusted publishing
