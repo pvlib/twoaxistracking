@@ -24,7 +24,7 @@ description = "twoaxistracking is a python package for simulating two-axis track
 readme = "README.md"
 requires-python = ">=3.9"
 keywords = ["solar energy", "photovoltaics", "solar collector", "shading"]
-license = {file = "LICENSE"}
+license = "BSD-3-Clause"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
@@ -32,7 +32,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering",
     "Intended Audience :: Science/Research",
