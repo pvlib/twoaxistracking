@@ -24,7 +24,8 @@ description = "twoaxistracking is a python package for simulating two-axis track
 readme = "README.md"
 requires-python = ">=3.9"
 keywords = ["solar energy", "photovoltaics", "solar collector", "shading"]
-license = {file = "LICENSE"}
+license = "BSD-3-Clause"
+license-files = ["LICEN[CS]E*"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
@@ -32,7 +33,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering",
     "Intended Audience :: Science/Research",
@@ -59,6 +59,7 @@ doc = [
 Documentation = "https://twoaxistracking.readthedocs.io"
 Issues = "https://github.com/pvlib/twoaxistracking/issues"
 Repository = "https://github.com/pvlib/twoaxistracking.git"
+Changelog = "https://github.com/pvlib/twoaxistracking/blob/main/docs/source/whatsnew.md"
 
 [tool.pytest.ini_options]
 addopts = "--cov=twoaxistracking --cov-fail-under=100 --cov-report=term-missing"
