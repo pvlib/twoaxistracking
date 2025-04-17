@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "setuptools>61",  # start of support for pyproject.toml/PEP 621. https://setuptools.pypa.io/en/stable/history.html#v61-0-0
+    "setuptools>=70.1",
     "setuptools-scm",
 ]
 build-backend = "setuptools.build_meta"
