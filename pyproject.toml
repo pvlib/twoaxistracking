@@ -54,6 +54,7 @@ doc = [
     "pvlib==0.11.1",
     "pandas==2.2.3",
 ]
+all = ["twoaxistracking[test,doc]"]
 
 [project.urls]
 Documentation = "https://twoaxistracking.readthedocs.io"
