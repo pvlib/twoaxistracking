@@ -16,8 +16,9 @@ where = ["src"]
 [project]
 name = "twoaxistracking"
 authors = [
-    {name = "Adam R. Jensen", email = "adam-r-j@hotmail.com"},
+    {name = "Adam R. Jensen"},
     {name = "Kevin S. Anderson"},
+    {email = "adam-r-j@hotmail.com"},
 ]
 description = "twoaxistracking is a python package for simulating two-axis tracking solar collectors, particularly self-shading."
 readme = "README.md"
