@@ -82,10 +82,10 @@ def generate_field_layout(gcr, total_collector_area, min_tracker_spacing,
     # Check if Lmin is physically possible given the collector area.
     if (min_tracker_spacing < np.sqrt(4*total_collector_area/np.pi)):
         raise ValueError('Lmin is not physically possible.')
-    # Check if mimimum and maximum ground cover ratios are exceded
+    # Check if mimimum and maximum ground cover ratios are exceeded
     gcr_max = total_collector_area / (min_tracker_spacing**2 * np.sqrt(1-offset**2))
     if (gcr < 0) or (gcr > gcr_max):
-        raise ValueError('Maximum ground cover ratio exceded or less than 0.')
+        raise ValueError('Maximum ground cover ratio exceeded or less than 0.')
     if aspect_ratio < np.sqrt(1-offset**2):
         raise ValueError('Aspect ratio is too low and not feasible')
     if aspect_ratio > total_collector_area/(gcr*min_tracker_spacing**2):

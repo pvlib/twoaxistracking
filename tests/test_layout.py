@@ -50,7 +50,7 @@ def test_square_layout_generation(rectangular_geometry, square_field_layout):
     np.testing.assert_allclose(X, X_exp)
     np.testing.assert_allclose(Y, Y_exp)
     np.testing.assert_allclose(Z, Z_exp)
-    np.testing.assert_allclose(tracker_distance_exp, tracker_distance_exp)
+    np.testing.assert_allclose(tracker_distance, tracker_distance_exp)
     np.testing.assert_allclose(relative_azimuth, relative_azimuth_exp)
     np.testing.assert_allclose(relative_slope, relative_slope_exp)
 
@@ -74,7 +74,7 @@ def test_field_slope(rectangular_geometry, square_field_layout_sloped):
     np.testing.assert_allclose(X, X_exp)
     np.testing.assert_allclose(Y, Y_exp)
     np.testing.assert_allclose(Z, Z_exp, atol=10**-9)
-    np.testing.assert_allclose(tracker_distance_exp, tracker_distance_exp)
+    np.testing.assert_allclose(tracker_distance, tracker_distance_exp)
     np.testing.assert_allclose(relative_azimuth, relative_azimuth_exp)
     np.testing.assert_allclose(relative_slope, relative_slope_exp, atol=10**-9)
 
@@ -126,7 +126,7 @@ def test_layout_generation_value_error(rectangular_geometry):
             offset=0, rotation=90)
 
     # Test if ValueError is raised if maximum ground cover ratio is exceeded
-    with pytest.raises(ValueError, match="Maximum ground cover ratio exceded"):
+    with pytest.raises(ValueError, match="Maximum ground cover ratio"):
         _ = layout.generate_field_layout(
             gcr=0.5, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
