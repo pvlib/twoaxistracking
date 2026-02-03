@@ -126,7 +126,7 @@ def test_layout_generation_value_error(rectangular_geometry):
             offset=0, rotation=90)
 
     # Test if ValueError is raised if maximum ground cover ratio is exceeded
-    with pytest.raises(ValueError, match="Maximum ground cover ratio"):
+    with pytest.raises(ValueError, match="Maximum ground cover ratio ex"):
         _ = layout.generate_field_layout(
             gcr=0.5, total_collector_area=collector_geometry.area,
             min_tracker_spacing=min_tracker_spacing, neighbor_order=1,
