@@ -1,7 +1,11 @@
-import pytest
-from shapely import geometry
-import numpy as np
-from twoaxistracking import layout
+# Avoid tkinter error for non-GUI uses
+import matplotlib
+matplotlib.use("Agg")
+
+import pytest  # noqa: E402
+from shapely import geometry  # noqa: E402
+import numpy as np  # noqa: E402
+from twoaxistracking import layout  # noqa: E402
 
 
 @pytest.fixture
