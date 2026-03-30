@@ -1,3 +1,7 @@
+# Avoid tkinter error for non-GUI uses
+import matplotlib
+matplotlib.use("Agg")
+
 import pytest
 from shapely import geometry
 import numpy as np
